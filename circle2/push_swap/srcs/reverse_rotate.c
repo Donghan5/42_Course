@@ -5,13 +5,13 @@
 	head = head pointer of the stack
 	last = last node of the stack
 */
-void	reverse_rotate(t_node **stack)
+int	reverse_rotate(t_node **stack)
 {
 	t_node	*head;
 	t_node	*last;
 
 	if (ft_lstsize(*stack) < 2)
-		return ;
+		return (-1);
 	head = *stack;
 	last = ft_lstlast(head);
 	while (head)
@@ -25,26 +25,34 @@ void	reverse_rotate(t_node **stack)
 	}
 	last->next = *stack;
 	*stack = last;
+	return (0);
 }
 
 /* reverse rotate in the level of the stack a */
-void	rra(t_node **a)
+int	rra(t_node **a)
 {
-	reverse_rotate(a);
+	if (reverse_rotate(a) == -1)
+		return (-1);
 	ft_printf("rra\n");
+	return (0);
 }
 
 /* reverse rotate in the level of the stack b */
-void	rrb(t_node **b)
+int	rrb(t_node **b)
 {
-	reverse_rotate(b);
+	if (reverse_rotate(b) == -1)
+		return (-1);
 	ft_printf("rrb\n");
+	return (0);
 }
 
 /* reverse rotate in the level of the stack a and b same time */
-void	rrr(t_node **a, t_node **b)
+int	rrr(t_node **a, t_node **b)
 {
+	if (ft_lstsize(*a) < 2 || ft_lstsize(*b) < 2)
+		return (-1);
 	reverse_rotate(a);
 	reverse_rotate(b);
 	ft_printf("rrr\n");
+	return (0);
 }

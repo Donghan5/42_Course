@@ -7,14 +7,14 @@
 **	head_to = destination stack
 **	tmp = temporary (to stability)
 */
-void	push(t_node **stack_to, t_node **stack_from)
+int	push(t_node **stack_to, t_node **stack_from)
 {
 	t_node	*head_from;
 	t_node	*head_to;
 	t_node	*tmp;
 
 	if (ft_lstsize(*stack_from) == 0)
-		return ;
+		return (-1);
 	head_from = *stack_from;
 	head_to = *stack_to;
 	tmp = head_from;
@@ -31,23 +31,24 @@ void	push(t_node **stack_to, t_node **stack_from)
 		tmp->next = head_to;
 		*stack_to = tmp;
 	}
+	return (0);
 }
 
 /* doing the function push a stack */
-void	pa(t_node **a, t_node **b)
+int	pa(t_node **a, t_node **b)
 {
-	if (ft_lstsize(*a) == 0)
-		return ;
-	push(a, b);
+	if (push(a, b) == -1)
+		return (-1);
 	ft_printf("pa\n");
+	return (0);
 }
 
 /* doing the function push b stack */
-void	pb(t_node **a, t_node **b)
+int	pb(t_node **a, t_node **b)
 {
-	if (ft_lstsize(*b) == 0)
-		return ;
-	push(b, a);
+	if (push(b, a) == -1)
+		return (-1);
 	ft_printf("pb\n");
+	return (0);
 }
 

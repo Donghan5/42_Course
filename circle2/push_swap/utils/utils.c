@@ -1,5 +1,9 @@
 #include "push_swap.h"
 
+/**
+**
+**
+**/
 void	ft_free_stack(t_node **stack)
 {
 	t_node	*head;
@@ -38,9 +42,9 @@ void	double_free(t_node *stack1, t_node *stack2)
 	return ;
 }
 
-/*
+/**
 **	modify the function atoi to check argument
-*/
+**/
 int	ft_atoll(const char *str)
 {
 	int				sign;
@@ -64,12 +68,15 @@ int	ft_atoll(const char *str)
 		str++;
 		digit_check++;
 	}
-	if ((sign * result) > 2147483647 || (sign * result) < -2147483648 \
-			|| digit_check == 0)
+	if (*str != '\0' || (sign * result) > 2147483647 || \
+	(sign * result) < -2147483648 || digit_check == 0)
 		return (error_with_exit("Over the range or not a digit"), 0);
 	return ((int)(sign * result));
 }
 
+/*
+**	to economize the line of the function
+*/
 void	error_with_exit(char *msg)
 {
 	ft_printf("[ERROR]: %s\n", msg);

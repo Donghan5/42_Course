@@ -18,27 +18,27 @@ typedef struct s_node
 }	t_node;
 
 /*---------- push.c ----------*/
-void	push(t_node **stack_from, t_node **stack_to);
-void	pa(t_node **a, t_node **b);
-void	pb(t_node **a, t_node **b);
+int		push(t_node **stack_from, t_node **stack_to);
+int		pa(t_node **a, t_node **b);
+int		pb(t_node **a, t_node **b);
 
 /*---------- swap.c ----------*/
-void	swap(t_node **stack);
-void	sa(t_node **a);
-void	sb(t_node **b);
-void	ss(t_node **a, t_node **b);
+int		swap(t_node **stack);
+int		sa(t_node **a);
+int		sb(t_node **b);
+int		ss(t_node **a, t_node **b);
 
 /*---------- rotate.c ----------*/
-void	rotate(t_node **stack);
-void	ra(t_node **a);
-void	rb(t_node **b);
-void	rr(t_node **a, t_node **b);
+int		rotate(t_node **stack);
+int		ra(t_node **a);
+int		rb(t_node **b);
+int		rr(t_node **a, t_node **b);
 
 /*----------- reverse_rotate.c ----------*/
-void	reverse_rotate(t_node **stack);
-void	rra(t_node **a);
-void	rrb(t_node **b);
-void	rrr(t_node **a, t_node **b);
+int		reverse_rotate(t_node **stack);
+int		rra(t_node **a);
+int		rrb(t_node **b);
+int		rrr(t_node **a, t_node **b);
 
 /*---------- sort.c ----------*/
 void	sort_five_element(t_node **a, t_node **b);
@@ -47,8 +47,8 @@ void	simple_sorting(t_node **a, t_node **b);
 /*---------- index.c ----------*/
 void	index_stack(t_node **stack);
 
-/*---------- quick_sort.c ----------*/
-void	quick_sort(t_node **a, t_node **b);
+/*---------- radix_sort.c ----------*/
+void	radix_sort(t_node **a, t_node **b);
 
 /*---------- cmd_utils.c ----------*/
 void	ft_check_arg(int ac, char **av);

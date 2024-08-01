@@ -32,6 +32,15 @@ static void	init_stack(t_node **stack, int ac, char **av)
 		free_dptr(args);
 }
 
+/* Do simple sorting by size of the stack */
+static void	push_swap(t_node **a, t_node **b)
+{
+	if (ft_lstsize(*a) <= 5)
+		simple_sorting(a, b);
+	else
+		radix_sort(a, b);
+}
+
 int	main(int ac, char **av)
 {
 	t_node	**a;
@@ -51,7 +60,7 @@ int	main(int ac, char **av)
 		ft_free_stack(b);
 		return (0);
 	}
-	quick_sort(a, b);
+	push_swap(a, b);
 	ft_free_stack(a);
 	ft_free_stack(b);
 	return (0);

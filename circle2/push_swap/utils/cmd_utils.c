@@ -10,8 +10,12 @@ static int	is_num_help(char *num)
 	int	i;
 
 	i = 0;
-	if (num[0] == '-')
+	if (num[0] == '\0')
+		return (1);
+	if (num[0] == '-' || num[0] == '+')
 		i++;
+	if (num[i] == '\0')
+		return (1);
 	while (num[i] != '\0')
 	{
 		if (!ft_isdigit(num[i]))
@@ -39,6 +43,21 @@ static int	ft_element(int num, char **av, int i)
 	return (0);
 }
 
+/* to check the existance of whitespace inside of the argument line */
+static int	ft_check_whitespace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /*
 **	to verify the validity the command line argument
 **	i = index of the av
@@ -47,9 +66,9 @@ static int	ft_element(int num, char **av, int i)
 */
 void	ft_check_arg(int ac, char **av)
 {
-	int		i;
-	int		tmp;
-	char	**args;
+	int				i;
+	long long		tmp;
+	char			**args;
 
 	i = 0;
 	if (ac == 2)
@@ -59,13 +78,15 @@ void	ft_check_arg(int ac, char **av)
 		i = 1;
 		args = av;
 	}
-	while (args[i])
+	while (args[i] != NULL)
 	{
 		tmp = ft_atoll(args[i]);
 		if (is_num_help(args[i]) == 1)
 			error_with_exit("Isn't numeric");
 		if (ft_element(tmp, args, i) == 1)
 			error_with_exit("Isn't type int");
+		if (ft_check_whitespace(args[i]) == 1)
+			error_with_exit("Must not contain whitespace");
 		i++;
 	}
 	if (ac == 2)

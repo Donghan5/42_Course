@@ -6,38 +6,46 @@
 	tmp = temporary for the stability
 	last = last node of the list.
 */
-void	rotate(t_node **stack)
+int	rotate(t_node **stack)
 {
 	t_node	*head;
 	t_node	*last;
 
 	if (ft_lstsize(*stack) < 2)
-		return ;
+		return (-1);
 	head = *stack;
 	last = ft_lstlast(head);
 	*stack = head->next;
 	head->next = NULL;
 	last->next = head;
+	return (0);
 }
 
 /* rotate stack a*/
-void	ra(t_node **a)
+int	ra(t_node **a)
 {
-	rotate(a);
+	if (rotate(a) == -1)
+		return (-1);
 	ft_printf("ra\n");
+	return (0);
 }
 
 /* rotate stack b */
-void	rb(t_node **b)
+int	rb(t_node **b)
 {
-	rotate(b);
+	if (rotate(b) == -1)
+		return (-1);
 	ft_printf("rb\n");
+	return (0);
 }
 
 /* rotate stack a and stack b in the same time */
-void	rr(t_node **a, t_node **b)
+int	rr(t_node **a, t_node **b)
 {
+	if (ft_lstsize(*a) < 2 || ft_lstsize(*b) < 2)
+		return (-1);
 	rotate(a);
 	rotate(b);
 	ft_printf("rr\n");
+	return (0);
 }
