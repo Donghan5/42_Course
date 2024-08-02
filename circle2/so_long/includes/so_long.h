@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:26:07 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/20 11:56:32 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 23:39:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include "struct.h"
-# include "../get_next_line/get_next_line.h"
-# include "../ft_printf/ft_printf.h"
-# include "../ft_printf/libft/libft.h"
-
+# include "libft.h"
 /*-------------- TILE BITE ------------*/
 # define TILES		32
 

@@ -6,12 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:56:25 by donghank          #+#    #+#             */
-/*   Updated: 2024/06/12 10:52:32 by donghank         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:20:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "./libft/libft.h"
+#include "libft.h"
 
 int	ft_putnbr(int nb)
 {

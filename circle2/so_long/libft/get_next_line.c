@@ -6,11 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/16 12:41:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:45:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static ssize_t	read_files(int fd, char **buffer)
 {

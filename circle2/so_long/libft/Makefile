@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/20 12:36:36 by donghank          #+#    #+#              #
-#    Updated: 2024/05/25 16:52:42 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/02 09:47:50 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,15 +17,18 @@ LIBC =	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 		ft_strnstr.c ft_strrchr.c ft_tolower.c ft_toupper.c
 
 ADDITIONAL =	ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c \
-				ft_split.c ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_substr.c ft_striteri.c
+				ft_split.c ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_substr.c ft_striteri.c \
+				get_next_line.c
 
 BONUS =	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 		ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
 		ft_lstmap.c ft_lstnew.c ft_lstsize.c
 
-SRCS = ${LIBC} ${ADDITIONAL}
+PRINTF =	ft_printf.c ft_printf_address.c ft_printf_nbr.c ft_printf_strings.c
 
-SRCSALL = ${LIBC} ${ADDITIONAL} ${BONUS}
+SRCS = ${LIBC} ${ADDITIONAL} ${PRINTF}
+
+SRCSALL = ${LIBC} ${ADDITIONAL} ${BONUS} ${PRINTF}
 
 OBJS = ${SRCS:.c=.o}
 
@@ -49,9 +52,9 @@ bonus: ${OBJSALL}
 all: ${NAME}
 
 clean:
-		rm -f ${OBJSALL}
+		rm -f ${OBJS} ${OBJSALL}
 
-fclean: clean;
+fclean: clean
 		rm -f ${NAME}
 
 re: fclean all

@@ -6,12 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:39:37 by donghank          #+#    #+#             */
-/*   Updated: 2024/06/12 10:55:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:20:20 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "./libft/libft.h"
+#include "libft.h"
 
 static void	ptr_address(uintptr_t ptr, int *len)
 {

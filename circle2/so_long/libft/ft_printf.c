@@ -6,12 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 13:00:08 by donghank          #+#    #+#             */
-/*   Updated: 2024/06/18 12:49:29 by donghank         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:20:40 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "./libft/libft.h"
+#include "libft.h"
 
 static int	format_printf(const char fmt, va_list ap)
 {
@@ -63,29 +62,3 @@ int	ft_printf(const char *fmt, ...)
 	va_end(ap);
 	return (total_len);
 }
-/*
-int	main(void)
-{
-	int	num;
-
-	num = 42;
-	printf("OG printf: %s\n", "dsd");
-	ft_printf("My printf: %s\n", "dsd");
-	printf("OG printf: %d\n", num);
-	ft_printf("My printf: %d\n", num);
-	printf("OG printf: %p\n", &num);
-	ft_printf("My printf: %p\n", &num);
-	printf("OG printf: %x\n", num);
-	ft_printf("My printf: %x\n", num);
-	printf("OG printf: %X\n", num);
-	ft_printf("My printf: %X\n", num);
-	printf("OG printf: %u\n", -1);
-	ft_printf("My printf: %u\n", -1);
-	printf("OG printf: %%\n");
-	ft_printf("My printf: %%\n");
-	printf("I want to do\n");
-	ft_printf("I want to do");
-	return (0);
-}
-*/
-// cc -Wall -Werror -Wextra *.c */*.c

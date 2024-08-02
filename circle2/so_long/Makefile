@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 23:26:15 by donghank          #+#    #+#              #
-#    Updated: 2024/07/16 12:42:06 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/02 23:39:01 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,13 +24,13 @@ UNAME_S := $(shell uname -s)
 # Directories
 SRCDIR = srcs
 OBJDIR = objs
-INCDIR = includes ft_printf get_next_line
+INCDIR = includes libft
 
 # Include directories with -I prefix
 INCLUDES = $(addprefix -I, $(INCDIR))
 
 # Source and Object Files
-SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard ft_printf/*.c) $(wildcard ft_printf/libft/*.c) $(wildcard get_next_line/*.c)
+SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard libft/*.c)
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 
 # Output
@@ -54,15 +54,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJDIR)/%.o: ft_printf/%.c
-	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJDIR)/%.o: ft_printf/libft/%.c
-	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJDIR)/%.o: get_next_line/%.c
+$(OBJDIR)/%.o: libft/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
