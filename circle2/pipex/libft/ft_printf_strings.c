@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_printf_strings.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:48:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/05/25 07:18:09 by ubuntu           ###   ########.fr       */
+/*   Created: 2024/06/01 13:23:09 by donghank          #+#    #+#             */
+/*   Updated: 2024/07/26 15:20:34 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_putchar(char c)
 {
-	size_t	i;
+	ft_putchar_fd(c, 1);
+	return (1);
+}
+
+int	ft_putstr(const char *s)
+{
+	unsigned int	i;
 
 	i = 0;
-	if (n == 0)
-		return (0);
-	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
+	if (!s)
 	{
-		if (s1[i] != s2[i])
-		{
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		}
-		i++;
+		ft_putstr_fd("(null)", 1);
+		return (6);
 	}
-	return (0);
+	while (s[i])
+		i++;
+	ft_putstr_fd(s, 1);
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:53:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/28 16:37:54 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:18:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 typedef struct s_pipex
 {
 	pid_t	pid1;
+	pid_t	pid2;
 	char	*path;
 	char	*cmd;
 	char	**paths;
@@ -52,4 +53,7 @@ void	free_cmd_args(char **cmd_args);
 void	free_paths(char **paths);
 void	handle_error(char *str);
 void	cleanup(t_pipex *pipex);
+
+/*---------- main.c ----------*/
+void	doing_process(t_pipex *pipex, char **argv, char **envp);
 #endif

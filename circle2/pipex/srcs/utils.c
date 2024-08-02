@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/27 16:32:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:09:00 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_paths(char **paths)
 /* to handle the errors */
 void	handle_error(char *str)
 {
-	perror(str);
+	ft_printf("[ERROR]: %s\n", str);
 	exit(EXIT_FAILURE);
 }
 

@@ -1,0 +1,20 @@
+Testing path: /Applications/Visual Studio Code.app/Contents/Resources/app/bin/bin/wc
+Testing path: /opt/homebrew/bin/bin/wc
+Testing path: /opt/homebrew/sbin/bin/wc
+Testing path: /Library/Frameworks/Python.framework/Versions/3.10/bin/bin/wc
+Testing path: /usr/local/bin/bin/wc
+Testing path: /System/Cryptexes/App/usr/bin/bin/wc
+Testing path: /usr/bin/bin/wc
+Testing path: /bin/bin/wc
+Testing path: /usr/sbin/bin/wc
+Testing path: /sbin/bin/wc
+Testing path: /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/bin/wc
+Testing path: /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/bin/wc
+Testing path: /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/bin/wc
+Testing path: /opt/X11/bin/bin/wc
+Testing path: /Library/Apple/usr/bin/bin/wc
+Testing path: /Applications/Visual Studio Code.app/Contents/Resources/app/bin/bin/wc
+Testing path: /opt/homebrew/bin/bin/wc
+Testing path: /opt/homebrew/sbin/bin/wc
+Testing path: /Library/Frameworks/Python.framework/Versions/3.10/bin/bin/wc
+[ERROR]: Command not found
