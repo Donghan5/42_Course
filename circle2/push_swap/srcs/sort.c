@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:35:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 11:35:24 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:08:59 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	sort_three_element(t_node **a)
 	val1 = (*a)->value;
 	val2 = (*a)->next->value;
 	val3 = (*a)->next->next->value;
-	if (val1 < val2 && val2 < val3)
+	if (is_sorted(a))
 		return ;
 	else if (val1 > val2 && val1 < val3)
 		sa(a);
