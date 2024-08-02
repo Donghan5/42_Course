@@ -6,24 +6,34 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:42:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/26 00:25:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 23:43:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
+/* includes */
 # include <unistd.h>
+# include <stdlib.h>
+# include <stdarg.h>
+# include <stdio.h>
+# include <stddef.h>
 # include <string.h>
+# include <stdint.h>
 # include <limits.h>
-
+/*========== define the buf size ==========*/
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+/*========== struct of the list ==========*/
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }	t_list;
 
+/*==================== mandatory ====================*/
 int			ft_atoi(const char *str);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
@@ -58,4 +68,13 @@ char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
+int			ft_printf(const char *fmt, ...);
+int			ft_putstr(const char *s);
+int			ft_putchar(char c);
+int			ft_putnbr(int nb);
+int			ft_putnbr_base(unsigned int nb, const char *base);
+int			ft_printf_address(void *fmt);
+int			ft_printf_unsigned(unsigned int nb);
+/*==================== get_next_line ====================*/
+char		*get_next_line(int fd);
 #endif

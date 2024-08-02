@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:36:14 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 11:36:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 23:41:55 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include "ft_printf.h"
 # include "libft.h"
 
 /*---------- node element ----------*/

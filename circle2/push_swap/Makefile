@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 11:36:26 by donghank          #+#    #+#              #
-#    Updated: 2024/08/02 11:36:26 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/02 23:41:46 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,11 @@ CFLAGS = -Wall -Wextra -Werror
 SRCDIR = srcs
 UTILDIR = utils
 OBJDIR = objs
-INCDIR = includes ft_printf ft_printf/libft
+INCDIR = includes libft
 
 INCLUDES = $(addprefix -I, $(INCDIR))
 
-SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard $(UTILDIR)/*.c) $(wildcard ft_printf/*.c) $(wildcard ft_printf/libft/*.c)
+SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard $(UTILDIR)/*.c) $(wildcard libft/*.c)
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 
 TARGET = push_swap
@@ -39,11 +39,7 @@ $(OBJDIR)/%.o: $(UTILDIR)/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJDIR)/%.o: ft_printf/%.c
-	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJDIR)/%.o: ft_printf/libft/%.c
+$(OBJDIR)/%.o: libft/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 

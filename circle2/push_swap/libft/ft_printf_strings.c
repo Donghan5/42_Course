@@ -6,12 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 13:23:09 by donghank          #+#    #+#             */
-/*   Updated: 2024/06/09 12:59:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:20:34 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "./libft/libft.h"
+#include "libft.h"
 
 int	ft_putchar(char c)
 {
