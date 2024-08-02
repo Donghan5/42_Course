@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/02 11:35:36 by donghank          #+#    #+#             */
+/*   Updated: 2024/08/02 13:27:03 by donghank         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 /*
@@ -86,7 +98,7 @@ void	ft_check_arg(int ac, char **av)
 		if (ft_element(tmp, args, i) == 1)
 			error_with_exit("Isn't type int");
 		if (ft_check_whitespace(args[i]) == 1)
-			error_with_exit("Must not contain whitespace");
+			error_with_exit("Not whitespace");
 		i++;
 	}
 	if (ac == 2)
