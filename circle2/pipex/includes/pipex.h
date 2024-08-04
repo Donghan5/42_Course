@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:53:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 21:18:28 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/04 14:27:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 /*---------- parsing.c ----------*/
-char	**get_path_from_env(char **envp);
-char	*find_excutable_path(t_pipex *pipex, char **paths);
+char	**get_paths(char **envp);
 char	*find_path(t_pipex	*pipex, char **envp);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
@@ -47,6 +46,7 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	init_pipex(t_pipex *pipex, int fd1, int fd2);
 void	child_process(t_pipex *pipex, char **argv, char **envp);
 void	parent_process(t_pipex *pipex, char **argv, char **envp);
+void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- utils.c ----------*/
 void	free_cmd_args(char **cmd_args);
