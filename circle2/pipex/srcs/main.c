@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 21:19:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:44:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	doing_process(t_pipex *pipex, char **argv, char **envp)
 	pipex->pid2 = fork();
 	if (pipex->pid2 == -1)
 	{
-		handle_error("Fail pipe");
+		handle_error("Fail fork");
 		cleanup(pipex);
 	}
 	if (pipex->pid2 == 0)
 	{
-		waitpid(pipex->pid1, NULL, WNOHANG);
+		waitpid(pipex->pid1, NULL, 0);
 		parent_process(pipex, argv, envp);
 	}
 }
@@ -61,3 +61,5 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
+/* 무한 루프 해결방법 valgrind 사용 시 */

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 21:19:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:43:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	doing_process(t_pipex *pipex, char **argv, char **envp)
 	pipex->pid2 = fork();
 	if (pipex->pid2 == -1)
 	{
-		handle_error("Fail pipe");
+		handle_error("Fail fork");
 		cleanup(pipex);
 	}
 	if (pipex->pid2 == 0)
 	{
-		waitpid(pipex->pid1, NULL, WNOHANG);
+		waitpid(pipex->pid1, NULL, 0);
 		parent_process(pipex, argv, envp);
 	}
 }
@@ -51,9 +51,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
-	if (argc != 5)
+	if (argc < 5)
 		handle_error("ERROR cmd line");
-	if (argc == 5)
+	if (argc >= 5)
 	{
 		init_pipex(&pipex, -1, -1);
 		doing_process(&pipex, argv, envp);
