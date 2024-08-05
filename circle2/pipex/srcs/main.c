@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/04 16:44:27 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/04 22:05:04 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,21 @@
 void	doing_process(t_pipex *pipex, char **argv, char **envp)
 {
 	if (pipe(pipex->tube) == -1)
-	{
-		handle_error("Fail pipe");
-		cleanup(pipex);
-	}
+		handle_error_cleanup(pipex, "Fail to create pipe");
 	pipex->pid1 = fork();
 	if (pipex->pid1 == -1)
-	{
-		handle_error("Fail to fork");
-		cleanup(pipex);
-	}
+		handle_error_cleanup(pipex, "Fail fork");
 	if (pipex->pid1 == 0)
 		child_process(pipex, argv, envp);
 	pipex->pid2 = fork();
 	if (pipex->pid2 == -1)
-	{
-		handle_error("Fail fork");
-		cleanup(pipex);
-	}
+		handle_error_cleanup(pipex, "Fail fork");
 	if (pipex->pid2 == 0)
-	{
-		waitpid(pipex->pid1, NULL, 0);
 		parent_process(pipex, argv, envp);
-	}
+	close(pipex->tube[0]);
+	close(pipex->tube[1]);
+	waitpid(pipex->pid1, NULL, 0);
+	waitpid(pipex->pid2, NULL, 0);
 }
 
 /*
@@ -52,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 
 	if (argc != 5)
-		handle_error("ERROR cmd line");
+		handle_error("Make sure of your command line arguement");
 	if (argc == 5)
 	{
 		init_pipex(&pipex, -1, -1);

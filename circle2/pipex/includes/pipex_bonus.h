@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 16:53:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/04 21:58:38 by donghank         ###   ########.fr       */
+/*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
+/*   Updated: 2024/08/05 12:50:51 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 /*---------- includes ----------*/
 # include <unistd.h>
@@ -35,6 +36,7 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 	int		tube[2];
+	int		here_doc;
 }	t_pipex;
 
 /*---------- parsing.c ----------*/

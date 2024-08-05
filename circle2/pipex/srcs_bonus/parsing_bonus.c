@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/04 14:31:08 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/05 00:28:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-/* free helper path */
+/* free helper path to economize the lines */
 static void	free_helper1(t_pipex *pipex)
 {
 	free(pipex->path);
 	pipex->path = NULL;
 }
 
-/* free helper paths*/
+/* free helper paths to economize the lines */
 static void	free_helper2(t_pipex *pipex)
 {
 	free_paths(pipex->paths);
@@ -36,10 +36,8 @@ static char	*join_path(const char *path, const char *cmd)
 	char	*full_path;
 	char	*tmp_path;
 	size_t	path_len;
-	size_t	cmd_len;
 
 	path_len = ft_strlen(path);
-	cmd_len = ft_strlen(cmd);
 	tmp_path = NULL;
 
 	if (path[path_len - 1] == '/')
@@ -58,7 +56,7 @@ static char	*join_path(const char *path, const char *cmd)
 }
 
 /*
-**	to search the paths
+**	to search the paths in environment path
 */
 char	**get_paths(char **envp)
 {
