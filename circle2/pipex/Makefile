@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/23 12:16:18 by donghank          #+#    #+#              #
-#    Updated: 2024/08/04 16:11:52 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/06 15:11:28 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,9 @@ RM = rm -rf
 SRC_DIR = srcs
 BONUS_DIR = srcs_bonus
 
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-SRCS_BONUS = $(wildcard $(BONUS_DIR)/*.c)
+SRCS = srcs/main.c srcs/parsing.c srcs/pipex.c srcs/utils.c
+SRCS_BONUS = srcs_bonus/main_bonus.c srcs_bonus/parsing_bonus.c \
+			srcs_bonus/pipex_bonus.c srcs_bonus/utils_bonus.c
 
 LIBFT = libft/libft.a
 
