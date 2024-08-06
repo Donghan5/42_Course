@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/05 00:28:28 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:28:26 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static char	*join_path(const char *path, const char *cmd)
 
 	path_len = ft_strlen(path);
 	tmp_path = NULL;
-
 	if (path[path_len - 1] == '/')
 		full_path = ft_strjoin(path, cmd);
 	else

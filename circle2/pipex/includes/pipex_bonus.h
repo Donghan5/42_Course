@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/05 12:50:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:22:58 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_pipex
 	int		outfile;
 	int		tube[2];
 	int		here_doc;
+	int		start;
+	int		limit;
 }	t_pipex;
 
 /*---------- parsing.c ----------*/
@@ -46,16 +48,18 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- pipex.c ----------*/
 void	init_pipex(t_pipex *pipex, int fd1, int fd2);
-void	child_process(t_pipex *pipex, char **argv, char **envp);
-void	parent_process(t_pipex *pipex, char **argv, char **envp);
+void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
+void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
+void	handle_error_cleanup(t_pipex *pipex, char *msg);
 
 /*---------- utils.c ----------*/
 void	free_cmd_args(char **cmd_args);
 void	free_paths(char **paths);
 void	handle_error(char *str);
 void	cleanup(t_pipex *pipex);
-void	handle_error_cleanup(t_pipex *pipex, char *msg);
+int		ft_strarray_len(char **arr);
+
 
 /*---------- main.c ----------*/
 void	doing_process(t_pipex *pipex, char **argv, char **envp);

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/05 00:28:41 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:28:55 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,16 @@ void	cleanup(t_pipex *pipex)
 		close(pipex->tube[1]);
 }
 
-/* helper func to economize the lines */
-void	handle_error_cleanup(t_pipex *pipex, char *msg)
+/*
+**	to calcuate the length of the array
+**	return val = the length of the array
+*/
+int	ft_strarray_len(char **arr)
 {
-	handle_error(msg);
-	cleanup(pipex);
+	int	len;
+
+	len = 0;
+	while (arr[len] != NULL)
+		len++;
+	return (len);
 }
