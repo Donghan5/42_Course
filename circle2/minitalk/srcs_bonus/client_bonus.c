@@ -6,18 +6,18 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:24 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/31 22:48:55 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:40:01 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 
 /* to check the server receve the signal sign */
-static void	ft_oksignal(int signal)
+void	ft_oksignal(int signal)
 {
 	if (signal == SIGUSR1)
 		ft_printf("Receve SIGUSR1\n");
-	else if (signal == SIGUSR2)
+	else
 		ft_printf("Receve SIGUSR2\n");
 }
 
@@ -40,14 +40,15 @@ static void	ft_send_bits(int pid, int i)
 
 int	main(int ac, char **av)
 {
-	int	pid;
-	int	i;
+	int					pid;
+	int					i;
+	struct sigaction	sa;
 
 	i = 0;
 	if (ac == 3)
 	{
-		signal(SIGUSR1, ft_oksignal);
-		signal(SIGUSR2, ft_oksignal);
+		sa.sa_handler = ft_oksignal;
+		sa.sa_flags = SA_SIGINFO;
 		pid = ft_atoi(av[1]);
 		while (av[2][i] != '\0')
 		{
