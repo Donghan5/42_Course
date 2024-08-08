@@ -6,30 +6,31 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/02 11:36:26 by donghank          #+#    #+#              #
-#    Updated: 2024/08/02 23:41:46 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/08 18:20:04 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-
 CFLAGS = -Wall -Wextra -Werror
 
-SRCDIR = srcs
-UTILDIR = utils
 OBJDIR = objs
 INCDIR = includes libft
-
+SRCDIR = srcs
+UTILDIR = utils
 INCLUDES = $(addprefix -I, $(INCDIR))
 
-SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard $(UTILDIR)/*.c) $(wildcard libft/*.c)
+SRC = srcs/main.c srcs/push.c srcs/radix_sort.c srcs/reverse_rotate.c \
+	srcs/rotate.c srcs/sort.c srcs/swap.c \
+	utils/cmd_utils.c utils/ft_lstutils.c utils/index.c utils/sort_utils.c \
+	utils/utils.c
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 
 TARGET = push_swap
 
-all: $(TARGET)
+all: $(OBJDIR) libft $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJ) -Llibft -lft -o $(TARGET)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
@@ -43,12 +44,20 @@ $(OBJDIR)/%.o: libft/%.c
 	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+libft:
+	$(MAKE) -C libft
+
 clean:
 	rm -rf $(OBJDIR)
+	$(MAKE) clean -C libft
 
 fclean: clean
 	rm -rf $(TARGET)
+	$(MAKE) fclean -C libft
 
 re: fclean all
 
-.PHONY: all clean fclean re
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+.PHONY: all clean fclean re libft
