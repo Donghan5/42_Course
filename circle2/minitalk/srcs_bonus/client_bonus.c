@@ -6,19 +6,19 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:24 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/07 13:40:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:56:16 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 
 /* to check the server receve the signal sign */
-void	ft_oksignal(int signal)
+static void	ft_confirm(int signal)
 {
 	if (signal == SIGUSR1)
-		ft_printf("Receve SIGUSR1\n");
-	else
-		ft_printf("Receve SIGUSR2\n");
+		ft_putstr_fd("Receve SIGUSR1\n", 1);
+	else if (signal == SIGUSR2)
+		ft_putstr_fd("Receve SIGUSR2\n", 1);
 }
 
 /* to send the level of the bits to conversation */
@@ -42,13 +42,12 @@ int	main(int ac, char **av)
 {
 	int					pid;
 	int					i;
-	struct sigaction	sa;
 
 	i = 0;
 	if (ac == 3)
 	{
-		sa.sa_handler = ft_oksignal;
-		sa.sa_flags = SA_SIGINFO;
+		signal(SIGUSR1, ft_confirm);
+		signal(SIGUSR2, ft_confirm);
 		pid = ft_atoi(av[1]);
 		while (av[2][i] != '\0')
 		{

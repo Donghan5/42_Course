@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:55 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/07 13:17:24 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:52:58 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,4 @@
 # include "../libft/libft.h"
 # include <signal.h>
 
-/*=============== client_bonus.c ===============*/
-void	ft_oksignal(int signal);
 #endif
