@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:24 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/08 17:56:16 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:02:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ft_send_bits(int pid, int i)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(200);
 		bit++;
 	}
 }
@@ -42,12 +42,16 @@ int	main(int ac, char **av)
 {
 	int					pid;
 	int					i;
+	struct sigaction	sa;
 
 	i = 0;
 	if (ac == 3)
 	{
-		signal(SIGUSR1, ft_confirm);
-		signal(SIGUSR2, ft_confirm);
+		sa.sa_handler = ft_confirm;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = 0;
+		sigaction(SIGUSR1, &sa, NULL);
+		sigaction(SIGUSR2, &sa, NULL);
 		pid = ft_atoi(av[1]);
 		while (av[2][i] != '\0')
 		{
