@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/20 13:00:24 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:58:10 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	init_map(t_game *game, int fd)
 	ft_printf("[GAME START]\n");
 }
 
-/* to make map to line */
+/* to make map line and update the position of the player */
 void	gen_map_col(t_game *game, char *line, int len)
 {
 	int	i;
