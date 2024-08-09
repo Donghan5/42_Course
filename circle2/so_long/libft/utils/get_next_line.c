@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/08 21:48:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:45:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,14 @@ char	*get_next_line(int fd)
 		return (NULL);
 	byte = read_files(fd, buffer);
 	if (byte == -1)
-		return (get_free(fd, buffer), NULL);
+	{
+		get_free(fd, buffer);
+		return (NULL);
+	}
 	else if (byte == 0 && (!buffer[fd] || !*buffer[fd]))
-		return (get_free(fd, buffer), NULL);
+	{
+		get_free(fd, buffer);
+		return (NULL);
+	}
 	return (get_line(fd, buffer));
 }
