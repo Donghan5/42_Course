@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 11:42:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 09:47:28 by donghank         ###   ########.fr       */
+/*   Created: 2024/08/08 20:01:12 by donghank          #+#    #+#             */
+/*   Updated: 2024/08/08 20:01:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -22,7 +24,8 @@
 # include <string.h>
 # include <stdint.h>
 # include <limits.h>
-/*========== define the buf size ==========*/
+# include <fcntl.h>
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif

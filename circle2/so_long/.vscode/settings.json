@@ -4,5 +4,7 @@
 		"so_long.h": "c",
 		"libft.h": "c",
 		"get_next_line.h": "c"
-	}
+	},
+	"github.copilot.advanced": {},
+	"github.copilot.editor.enableAutoCompletions": false
 }
