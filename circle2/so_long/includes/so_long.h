@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:26:07 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 23:39:27 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:26:07 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
+# include <fcntl.h>
 # include "struct.h"
 # include "libft.h"
 /*-------------- TILE BITE ------------*/

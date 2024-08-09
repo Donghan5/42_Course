@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:42:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/26 15:47:48 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:47:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 # include <string.h>
 # include <stdint.h>
 # include <limits.h>
-
+/*========== define the buf size ==========*/
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+/*========== struct of the list ==========*/
 typedef struct s_list
 {
 	void			*content;
@@ -82,4 +86,6 @@ int			ft_putnbr(int nb);
 int			ft_putnbr_base(unsigned int nb, const char *base);
 int			ft_printf_address(void *fmt);
 int			ft_printf_unsigned(unsigned int nb);
+/*==================== get_next_line ====================*/
+char		*get_next_line(int fd);
 #endif

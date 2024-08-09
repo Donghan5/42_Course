@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/23 14:34:57 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:26:31 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	free_mlx_lib(t_game *game)
 	}
 	if (game->mlx)
 	{
-		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 		game->mlx = NULL;
 	}

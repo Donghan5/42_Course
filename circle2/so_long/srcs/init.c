@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 16:58:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:25:31 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	init_mlx(t_game *game)
 	game->win = mlx_new_window(game->mlx, w * TILES, h * TILES, "so_long");
 	if (!game->win)
 	{
-		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 		return ;
 	}
@@ -81,7 +80,7 @@ void	init_map(t_game *game, int fd)
 		i++;
 	}
 	check_path(game);
-	ft_printf("[GAME START]\n");
+	ft_printf("\033[0;31m[GAME START]\033[0m\n");
 }
 
 /* to make map line and update the position of the player */

@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/20 12:36:36 by donghank          #+#    #+#              #
-#    Updated: 2024/08/09 10:34:04 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/09 17:29:45 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIBC = mem/ft_memchr.c mem/ft_memcmp.c mem/ft_memcpy.c \
 ADDITIONAL = put/ft_putchar_fd.c put/ft_putendl_fd.c put/ft_putnbr_fd.c \
              put/ft_putstr_fd.c str/ft_split.c str/ft_strjoin.c \
              str/ft_strmapi.c str/ft_strtrim.c str/ft_substr.c \
-             str/ft_striteri.c utils/get_next_line.c
+             str/ft_striteri.c utils/get_next_line.c utils/ft_itoa.c
 
 BONUS = bonus/ft_lstadd_back_bonus.c bonus/ft_lstadd_front_bonus.c \
         bonus/ft_lstclear_bonus.c bonus/ft_lstdelone_bonus.c bonus/ft_lstiter_bonus.c \

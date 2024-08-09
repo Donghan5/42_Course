@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 17:13:40 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:45:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static ssize_t	read_files(int fd, char **buffer)
 	while (byte > 0)
 	{
 		tmp[byte] = '\0';
-		if (!*buffer)
-			*buffer = ft_strdup(tmp);
+		if (!buffer[fd])
+			buffer[fd] = ft_strdup(tmp);
 		else
 		{
-			tmp_buffer = ft_strjoin(*buffer, tmp);
-			free(*buffer);
-			*buffer = tmp_buffer;
+			tmp_buffer = ft_strjoin(buffer[fd], tmp);
+			free(buffer[fd]);
+			buffer[fd] = tmp_buffer;
 		}
-		if (ft_strchr(*buffer, '\n') != NULL)
+		if (ft_strchr(buffer[fd], '\n') != NULL)
 			break ;
 		byte = read(fd, tmp, BUFFER_SIZE);
 	}
@@ -41,52 +41,58 @@ static ssize_t	read_files(int fd, char **buffer)
 	return (byte);
 }
 
-static void	get_free(char **buffer)
+static void	get_free(int fd, char **buffer)
 {
-	if (*buffer)
+	if (buffer[fd])
 	{
-		free(*buffer);
-		*buffer = NULL;
+		free(buffer[fd]);
+		buffer[fd] = NULL;
 	}
 }
 
-static char	*get_line(char **buffer)
+static char	*get_line(int fd, char **buffer)
 {
 	char	*line;
 	char	*line_pos;
 	char	*tmp_buffer;
 	size_t	len;
 
-	line_pos = ft_strchr(*buffer, '\n');
+	line_pos = ft_strchr(buffer[fd], '\n');
 	if (line_pos)
 	{
-		len = line_pos - *buffer + 1;
-		line = ft_substr(*buffer, 0, len);
+		len = line_pos - buffer[fd] + 1;
+		line = ft_substr(buffer[fd], 0, len);
 		tmp_buffer = ft_strdup(line_pos + 1);
-		free(*buffer);
-		*buffer = tmp_buffer;
-		if (*buffer && (*buffer)[0] == '\0')
-			get_free(buffer);
+		free(buffer[fd]);
+		buffer[fd] = tmp_buffer;
+		if (buffer[fd] && buffer[fd][0] == '\0')
+			get_free(fd, buffer);
 	}
 	else
 	{
-		line = ft_strdup(*buffer);
-		get_free(buffer);
+		line = ft_strdup(buffer[fd]);
+		get_free(fd, buffer);
 	}
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[8192];
 	ssize_t		byte;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || 8192 <= fd || BUFFER_SIZE <= 0)
 		return (NULL);
-	byte = read_files(fd, &buffer);
+	byte = read_files(fd, buffer);
 	if (byte == -1)
-		return (get_free(&buffer), NULL);
-	else if (byte == 0 && (!buffer || !*buffer))
-		return (get_free(&buffer), NULL);
-	return (get_line(&buffer));
+	{
+		get_free(fd, buffer);
+		return (NULL);
+	}
+	else if (byte == 0 && (!buffer[fd] || !*buffer[fd]))
+	{
+		get_free(fd, buffer);
+		return (NULL);
+	}
+	return (get_line(fd, buffer));
 }
