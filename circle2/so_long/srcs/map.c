@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:49 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/24 14:26:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 22:08:55 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ int	map_checking(t_game *game, char *line, int wall_check)
 		close_error(1);
 	while (line[++i] && line[i] != '\n')
 	{
-		if ((line[i] == 0 || line[i] == len - 1) && line[i] != '1')
-			close_error(3);
-		if (wall_check && line[i] != '1')
-			close_error(4);
+		if (wall_check || i == 0 || i == len - 1)
+		{
+			if (line[i] != '1')
+				close_error(3);
+		}
 		if (line[i] != '1' && line[i] != '0' && line[i] != 'P'
 			&& line[i] != 'E' && line[i] != 'C')
 			close_error(0);
@@ -59,8 +60,8 @@ int	map_checking(t_game *game, char *line, int wall_check)
 	return (0);
 }
 
-/* to check the last line is 1 */
-int	check_lastline(char *line)
+/* checking the maps is surrounded by the wall */
+int	check_surrounded_wall(char *line)
 {
 	int	i;
 
@@ -79,10 +80,8 @@ void	generate_map(t_game *game, int fd)
 {
 	char	*line;
 	char	hei;
-	char	wall_check;
 
 	hei = 0;
-	wall_check = 1;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -91,10 +90,10 @@ void	generate_map(t_game *game, int fd)
 		if (hei == 0)
 		{
 			game->width = ft_strlen(line) - 1;
-			map_checking(game, line, wall_check);
+			map_checking(game, line, 1);
 		}
 		else
-			map_checking(game, line, !wall_check);
+			map_checking(game, line, 0);
 		hei += 1;
 		free(line);
 	}

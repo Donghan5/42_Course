@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 23:26:15 by donghank          #+#    #+#              #
-#    Updated: 2024/08/06 22:02:12 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/09 21:40:01 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 TARGET = so_long
 
 # Default target
-all: libft $(TARGET)
+all: mlx libft $(TARGET)
 
 # Link target depending on the OS
 $(TARGET): $(OBJ)
@@ -67,6 +67,15 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 libft:
 	$(MAKE) -C libft
 
+mlx:
+ifeq ($(UNAME_S), Linux)
+	$(MAKE) -C mlx
+else ifeq ($(UNAME_S), Darwin)
+	$(MAKE) -C mlx_mac
+else
+	$(error OS not supported)
+endif
+
 # Clean up object files
 clean:
 	rm -rf $(OBJDIR)
@@ -76,6 +85,13 @@ clean:
 fclean: clean
 	rm -f $(TARGET)
 	$(MAKE) fclean -C libft
+ifeq ($(UNAME_S), Linux)
+	$(MAKE) clean -C mlx
+else ifeq ($(UNAME_S), Darwin)
+	$(MAKE) clean -C mlx_mac
+else
+	$(error OS not supported)
+endif
 
 # Rebuild
 re: fclean all

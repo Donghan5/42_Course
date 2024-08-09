@@ -6,5 +6,5 @@
 		"get_next_line.h": "c"
 	},
 	"github.copilot.advanced": {},
-	"github.copilot.editor.enableAutoCompletions": false
+	"github.copilot.editor.enableAutoCompletions": true
 }

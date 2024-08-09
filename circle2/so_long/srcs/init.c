@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 17:25:31 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 22:12:52 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_mlx(t_game *game)
 	game->imgs.empty = NULL;
 }
 
-/* initialize all element concern of the game parameters */
+/* initialize all element about game parameters */
 void	init_game_param(t_game *game)
 {
 	game->width = 0;
@@ -70,9 +70,9 @@ void	init_map(t_game *game, int fd)
 		line = get_next_line(fd);
 		if (!line)
 			close_game(game, 0);
-		gen_map_col(game, line, i);
+		map_line_and_player(game, line, i);
 		if (i + 1 == game->height)
-			is_valid = check_lastline(line);
+			is_valid = check_surrounded_wall(line);
 		if (!is_valid)
 			close_game(game, 0);
 		draw_map(game, line, i);
@@ -80,11 +80,11 @@ void	init_map(t_game *game, int fd)
 		i++;
 	}
 	check_path(game);
-	ft_printf("\033[0;31m[GAME START]\033[0m\n");
+	ft_printf("\033[0;34m[GAME START]\033[0m\n");
 }
 
 /* to make map line and update the position of the player */
-void	gen_map_col(t_game *game, char *line, int len)
+void	map_line_and_player(t_game *game, char *line, int len)
 {
 	int	i;
 

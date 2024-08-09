@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 17:23:08 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 22:16:05 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	check_map_compo(t_game *game)
 /* To show the current move*/
 void	show_move(int c)
 {
-	ft_printf("\033[0;31m[Current move]\033[0m\n");
-	ft_printf("%d\n", c);
+	ft_printf("\033[0;32m[CURRENT MOVE]: \033[0m");
+	ft_printf("\033[0;32m%d\033[0m\n", c);
 }
 
 /* free all of the images */

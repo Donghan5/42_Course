@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 17:26:31 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/09 21:49:33 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* to treat the errors */
 int	close_error(int err_type)
 {
-	ft_printf("[ERROR]: ");
+	ft_printf("\033[0;31m[ERROR]:\033[0m");
 	if (err_type == -1)
 		ft_printf("Fail to open the map.\n");
 	else if (err_type == 0)
