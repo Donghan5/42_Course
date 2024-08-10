@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/10 15:30:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:22:15 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static char	*get_line(char **buffer)
 		tmp_buffer = ft_strdup(line_pos + 1);
 		free(*buffer);
 		*buffer = tmp_buffer;
+		free(tmp_buffer);
 		if (*buffer && *buffer[0] == '\0')
 			get_free(buffer);
 	}
