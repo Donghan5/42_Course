@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 21:49:33 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 15:20:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	free_mlx_lib(t_game *game)
 	}
 	if (game->mlx)
 	{
+		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 		game->mlx = NULL;
 	}
@@ -83,12 +84,11 @@ int	main(int ac, char **av)
 	t_game	game;
 	int		fd;
 
-	ft_memset(&game, 0, sizeof(game));
 	if (check_arg_line(ac, av) == 1)
 		return (ft_printf("[ERROR]\n"), 1);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
-		close_error(-1);
+		return (ft_printf("[ERROR]\n"), 1);
 	init_game_param(&game);
 	generate_map(&game, fd);
 	close(fd);
@@ -97,7 +97,7 @@ int	main(int ac, char **av)
 		return (ft_printf("[ERROR]\n"), free_mlx_lib(&game), 1);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
-		return (ft_printf("[ERROR]\n"), free_mlx_lib(&game), 1);
+		close_error(-1);
 	init_map(&game, fd);
 	close(fd);
 	detect_os(game);

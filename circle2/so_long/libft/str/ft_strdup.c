@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:46:57 by donghank          #+#    #+#             */
-/*   Updated: 2024/05/27 13:07:53 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 13:46:53 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s)
 	size_t	len;
 	size_t	index;
 
+	if (s == NULL)
+		return (NULL);
 	len = ft_strlen(s);
 	new_s = (char *)malloc(sizeof(char) * (len + 1));
 	if (!new_s)

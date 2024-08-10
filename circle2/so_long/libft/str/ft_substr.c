@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:48:56 by donghank          #+#    #+#             */
-/*   Updated: 2024/05/21 13:38:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 13:49:23 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	size_t	i;
 	size_t	s_len;
 
-	if (!s)
+	if (s == NULL)
 		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)

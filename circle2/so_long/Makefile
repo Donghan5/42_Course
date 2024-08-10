@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 23:26:15 by donghank          #+#    #+#              #
-#    Updated: 2024/08/09 21:40:01 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/10 12:47:42 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ libft:
 
 mlx:
 ifeq ($(UNAME_S), Linux)
-	$(MAKE) -C mlx
+	$(MAKE) -C mlx_linux
 else ifeq ($(UNAME_S), Darwin)
 	$(MAKE) -C mlx_mac
 else
@@ -86,7 +86,7 @@ fclean: clean
 	rm -f $(TARGET)
 	$(MAKE) fclean -C libft
 ifeq ($(UNAME_S), Linux)
-	$(MAKE) clean -C mlx
+	$(MAKE) clean -C mlx_linux
 else ifeq ($(UNAME_S), Darwin)
 	$(MAKE) clean -C mlx_mac
 else
@@ -96,4 +96,4 @@ endif
 # Rebuild
 re: fclean all
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re libft mlx

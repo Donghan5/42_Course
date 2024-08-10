@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/09 22:12:52 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:41:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_mlx(t_game *game)
 	game->win = mlx_new_window(game->mlx, w * TILES, h * TILES, "so_long");
 	if (!game->win)
 	{
+		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 		return ;
 	}
