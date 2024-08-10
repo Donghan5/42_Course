@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/06 17:17:27 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:41:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 		buf = get_next_line(0);
 		if (!buf)
 			exit(EXIT_FAILURE);
-		if (!ft_strncmp(delimiter, buf, ft_strlen(delimiter) + 1))
+		if (!ft_strncmp(delimiter, buf, ft_strlen(delimiter)))
 			break ;
 		write(file, buf, ft_strlen(buf));
 		write(file, "\n", 1);

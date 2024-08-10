@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/06 14:28:26 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:40:15 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**get_paths(char **envp)
 		i++;
 	if (!envp[i])
 		return (NULL);
-	return (ft_split((*envp) + 5, ':'));
+	return (ft_split(envp[i] + 5, ':'));
 }
 
 /* to search the command line path */
