@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/06 14:22:58 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/11 21:27:14 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ typedef struct s_pipex
 	int		limit;
 }	t_pipex;
 
-/*---------- parsing.c ----------*/
+/*---------- parsing_bonus.c ----------*/
 char	**get_paths(char **envp);
 char	*find_path(t_pipex	*pipex, char **envp);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
-/*---------- pipex.c ----------*/
+/*---------- pipex_bonus.c ----------*/
 void	init_pipex(t_pipex *pipex, int fd1, int fd2);
 void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	handle_error_cleanup(t_pipex *pipex, char *msg);
 
-/*---------- utils.c ----------*/
+/*---------- utils_bonus.c ----------*/
 void	free_cmd_args(char **cmd_args);
 void	free_paths(char **paths);
 void	handle_error(char *str);
@@ -61,6 +61,6 @@ void	cleanup(t_pipex *pipex);
 int		ft_strarray_len(char **arr);
 
 
-/*---------- main.c ----------*/
-void	doing_process(t_pipex *pipex, char **argv, char **envp);
+/*---------- heredoc_bonus.c ----------*/
+void	doing_process(t_pipex *pipex, int argc, char **argv, char **envp);
 #endif

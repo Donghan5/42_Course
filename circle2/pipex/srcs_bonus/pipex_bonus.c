@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:21 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/06 14:21:42 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/11 21:12:43 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,24 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 */
 void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 {
-	if (pipex->here_doc && cmd_index == 3)
+	if (pipex->here_doc && cmd_index == pipex->start)
 		pipex->infile = open(".heredoc_tmp", O_RDONLY);
-	else
+	else if (cmd_index == pipex->start)
 		pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
+	{
+		ft_printf("Error opening input file: %s\n", argv[cmd_index]);
+		perror("open failed");
 		handle_error_cleanup(pipex, "Fail to open infile");
-	close(pipex->tube[0]);
+	}
+	ft_printf("Successfully opened input file: %s\n", argv[cmd_index]);
 	if (dup2(pipex->tube[1], STDOUT_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail to dup2");
+		handle_error_cleanup(pipex, "Fail to dup2 stdout");
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail to dup2");
+		handle_error_cleanup(pipex, "Fail to dup2 stdin");
+	close(pipex->tube[0]);
+	close(pipex->tube[1]);
+	close(pipex->infile);
 	cleanup(pipex);
 	ft_pipex(pipex, argv, envp, cmd_index);
 	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
@@ -73,18 +80,27 @@ void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 */
 void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 {
-	if (cmd_index == 4)
-		pipex->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (cmd_index == pipex->limit - 1)
+	{
+		pipex->outfile = open(argv[cmd_index], \
+			O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (pipex->outfile == -1)
+		{
+			ft_printf("Error opening output file: %s\n", argv[cmd_index]);
+			perror("Open failed");
+			handle_error_cleanup(pipex, "Fail to open outfile");
+		}
+	}
 	else
 		pipex->outfile = pipex->tube[1];
-	if (pipex->outfile == -1)
-		handle_error_cleanup(pipex, "Fail to open outfile");
-	close(pipex->tube[1]);
 	if (dup2(pipex->tube[0], STDIN_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail dup2");
+		handle_error_cleanup(pipex, "Fail dup2 stdin");
 	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail dup2");
-	cleanup(pipex);
+		handle_error_cleanup(pipex, "Fail dup2 stdout");
+	close(pipex->tube[0]);
+	close(pipex->tube[1]);
+	if (cmd_index == pipex->limit - 1)
+		close(pipex->outfile);
 	ft_pipex(pipex, argv, envp, cmd_index);
 	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
 		handle_error_cleanup(pipex, "Fail execve");
