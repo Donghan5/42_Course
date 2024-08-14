@@ -6,13 +6,12 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/11 19:46:33 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:15:21 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-/* free all of the memories cmd_args */
 void	free_cmd_args(char **cmd_args)
 {
 	int	i;
@@ -68,6 +67,8 @@ void	cleanup(t_pipex *pipex)
 		close(pipex->tube[0]);
 	if (pipex->tube[1] != -1)
 		close(pipex->tube[1]);
+	if (pipex->here_doc)
+		unlink(".heredoc_tmp");
 }
 
 /*

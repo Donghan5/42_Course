@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 13:51:28 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:49:20 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,13 @@ static void	handle_parent(t_pipex *pipex, char **argv, char **envp, int i)
 	if (pipex->pid2 == -1)
 		handle_error_cleanup(pipex, "Fail to generate pid");
 	if (pipex->pid2 == 0)
-	{
-		waitpid(pipex->pid1, NULL, 0);
 		parent_process(pipex, argv, envp, i + 1);
-	}
 	else
 	{
 		close(pipex->tube[0]);
 		close(pipex->tube[1]);
-		waitpid(pipex->pid1, NULL, WNOHANG);
-		waitpid(pipex->pid2, NULL, WNOHANG);
+		waitpid(pipex->pid1, NULL, 0);
+		waitpid(pipex->pid2, NULL, 0);
 	}
 }
 
