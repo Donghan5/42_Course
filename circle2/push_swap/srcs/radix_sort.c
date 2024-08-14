@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:35:11 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 11:58:00 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:41:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	get_max_bits(t_node **stack)
 }
 
 /*
-**	compare in the level of the bits
+**	compare in the level of the bits 1, 10, 100 ...
 **	in binary, num 1 is special ==> always bigger
 **	head_a = head pointer of the stack a
 **	i, j = index to sorting

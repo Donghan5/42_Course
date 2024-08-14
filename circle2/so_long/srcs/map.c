@@ -6,11 +6,19 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:49 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/10 15:24:12 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:13:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static int	close_error_with_map(t_game *game, int fd, int err_type)
+{
+	close(fd);
+	free_mlx_lib(game);
+	close_error(err_type);
+	return (1);
+}
 
 /* initial setting of the map */
 void	set_map_val(t_game *game, char compo)
@@ -34,7 +42,7 @@ void	set_map_val(t_game *game, char compo)
 }
 
 /* checking the map is available */
-int	map_checking(t_game *game, char *line, int wall_check)
+int	map_checking(t_game *game, char *line, int wall_check, int fd)
 {
 	int		i;
 	int		len;
@@ -44,17 +52,17 @@ int	map_checking(t_game *game, char *line, int wall_check)
 	if (line[len - 1] == '\n')
 		len -= 1;
 	if (len != game->width)
-		close_error(1);
+		close_error_with_map(game, fd, 1);
 	while (line[++i] && line[i] != '\n')
 	{
 		if (wall_check || i == 0 || i == len - 1)
 		{
 			if (line[i] != '1')
-				close_error(3);
+				close_error_with_map(game, fd, 3);
 		}
 		if (line[i] != '1' && line[i] != '0' && line[i] != 'P'
 			&& line[i] != 'E' && line[i] != 'C')
-			close_error(0);
+			close_error_with_map(game, fd, 0);
 		set_map_val(game, line[i]);
 	}
 	return (0);
@@ -76,7 +84,7 @@ int	check_surrounded_wall(char *line)
 }
 
 /* generate map to show */
-void	generate_map(t_game *game, int fd)
+int	generate_map(t_game *game, int fd)
 {
 	char	*line;
 	char	hei;
@@ -90,13 +98,16 @@ void	generate_map(t_game *game, int fd)
 		if (hei == 0)
 		{
 			game->width = ft_strlen(line) - 1;
-			map_checking(game, line, 1);
+			if (map_checking(game, line, 1, fd) !=0)
+				return (free(line), close_error_with_map(game, fd, 1));
 		}
 		else
-			map_checking(game, line, 0);
+			if (map_checking(game, line, 0, fd) != 0)
+				return (free(line), close_error_with_map(game, fd, 1));
 		hei += 1;
 		free(line);
 	}
 	game->height = hei;
-	check_map_compo(game);
+	check_map_compo(game, fd);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:21 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/11 21:12:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:50:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,7 @@ void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 	else if (cmd_index == pipex->start)
 		pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
-	{
-		ft_printf("Error opening input file: %s\n", argv[cmd_index]);
-		perror("open failed");
 		handle_error_cleanup(pipex, "Fail to open infile");
-	}
 	ft_printf("Successfully opened input file: %s\n", argv[cmd_index]);
 	if (dup2(pipex->tube[1], STDOUT_FILENO) == -1)
 		handle_error_cleanup(pipex, "Fail to dup2 stdout");
@@ -85,11 +81,7 @@ void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 		pipex->outfile = open(argv[cmd_index], \
 			O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (pipex->outfile == -1)
-		{
-			ft_printf("Error opening output file: %s\n", argv[cmd_index]);
-			perror("Open failed");
 			handle_error_cleanup(pipex, "Fail to open outfile");
-		}
 	}
 	else
 		pipex->outfile = pipex->tube[1];

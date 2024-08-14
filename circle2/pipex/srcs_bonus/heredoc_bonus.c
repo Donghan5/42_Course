@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/11 21:26:44 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:51:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static void	handle_parent(t_pipex *pipex, char **argv, char **envp, int i)
 	{
 		close(pipex->tube[0]);
 		close(pipex->tube[1]);
-		waitpid(pipex->pid1, NULL, 0);
-		waitpid(pipex->pid2, NULL, 0);
+		waitpid(pipex->pid1, NULL, WNOHANG);
+		waitpid(pipex->pid2, NULL, WNOHANG);
 	}
 }
 
@@ -117,9 +117,5 @@ void	doing_process(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->outfile == -1)
 		handle_error_cleanup(pipex, "Fail to open outfile");
-	ft_printf("pipex.infile: %s\n", pipex->here_doc ? ".heredoc_tmp" : argv[1]);
-	ft_printf("pipex.outfile: %s\n", argv[argc - 1]);
-	ft_printf("First command: %s\n", argv[pipex->start]);
-	ft_printf("Last command: %s\n", argv[argc - 2]);
 	doing_cmd_process(pipex, argv, envp);
 }

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:20 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/08 17:51:33 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:46:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,5 @@ int	main(int ac, char **av)
 		pause();
 	return (0);
 }
+
+/* Setting C/C++ configuration json file */

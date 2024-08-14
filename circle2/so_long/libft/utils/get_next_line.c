@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/10 17:22:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:20:25 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 static ssize_t	read_files(int fd, char **buffer)
 {
-	char	*tmp;
+	char	tmp[BUFFER_SIZE + 1];
 	ssize_t	byte;
 	char	*tmp_buffer;
 
-	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!tmp)
-		return (-1);
 	byte = read(fd, tmp, BUFFER_SIZE);
 	while (byte > 0)
 	{
@@ -37,7 +34,6 @@ static ssize_t	read_files(int fd, char **buffer)
 			break ;
 		byte = read(fd, tmp, BUFFER_SIZE);
 	}
-	free(tmp);
 	return (byte);
 }
 
@@ -57,18 +53,17 @@ static char	*get_line(char **buffer)
 	char	*tmp_buffer;
 	size_t	len;
 
+	if (*buffer == NULL)
+		return (NULL);
 	line_pos = ft_strchr(*buffer, '\n');
 	if (line_pos)
 	{
 		len = line_pos - *buffer + 1;
 		line = ft_substr(*buffer, 0, len);
-		if (line == NULL)
-			return (NULL);
 		tmp_buffer = ft_strdup(line_pos + 1);
 		free(*buffer);
 		*buffer = tmp_buffer;
-		free(tmp_buffer);
-		if (*buffer && *buffer[0] == '\0')
+		if (*buffer && (*buffer)[0] == '\0')
 			get_free(buffer);
 	}
 	else
@@ -81,7 +76,7 @@ static char	*get_line(char **buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer = NULL;
 	ssize_t		byte;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)

@@ -6,13 +6,16 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:41 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/31 13:54:20 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:42:26 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-/* to send the bits */
+/* to send the bits
+** Sigusr1 = 1
+** Sigusr2 = 0
+*/
 static void	ft_send_bits(int pid, int i)
 {
 	int	bit;

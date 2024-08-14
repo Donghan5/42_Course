@@ -6,16 +6,12 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 11:35:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/02 11:35:59 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:36:47 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/**
-**
-**
-**/
 void	ft_free_stack(t_node **stack)
 {
 	t_node	*head;
@@ -62,7 +58,6 @@ int	ft_atoll(const char *str)
 	int				sign;
 	int				digit_check;
 	long long int	result;
-
 
 	result = 0;
 	sign = 1;

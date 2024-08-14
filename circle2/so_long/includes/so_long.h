@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:26:07 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/10 12:48:05 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:13:00 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,16 @@ void	draw_map(t_game *game, char *line, int len);
 
 /*------------- MAP.C -------------*/
 void	set_map_val(t_game *game, char compo);
-int		map_checking(t_game *game, char *line, int wall_check);
+int		map_checking(t_game *game, char *line, int wall_check, int fd);
 int		check_surrounded_wall(char *line);
-void	generate_map(t_game *game, int fd);
+int		generate_map(t_game *game, int fd);
 
 /*------------- SO_LONG.C -------------*/
 void	show_move(int c);
 void	free_images(t_game *game);
 int		close_game(t_game *game, int type);
 int		key_press(int keysym, t_game *game);
-void	check_map_compo(t_game *game);
+void	check_map_compo(t_game *game, int fd);
 
 /*------------- UTIL_MAP.C -------------*/
 void	put_image_wall(t_game *game, char texture, int h, int w);

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/10 14:41:29 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:17:40 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_mlx(t_game *game)
 	{
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
+		game->mlx = NULL;
 		return ;
 	}
 	game->imgs.wall = NULL;
