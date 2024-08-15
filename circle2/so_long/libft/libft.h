@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:42:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/10 15:28:55 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:09:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@
 # include <string.h>
 # include <stdint.h>
 # include <limits.h>
-/*========== define the buf size ==========*/
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+
 /*========== struct of the list ==========*/
 typedef struct s_list
 {

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 11:20:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:35:05 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static ssize_t	read_files(int fd, char **buffer)
 {
-	char	tmp[BUFFER_SIZE + 1];
+	char	tmp[2];
 	ssize_t	byte;
 	char	*tmp_buffer;
 
-	byte = read(fd, tmp, BUFFER_SIZE);
+	byte = read(fd, tmp, 1);
 	while (byte > 0)
 	{
 		tmp[byte] = '\0';
@@ -32,7 +32,7 @@ static ssize_t	read_files(int fd, char **buffer)
 		}
 		if (ft_strchr(*buffer, '\n') != NULL)
 			break ;
-		byte = read(fd, tmp, BUFFER_SIZE);
+		byte = read(fd, tmp, 1);
 	}
 	return (byte);
 }
@@ -53,8 +53,6 @@ static char	*get_line(char **buffer)
 	char	*tmp_buffer;
 	size_t	len;
 
-	if (*buffer == NULL)
-		return (NULL);
 	line_pos = ft_strchr(*buffer, '\n');
 	if (line_pos)
 	{
@@ -79,12 +77,18 @@ char	*get_next_line(int fd)
 	static char	*buffer = NULL;
 	ssize_t		byte;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0)
 		return (NULL);
 	byte = read_files(fd, &buffer);
 	if (byte == -1)
-		return (get_free(&buffer), NULL);
+	{
+		get_free(&buffer);
+		return (NULL);
+	}
 	else if (byte == 0 && (!buffer || !*buffer))
-		return (get_free(&buffer), NULL);
+	{
+		get_free(&buffer);
+		return (NULL);
+	}
 	return (get_line(&buffer));
 }

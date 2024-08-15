@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 18:49:20 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/15 12:49:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,12 @@ static void	handle_child(t_pipex *pipex, char **argv, char **envp, int i)
 }
 
 /* handle parent process */
-static void	handle_parent(t_pipex *pipex, char **argv, char **envp, int i)
+static void	handle_parent_close(t_pipex *pipex)
 {
-	pipex->pid2 = fork();
-	if (pipex->pid2 == -1)
-		handle_error_cleanup(pipex, "Fail to generate pid");
-	if (pipex->pid2 == 0)
-		parent_process(pipex, argv, envp, i + 1);
-	else
-	{
-		close(pipex->tube[0]);
-		close(pipex->tube[1]);
-		waitpid(pipex->pid1, NULL, 0);
-		waitpid(pipex->pid2, NULL, 0);
-	}
+	close(pipex->tube[0]);
+	close(pipex->tube[1]);
+	waitpid(pipex->pid1, NULL, 0);
+	waitpid(pipex->pid2, NULL, 0);
 }
 
 /*
@@ -89,7 +81,15 @@ static void	doing_cmd_process(t_pipex *pipex, char **argv, char **envp)
 		if (pipex->pid1 == 0)
 			handle_child(pipex, argv, envp, i);
 		else
-			handle_parent(pipex, argv, envp, i);
+		{
+			pipex->pid2 = fork();
+			if (pipex->pid2 == -1)
+				handle_error_cleanup(pipex, "Fail to generate pid");
+			if (pipex->pid2 == 0)
+				parent_process(pipex, argv, envp, i + 1);
+			else
+				handle_parent_close(pipex);
+		}
 		i++;
 	}
 }
@@ -114,5 +114,7 @@ void	doing_process(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->outfile == -1)
 		handle_error_cleanup(pipex, "Fail to open outfile");
+	if (pipe(pipex->tube) == -1)
+		handle_error_cleanup(pipex, "Fail to pipe");
 	doing_cmd_process(pipex, argv, envp);
 }

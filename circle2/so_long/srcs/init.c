@@ -6,11 +6,18 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 11:17:40 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:22:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static void	close_game_map(t_game *game, int fd)
+{
+	close(fd);
+	free_mlx_lib(game);
+	close_error(0);
+}
 
 /* initialize all element concern of the map */
 void	init_mlx(t_game *game)
@@ -71,12 +78,12 @@ void	init_map(t_game *game, int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			close_game(game, 0);
+			close_game_map(game, fd);
 		map_line_and_player(game, line, i);
 		if (i + 1 == game->height)
 			is_valid = check_surrounded_wall(line);
 		if (!is_valid)
-			close_game(game, 0);
+			close_game_map(game, fd);
 		draw_map(game, line, i);
 		free(line);
 		i++;

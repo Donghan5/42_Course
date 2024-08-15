@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 23:26:15 by donghank          #+#    #+#              #
-#    Updated: 2024/08/10 12:47:42 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/15 14:46:34 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 CC = cc
 
 # Flags
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 LINUX_FLAGS = -L./mlx_linux -lmlx -lXext -lX11
 MACOS_FLAGS = -L./mlx_mac -lmlx -framework OpenGL -framework AppKit
 

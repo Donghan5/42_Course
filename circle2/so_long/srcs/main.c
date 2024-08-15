@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 13:11:29 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:52:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int	main(int ac, char **av)
 	if (fd == -1)
 		return (ft_printf("[ERROR]: Fail open file\n"), 1);
 	init_game_param(&game);
-	if (generate_map(&game, fd) != 0)
-		return (close(fd), 1);
+	if (generate_map(&game, fd) == 1)
+		return (close(fd), free_mlx_lib(&game), 1);
 	init_mlx(&game);
 	if (!game.mlx || !game.win)
 		return (ft_printf("[ERROR]: Fail mlx init\n"), free_mlx_lib(&game), 1);

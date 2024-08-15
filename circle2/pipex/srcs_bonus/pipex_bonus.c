@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 20:21:09 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/15 12:45:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 {
 	if (pipex->here_doc && cmd_index == pipex->start)
 		pipex->infile = open(".heredoc_tmp", O_RDONLY);
-	else if (cmd_index == pipex->start)
+	else
 		pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
 		handle_error_cleanup(pipex, "Fail to open infile");
-	if (dup2(pipex->tube[1], STDOUT_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail to dup2 stdout (child)");
+	close(pipex->tube[0]);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 		handle_error_cleanup(pipex, "Fail to dup2 stdin (child)");
-	close(pipex->tube[0]);
+	if (dup2(pipex->tube[1], STDOUT_FILENO) == -1)
+		handle_error_cleanup(pipex, "Fail to dup2 stdout (child)");
 	close(pipex->tube[1]);
 	close(pipex->infile);
-	cleanup(pipex);
 	ft_pipex(pipex, argv, envp, cmd_index);
+	cleanup(pipex);
 	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
 		handle_error_cleanup(pipex, "Fail execve (child)");
 }
@@ -82,17 +82,17 @@ void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 		if (pipex->outfile == -1)
 			handle_error_cleanup(pipex, "Fail to open outfile");
 	}
-	else
+	else if (cmd_index < pipex->limit - 1)
 		pipex->outfile = pipex->tube[1];
+	close(pipex->tube[1]);
 	if (dup2(pipex->tube[0], STDIN_FILENO) == -1)
 		handle_error_cleanup(pipex, "Fail dup2 stdin (parent)");
 	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
 		handle_error_cleanup(pipex, "Fail dup2 stdout (parent)");
 	close(pipex->tube[0]);
-	close(pipex->tube[1]);
+	ft_pipex(pipex, argv, envp, cmd_index);
 	if (cmd_index == pipex->limit - 1)
 		close(pipex->outfile);
-	ft_pipex(pipex, argv, envp, cmd_index);
 	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
 		handle_error_cleanup(pipex, "Fail execve (parent)");
 }
