@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:41 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 10:42:26 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:38:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Sigusr1 = 1
 ** Sigusr2 = 0
 */
-static void	ft_send_bits(int pid, int i)
+static void	ft_send_bits(pid_t pid, int i)
 {
 	int	bit;
 
@@ -27,15 +27,16 @@ static void	ft_send_bits(int pid, int i)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(1000);
 		bit++;
 	}
 }
 
+
 int	main(int ac, char **av)
 {
-	int	pid;
-	int	i;
+	pid_t	pid;
+	int		i;
 
 	i = 0;
 	if (ac == 3)
@@ -47,8 +48,9 @@ int	main(int ac, char **av)
 			i++;
 		}
 		ft_send_bits(pid, '\n');
+		ft_send_bits(pid, '\0');
 	}
 	else
-		return (ft_printf("Wrong format: ./exec pid msg\n"), 1);
+		ft_printf("\033[0;31mWrong format: ./exec pid msg\033[0m\n");
 	return (0);
 }

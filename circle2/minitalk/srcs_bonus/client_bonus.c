@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:24 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/08 18:02:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:38:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_confirm(int signal)
 }
 
 /* to send the level of the bits to conversation */
-static void	ft_send_bits(int pid, int i)
+static void	ft_send_bits(pid_t pid, int i)
 {
 	int	bit;
 
@@ -33,14 +33,14 @@ static void	ft_send_bits(int pid, int i)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(200);
+		usleep(1000);
 		bit++;
 	}
 }
 
 int	main(int ac, char **av)
 {
-	int					pid;
+	pid_t				pid;
 	int					i;
 	struct sigaction	sa;
 

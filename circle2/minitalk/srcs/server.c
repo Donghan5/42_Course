@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:33 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/31 20:16:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:24:40 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 static void	ft_handler(int signal)
 {
 	static int	bit;
-	static int	i;
+	static char	tmp;
 
 	if (signal == SIGUSR1)
-		i |= (0x01 << bit);
+		tmp |= (1 << bit);
 	bit++;
 	if (bit == 8)
 	{
-		ft_printf("%c", i);
+		ft_putchar_fd(tmp, 1);
 		bit = 0;
-		i = 0;
+		tmp = 0;
 	}
 }
 

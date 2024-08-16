@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:20 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 10:46:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:41:56 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 static void	ft_handler(int signal, siginfo_t *info, void *s)
 {
 	static int	bit;
-	static int	i;
+	static char	tmp;
 
 	(void)s;
 	(void)info;
 	if (signal == SIGUSR1)
-		i |= (0x01 << bit);
+		tmp |= (1 << bit);
 	bit++;
 	if (bit == 8)
 	{
-		ft_printf("%c", i);
+		ft_putchar_fd(tmp, 1);
 		bit = 0;
-		i = 0;
+		tmp = 0;
 		kill(info->si_pid, SIGUSR2);
 	}
 }
 
 int	main(int ac, char **av)
 {
-	int					pid;
+	pid_t				pid;
 	struct sigaction	sa;
 
 	(void)av;
@@ -52,4 +52,3 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-/* Setting C/C++ configuration json file */
