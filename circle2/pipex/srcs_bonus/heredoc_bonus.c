@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 01:27:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 11:50:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 			exit(EXIT_FAILURE);
 		if (!ft_strncmp(delimiter, buf, ft_strlen(delimiter)))
 			break ;
-		write(file, buf, ft_strlen(buf));
+		ft_putstr_fd(buf, file);
 		write(file, "\n", 1);
 		free(buf);
 	}
