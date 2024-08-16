@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/11 21:26:16 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 01:41:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ int	main(int argc, char **argv, char **envp)
 		"Usage: ./pipex infile cmd1 cmd2 ... outfile");
 	doing_process(&pipex, argc, argv, envp);
 	cleanup(&pipex);
+	if (pipex.here_doc)
+		unlink(".heredoc_tmp");
 	return (0);
 }

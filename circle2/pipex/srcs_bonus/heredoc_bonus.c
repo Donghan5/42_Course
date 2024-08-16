@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/15 12:49:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 01:27:39 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 		handle_error("Fail to open the file");
 	while (1)
 	{
-		ft_printf("heredoc ");
+		ft_printf("[heredoc] ");
 		buf = get_next_line(0);
 		if (!buf)
 			exit(EXIT_FAILURE);

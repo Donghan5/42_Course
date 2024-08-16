@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/15 12:45:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 01:40:46 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 	else
 		pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
-		handle_error_cleanup(pipex, "Fail to open infile");
+		handle_error_cleanup(pipex, "Fail to open file (child)");
 	close(pipex->tube[0]);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 		handle_error_cleanup(pipex, "Fail to dup2 stdin (child)");
@@ -80,7 +80,7 @@ void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 		pipex->outfile = open(argv[cmd_index], \
 			O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (pipex->outfile == -1)
-			handle_error_cleanup(pipex, "Fail to open outfile");
+			handle_error_cleanup(pipex, "Fail to open file (parent)");
 	}
 	else if (cmd_index < pipex->limit - 1)
 		pipex->outfile = pipex->tube[1];
