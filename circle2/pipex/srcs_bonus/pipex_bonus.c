@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 01:40:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:57:59 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 		if (pipex->outfile == -1)
 			handle_error_cleanup(pipex, "Fail to open file (parent)");
 	}
-	else if (cmd_index < pipex->limit - 1)
+	if (cmd_index < pipex->limit - 1)
 		pipex->outfile = pipex->tube[1];
 	close(pipex->tube[1]);
 	if (dup2(pipex->tube[0], STDIN_FILENO) == -1)
