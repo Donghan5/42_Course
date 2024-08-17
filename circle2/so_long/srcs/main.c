@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 14:59:56 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:52:33 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* to treat the errors */
 int	close_error(int err_type)
 {
-	ft_printf("\033[0;31m[ERROR]:\033[0m");
+	ft_printf("\033[0;31m[ERROR]: \033[0m");
 	if (err_type == -1)
 		ft_printf("Fail to open the map.\n");
 	else if (err_type == 0)
@@ -91,7 +91,7 @@ int	main(int ac, char **av)
 		return (ft_printf("[ERROR]: Fail open file\n"), 1);
 	init_game_param(&game);
 	if (generate_map(&game, fd) == 1)
-		return (close(fd), 1);
+		return (1);
 	init_mlx(&game);
 	if (!game.mlx || !game.win)
 		return (ft_printf("[ERROR]: Fail mlx init\n"), free_mlx_lib(&game), 1);

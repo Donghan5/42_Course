@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:24 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 13:38:22 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:03:53 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	main(int ac, char **av)
 		sigaction(SIGUSR1, &sa, NULL);
 		sigaction(SIGUSR2, &sa, NULL);
 		pid = ft_atoi(av[1]);
+		if (pid < 0 || pid > 4194304)
+			return (ft_printf("\033[0;31mInvailed PID value\033[0m\n"), 1);
 		while (av[2][i] != '\0')
 		{
 			ft_send_bits(pid, av[2][i]);

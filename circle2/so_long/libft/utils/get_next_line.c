@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 14:57:34 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:26:04 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static char	*get_line(char **buffer)
 	{
 		len = line_pos - *buffer + 1;
 		line = ft_substr(*buffer, 0, len);
+		if (!line)
+			return (NULL);
 		tmp_buffer = ft_strdup(line_pos + 1);
 		free(*buffer);
 		*buffer = tmp_buffer;
@@ -74,16 +76,15 @@ static char	*get_line(char **buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = NULL;
+	char		*buffer;
 	ssize_t		byte;
 	char		*line;
 
 	if (fd < 0)
 		return (NULL);
+	buffer = NULL;
 	byte = read_files(fd, &buffer);
-	if (byte == -1)
-		return (get_free(&buffer), NULL);
-	else if (byte == 0 && (!buffer || !*buffer))
+	if (byte == -1 || byte == 0 && (!buffer || !*buffer))
 		return (get_free(&buffer), NULL);
 	line = get_line(&buffer);
 	if (!line)

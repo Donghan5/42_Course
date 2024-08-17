@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:49 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 14:48:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:12:39 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,21 +93,22 @@ int	generate_map(t_game *game, int fd)
 	while (1)
 	{
 		line = get_next_line(fd);
-		if (!line)
+		if (line == NULL)
 			break ;
 		if (hei == 0)
 		{
 			game->width = ft_strlen(line) - 1;
 			if (map_checking(game, line, 1, fd) != 0)
-				return (free(line), close_error_with_map(game, fd, 1));
+				return (free(line), close(fd), 1);
 		}
 		else
 			if (map_checking(game, line, 0, fd) != 0)
-				return (free(line), close_error_with_map(game, fd, 1));
+				return (free(line), close(fd), 1);
 		hei += 1;
 		free(line);
 	}
 	game->height = hei;
 	check_map_compo(game, fd);
+	close(fd);
 	return (0);
 }
