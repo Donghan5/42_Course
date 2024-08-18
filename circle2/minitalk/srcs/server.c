@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:33 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/17 15:04:12 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:13:14 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ int	main(int ac, char **av)
 /*
 1) Verify that the limitations of PID is working
 (PID must be more than 0 and there is also the maximum PID allowed for UNIX - find the value). I crashed the program while using PID = -1.
-2) From my prospective, the part of server acknowledgement is done not very correctly as printing the signals isn't very informative for the end user who launches the client. In the subvject it is written that the server acknowledges the MESSAGES so I suppose that we need to send the signal to client only when we stop printing the message on server side. But you can try to defense your solution if you provide the logical explanation of your code =)
+2) From my prospective,
+the part of server acknowledgement is done not very correctly as printing the signals isn't very informative for the end user
+who launches the client.
+In the subvject it is written that the server acknowledges the MESSAGES so I suppose that we need to send the signal to client only when we stop printing the message on server side. But you can try to defense your solution if you provide the logical explanation of your code =)
 3) Perhaps there is an option to accelerate the printing logic for server - for 100 characters, it is printing not as fast as the creators of the projects must have thought about this. But it's just an option here.
  */
