@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/17 14:26:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:20:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static ssize_t	read_files(int fd, char **buffer)
 {
-	char	tmp[2];
+	char	tmp[BUFFER_SIZE + 1];
 	ssize_t	byte;
 	char	*tmp_buffer;
 
-	byte = read(fd, tmp, 1);
+	byte = read(fd, tmp, BUFFER_SIZE);
 	while (byte > 0)
 	{
 		tmp[byte] = '\0';
@@ -32,7 +32,7 @@ static ssize_t	read_files(int fd, char **buffer)
 		}
 		if (ft_strchr(*buffer, '\n') != NULL)
 			break ;
-		byte = read(fd, tmp, 1);
+		byte = read(fd, tmp, BUFFER_SIZE);
 	}
 	return (byte);
 }
@@ -58,12 +58,12 @@ static char	*get_line(char **buffer)
 	{
 		len = line_pos - *buffer + 1;
 		line = ft_substr(*buffer, 0, len);
-		if (!line)
-			return (NULL);
 		tmp_buffer = ft_strdup(line_pos + 1);
+		if (!tmp_buffer)
+			return (NULL);
 		free(*buffer);
 		*buffer = tmp_buffer;
-		if (*buffer && (*buffer)[0] == '\0')
+		if (*buffer && **buffer == '\0')
 			get_free(buffer);
 	}
 	else
@@ -76,18 +76,21 @@ static char	*get_line(char **buffer)
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
+	static char	*buffer = NULL;
 	ssize_t		byte;
-	char		*line;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = NULL;
 	byte = read_files(fd, &buffer);
-	if (byte == -1 || byte == 0 && (!buffer || !*buffer))
-		return (get_free(&buffer), NULL);
-	line = get_line(&buffer);
-	if (!line)
-		return (get_free(&buffer), NULL);
-	return (line);
+	if (byte == -1)
+	{
+		get_free(&buffer);
+		return (NULL);
+	}
+	else if (byte == 0 && (!buffer || !*buffer))
+	{
+		get_free(&buffer);
+		return (NULL);
+	}
+	return (get_line(&buffer));
 }

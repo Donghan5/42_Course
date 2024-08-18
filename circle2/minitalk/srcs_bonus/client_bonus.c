@@ -6,22 +6,25 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:56:24 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/17 15:03:53 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:04:38 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 
-/* to check the server receve the signal sign */
+/*
+**	to check the server receve the signal sign
+**	additional info : sigusr1 use to send the bits
+**	sigusr2 use to receve the bit is arrived
+**	I chose to use SIGUSR2 to check (receve)
+*/
 static void	ft_confirm(int signal)
 {
-	if (signal == SIGUSR1)
-		ft_putstr_fd("Receve SIGUSR1\n", 1);
-	else if (signal == SIGUSR2)
-		ft_putstr_fd("Receve SIGUSR2\n", 1);
+	if (signal == SIGUSR2)
+		ft_printf("Well receved the bits\n");
 }
 
-/* to send the level of the bits to conversation */
+/* to send the level of the bits to server */
 static void	ft_send_bits(pid_t pid, int i)
 {
 	int	bit;

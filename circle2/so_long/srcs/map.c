@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:49 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/17 13:12:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:19:15 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	check_surrounded_wall(char *line)
 int	generate_map(t_game *game, int fd)
 {
 	char	*line;
-	char	hei;
+	int		hei;
 
 	hei = 0;
 	while (1)
@@ -99,16 +99,16 @@ int	generate_map(t_game *game, int fd)
 		{
 			game->width = ft_strlen(line) - 1;
 			if (map_checking(game, line, 1, fd) != 0)
-				return (free(line), close(fd), 1);
+				return (free(line), clear_buffer(), close(fd), 1);
 		}
 		else
 			if (map_checking(game, line, 0, fd) != 0)
-				return (free(line), close(fd), 1);
+				return (free(line), clear_buffer(), close(fd), 1);
 		hei += 1;
 		free(line);
 	}
 	game->height = hei;
-	check_map_compo(game, fd);
-	close(fd);
+	if (check_map_compo(game) != 0)
+		return (close(fd), clear_buffer(), 1);
 	return (0);
 }

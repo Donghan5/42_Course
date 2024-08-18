@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 17:37:08 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 16:01:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ static void	doing_cmd_process(t_pipex *pipex, char **argv, char **envp)
 	i = pipex->start;
 	while (i < pipex->limit)
 	{
-		if (pipe(pipex->tube) == -1)
-			handle_error_cleanup(pipex, "Fail to pipe");
+		if (i < pipex->limit - 1)
+		{
+			if (pipe(pipex->tube) == -1)
+				handle_error_cleanup(pipex, "Fail to pipe");
+		}
 		pipex->pid1 = fork();
 		if (pipex->pid1 == -1)
 			handle_error_cleanup(pipex, "Fail to generate pid");

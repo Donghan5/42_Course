@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:26:07 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 13:13:00 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:21:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	show_move(int c);
 void	free_images(t_game *game);
 int		close_game(t_game *game, int type);
 int		key_press(int keysym, t_game *game);
-void	check_map_compo(t_game *game, int fd);
+int		check_map_compo(t_game *game);
 
 /*------------- UTIL_MAP.C -------------*/
 void	put_image_wall(t_game *game, char texture, int h, int w);
@@ -103,9 +103,11 @@ void	put_image_player(t_game *game, char texture, int h, int w);
 void	put_image_empty(t_game *game, char texture, int h, int w);
 void	put_image_exit(t_game *game, char texture, int h, int w);
 
-/*------------- MAIN.C -------------*/
+/*------------- UTILS.C -------------*/
 void	free_mlx_lib(t_game *game);
 int		close_error(int err_type);
 void	detect_os(t_game game);
+void	clear_buffer(void);
+int		check_arg_line(int ac, char **av);
 
 #endif

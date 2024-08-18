@@ -6,11 +6,18 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 01:41:29 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 15:59:38 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+/* helper func to economize the lines */
+void	handle_error_cleanup(t_pipex *pipex, char *msg)
+{
+	handle_error(msg);
+	cleanup(pipex);
+}
 
 /*
 **	problem leak in ls command,

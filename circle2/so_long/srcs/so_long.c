@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/14 12:43:07 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:34:16 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,15 @@ int	key_press(int keysym, t_game *game)
 }
 
 /* check the elements map */
-void	check_map_compo(t_game *game, int fd)
+int	check_map_compo(t_game *game)
 {
 	if (!game->map_texture.exit)
-	{
-		close(fd);
-		close_error(0);
-	}
+		return (1);
 	if (!game->map_texture.player)
-	{
-		close(fd);
-		close_error(0);
-	}
+		return (1);
 	if (!game->map_texture.collectiable)
-	{
-		close(fd);
-		close_error(0);
-	}
+		return (1);
+	return (0);
 }
 
 /* To show the current move*/

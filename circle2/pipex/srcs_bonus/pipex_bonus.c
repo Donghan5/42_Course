@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 17:57:59 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/18 16:00:34 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,4 @@ void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 		close(pipex->outfile);
 	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
 		handle_error_cleanup(pipex, "Fail execve (parent)");
-}
-
-/* helper func to economize the lines */
-void	handle_error_cleanup(t_pipex *pipex, char *msg)
-{
-	handle_error(msg);
-	cleanup(pipex);
 }

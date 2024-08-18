@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 23:26:15 by donghank          #+#    #+#              #
-#    Updated: 2024/08/16 01:34:10 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/18 17:18:12 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRC =	$(SRCDIR)/draw_img.c \
 		$(SRCDIR)/path_player.c \
 		$(SRCDIR)/player_move.c \
 		$(SRCDIR)/so_long.c \
-		$(SRCDIR)/util_map.c
+		$(SRCDIR)/util_map.c \
+		$(SRCDIR)/utils.c
 
 # Object Files
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
