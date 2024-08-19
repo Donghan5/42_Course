@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:48:56 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 21:38:19 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:26:44 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,19 @@
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*ret;
-	size_t	i;
 	size_t	s_len;
 
-	if (!s)
+	if (s == NULL)
 		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-		return (ft_calloc(1, sizeof(char)));
+		return (ft_strdup(""));
 	if (len > s_len - start)
 		len = s_len - start;
 	ret = (char *)malloc(sizeof(char) * (len + 1));
 	if (!ret)
 		return (NULL);
-	i = 0;
-	while (i < len && i + start < s_len)
-	{
-		ret[i] = s[start + i];
-		i++;
-	}
-	ret[i] = '\0';
+	ft_memcpy(ret, s + start, len);
+	ret[len] = '\0';
 	return (ret);
 }

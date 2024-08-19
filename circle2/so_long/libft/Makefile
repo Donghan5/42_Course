@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/20 12:36:36 by donghank          #+#    #+#              #
-#    Updated: 2024/08/09 17:29:45 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/19 11:15:16 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ NAME = libft.a
 
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I.
+CFLAGS = -Wall -Werror -Wextra -g3 -I.
 
 # Rule to compile .c files to .o files
 %.o: %.c

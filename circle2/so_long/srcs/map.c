@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:49 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 17:19:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:15:04 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	close_error_with_map(t_game *game, int fd, int err_type)
 }
 
 /* initial setting of the map */
-void	set_map_val(t_game *game, char compo)
+int	set_map_val(t_game *game, char compo, int fd)
 {
 	if (compo == 'W' && !game->map_texture.wall)
 		game->map_texture.wall = 1;
@@ -30,15 +30,24 @@ void	set_map_val(t_game *game, char compo)
 	else if (compo == 'P')
 	{
 		if (game->map_texture.player > 0)
+		{
+			close(fd);
 			close_error(5);
+			return (1);
+		}
 		game->map_texture.player = 1;
 	}
 	else if (compo == 'E')
 	{
 		if (game->map_texture.exit > 0)
+		{
+			close(fd);
 			close_error(5);
+			return (1);
+		}
 		game->map_texture.exit = 1;
 	}
+	return (0);
 }
 
 /* checking the map is available */
@@ -63,7 +72,8 @@ int	map_checking(t_game *game, char *line, int wall_check, int fd)
 		if (line[i] != '1' && line[i] != '0' && line[i] != 'P'
 			&& line[i] != 'E' && line[i] != 'C')
 			close_error_with_map(game, fd, 0);
-		set_map_val(game, line[i]);
+		if (set_map_val(game, line[i], fd) == 1)
+			return (1);
 	}
 	return (0);
 }
@@ -99,16 +109,16 @@ int	generate_map(t_game *game, int fd)
 		{
 			game->width = ft_strlen(line) - 1;
 			if (map_checking(game, line, 1, fd) != 0)
-				return (free(line), clear_buffer(), close(fd), 1);
+				return (free(line), close_error_with_map(game, fd, 1));
 		}
 		else
 			if (map_checking(game, line, 0, fd) != 0)
-				return (free(line), clear_buffer(), close(fd), 1);
+				return (free(line), close_error_with_map(game, fd, 1));
 		hei += 1;
 		free(line);
 	}
 	game->height = hei;
 	if (check_map_compo(game) != 0)
-		return (close(fd), clear_buffer(), 1);
+		return (close(fd), 1);
 	return (0);
 }

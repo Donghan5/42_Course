@@ -6,19 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 17:16:33 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 17:22:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:01:49 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	clear_buffer(void)
-{
-	static char	*buffer = NULL;
-
-	free(buffer);
-	buffer = NULL;
-}
 
 /* to treat the errors */
 int	close_error(int err_type)

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:26:07 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 17:21:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:15:23 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	put_image_pixel(t_game *game, char texture, int h, int w);
 void	draw_map(t_game *game, char *line, int len);
 
 /*------------- MAP.C -------------*/
-void	set_map_val(t_game *game, char compo);
+int		set_map_val(t_game *game, char compo, int fd);
 int		map_checking(t_game *game, char *line, int wall_check, int fd);
 int		check_surrounded_wall(char *line);
 int		generate_map(t_game *game, int fd);
@@ -107,7 +107,6 @@ void	put_image_exit(t_game *game, char texture, int h, int w);
 void	free_mlx_lib(t_game *game);
 int		close_error(int err_type);
 void	detect_os(t_game game);
-void	clear_buffer(void);
 int		check_arg_line(int ac, char **av);
 
 #endif
