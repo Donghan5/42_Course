@@ -6,17 +6,23 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/15 14:22:19 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:08:05 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	close_game_map(t_game *game, int fd)
+static void	init_imgs(t_img *imgs)
 {
-	close(fd);
-	free_mlx_lib(game);
-	close_error(0);
+	imgs->wall = NULL;
+	imgs->collec = NULL;
+	imgs->player = NULL;
+	imgs->exit = NULL;
+	imgs->empty = NULL;
+	imgs->data = NULL;
+	imgs->bpp = 0;
+	imgs->line_length = 0;
+	imgs->endian = 0;
 }
 
 /* initialize all element concern of the map */
@@ -60,6 +66,7 @@ void	init_game_param(t_game *game)
 	game->position.x = 0;
 	game->position.y = 0;
 	game->vaild_path = 0;
+	init_imgs(&game->imgs);
 }
 
 /* initialize the map */
@@ -78,12 +85,12 @@ void	init_map(t_game *game, int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			close_game_map(game, fd);
+			return (close(fd), free_images(game), close_error(0), (void)0);
 		map_line_and_player(game, line, i);
 		if (i + 1 == game->height)
 			is_valid = check_surrounded_wall(line);
 		if (!is_valid)
-			close_game_map(game, fd);
+			return (close(fd), free_images(game), close_error(0), (void)0);
 		draw_map(game, line, i);
 		free(line);
 		i++;
