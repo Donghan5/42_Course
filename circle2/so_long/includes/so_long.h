@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:26:07 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/20 15:15:36 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:33:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
-# include <fcntl.h>
 # include "struct.h"
 # include "libft.h"
 /*-------------- TILE BITE ------------*/
@@ -77,16 +76,16 @@ void	img_update_player(t_game *game, int prev_y, int prev_x);
 void	init_mlx(t_game *game);
 void	init_game_param(t_game *game);
 void	init_map(t_game *game, int fd);
-void	map_line_and_player(t_game *game, char *line, int len);
+void	gen_map_col(t_game *game, char *line, int len);
 
 /*------------- DRAW_IMG.C -------------*/
 void	put_image_pixel(t_game *game, char texture, int h, int w);
 void	draw_map(t_game *game, char *line, int len);
 
 /*------------- MAP.C -------------*/
-int		set_map_val(t_game *game, char compo, int fd);
+int		set_map_val(t_game *game, char compo);
 int		map_checking(t_game *game, char *line, int wall_check, int fd);
-int		check_surrounded_wall(char *line);
+int		check_lastline(char *line);
 int		generate_map(t_game *game, int fd);
 
 /*------------- SO_LONG.C -------------*/
@@ -94,7 +93,7 @@ void	show_move(int c);
 void	free_images(t_game *game);
 int		close_game(t_game *game, int type);
 int		key_press(int keysym, t_game *game);
-int		check_map_compo(t_game *game);
+void	check_map_compo(t_game *game, int fd);
 
 /*------------- UTIL_MAP.C -------------*/
 void	put_image_wall(t_game *game, char texture, int h, int w);
@@ -103,10 +102,9 @@ void	put_image_player(t_game *game, char texture, int h, int w);
 void	put_image_empty(t_game *game, char texture, int h, int w);
 void	put_image_exit(t_game *game, char texture, int h, int w);
 
-/*------------- UTILS.C -------------*/
+/*------------- MAIN.C -------------*/
 void	free_mlx_lib(t_game *game);
 int		close_error(int err_type);
 void	detect_os(t_game game);
-int		check_arg_line(int ac, char **av);
 
 #endif

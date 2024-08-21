@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 13:29:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/19 16:10:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:00:09 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 static ssize_t	read_files(int fd, char **buffer)
 {
-	char	tmp[BUFFER_SIZE + 1];
+	char	*tmp;
 	ssize_t	byte;
 	char	*tmp_buffer;
 
+	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!tmp)
+		return (-1);
 	byte = read(fd, tmp, BUFFER_SIZE);
 	while (byte > 0)
 	{
@@ -34,6 +37,7 @@ static ssize_t	read_files(int fd, char **buffer)
 			break ;
 		byte = read(fd, tmp, BUFFER_SIZE);
 	}
+	free(tmp);
 	return (byte);
 }
 
@@ -51,16 +55,14 @@ static char	*get_line(int fd, char **buffer)
 	char	*line;
 	char	*line_pos;
 	char	*tmp_buffer;
+	size_t	len;
 
 	line_pos = ft_strchr(buffer[fd], '\n');
 	if (line_pos)
 	{
-		line = ft_substr(buffer[fd], 0, line_pos - buffer[fd] + 1);
-		if (!line)
-			return (get_free(fd, buffer), NULL);
+		len = line_pos - buffer[fd] + 1;
+		line = ft_substr(buffer[fd], 0, len);
 		tmp_buffer = ft_strdup(line_pos + 1);
-		if (!tmp_buffer)
-			return (free(line), get_free(fd, buffer), NULL);
 		free(buffer[fd]);
 		buffer[fd] = tmp_buffer;
 		if (buffer[fd] && buffer[fd][0] == '\0')
@@ -83,14 +85,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	byte = read_files(fd, buffer);
 	if (byte == -1)
-	{
-		get_free(fd, buffer);
-		return (NULL);
-	}
+		return (get_free(fd, buffer), NULL);
 	else if (byte == 0 && (!buffer[fd] || !*buffer[fd]))
-	{
-		get_free(fd, buffer);
-		return (NULL);
-	}
+		return (get_free(fd, buffer), NULL);
 	return (get_line(fd, buffer));
 }

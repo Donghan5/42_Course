@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:28 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/16 14:05:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:40:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	put_image_pixel(t_game *game, char texture, int h, int w)
 	}
 }
 
-/* Drawing the map per pixels */
+/* Drawing the map*/
 void	draw_map(t_game *game, char *line, int len)
 {
 	int	i;

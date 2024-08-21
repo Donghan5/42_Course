@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 13:34:16 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:33:44 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,30 @@ int	key_press(int keysym, t_game *game)
 }
 
 /* check the elements map */
-int	check_map_compo(t_game *game)
+void	check_map_compo(t_game *game, int fd)
 {
 	if (!game->map_texture.exit)
-		return (1);
+	{
+		close(fd);
+		close_error(0);
+	}
 	if (!game->map_texture.player)
-		return (1);
+	{
+		close(fd);
+		close_error(0);
+	}
 	if (!game->map_texture.collectiable)
-		return (1);
-	return (0);
+	{
+		close(fd);
+		close_error(0);
+	}
 }
 
 /* To show the current move*/
 void	show_move(int c)
 {
-	ft_printf("\033[0;32m[CURRENT MOVE]: \033[0m");
-	ft_printf("\033[0;32m%d\033[0m\n", c);
+	ft_printf("Current move\n");
+	ft_printf("%d\n", c);
 }
 
 /* free all of the images */
@@ -109,6 +117,6 @@ int	close_game(t_game *game, int type)
 	free(game->map);
 	free_mlx_lib(game);
 	if (type)
-		ft_printf("\033[0;31m[GAME OVER]\033[0m\n");
+		ft_printf("[GAME OVER]\n");
 	exit(0);
 }

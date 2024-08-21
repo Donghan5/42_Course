@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:42:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 14:47:12 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:23:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@
 # include <string.h>
 # include <stdint.h>
 # include <limits.h>
-
+# include <fcntl.h>
+/*========== define the buf size ==========*/
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 /*========== struct of the list ==========*/
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }	t_list;
-
-/*========== BUFFER SIZE ==========*/
-# define BUFFER_SIZE 1
 
 /*==================== mandatory ====================*/
 int			ft_atoi(const char *str);

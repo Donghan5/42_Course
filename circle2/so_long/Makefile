@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 23:26:15 by donghank          #+#    #+#              #
-#    Updated: 2024/08/19 12:06:49 by donghank         ###   ########.fr        #
+#    Updated: 2024/08/20 16:39:18 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 # Flags
 CFLAGS = -Wall -Wextra -Werror -g3
 LINUX_FLAGS = -L./mlx_linux -lmlx -lXext -lX11
-MACOS_FLAGS = -fsanitize=address -L./mlx_mac -lmlx -framework OpenGL -framework AppKit
+MACOS_FLAGS = -L./mlx_mac -lmlx -framework OpenGL -framework AppKit
 
 # Verify OS
 UNAME_S := $(shell uname -s)
@@ -37,8 +37,7 @@ SRC =	$(SRCDIR)/draw_img.c \
 		$(SRCDIR)/path_player.c \
 		$(SRCDIR)/player_move.c \
 		$(SRCDIR)/so_long.c \
-		$(SRCDIR)/util_map.c \
-		$(SRCDIR)/utils.c
+		$(SRCDIR)/util_map.c
 
 # Object Files
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
@@ -73,26 +72,23 @@ ifeq ($(UNAME_S), Linux)
 	$(MAKE) -C mlx_linux
 else ifeq ($(UNAME_S), Darwin)
 	$(MAKE) -C mlx_mac
-else
-	$(error OS not supported)
 endif
 
 # Clean up object files
 clean:
 	rm -rf $(OBJDIR)
 	$(MAKE) clean -C libft
-
-# Clean up object files and executable
-fclean: clean
-	rm -f $(TARGET)
-	$(MAKE) fclean -C libft
 ifeq ($(UNAME_S), Linux)
 	$(MAKE) clean -C mlx_linux
 else ifeq ($(UNAME_S), Darwin)
 	$(MAKE) clean -C mlx_mac
-else
-	$(error OS not supported)
 endif
+
+# Clean up object files and executable
+# inside mlx there is not rule for fclean
+fclean: clean
+	rm -f $(TARGET)
+	$(MAKE) fclean -C libft
 
 # Rebuild
 re: fclean all

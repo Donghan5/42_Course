@@ -6,24 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:34 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/20 14:08:05 by donghank         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:00:24 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-static void	init_imgs(t_img *imgs)
-{
-	imgs->wall = NULL;
-	imgs->collec = NULL;
-	imgs->player = NULL;
-	imgs->exit = NULL;
-	imgs->empty = NULL;
-	imgs->data = NULL;
-	imgs->bpp = 0;
-	imgs->line_length = 0;
-	imgs->endian = 0;
-}
 
 /* initialize all element concern of the map */
 void	init_mlx(t_game *game)
@@ -41,7 +28,6 @@ void	init_mlx(t_game *game)
 	{
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
-		game->mlx = NULL;
 		return ;
 	}
 	game->imgs.wall = NULL;
@@ -51,7 +37,7 @@ void	init_mlx(t_game *game)
 	game->imgs.empty = NULL;
 }
 
-/* initialize all element about game parameters */
+/* initialize all element concern of the game parameters */
 void	init_game_param(t_game *game)
 {
 	game->width = 0;
@@ -66,7 +52,6 @@ void	init_game_param(t_game *game)
 	game->position.x = 0;
 	game->position.y = 0;
 	game->vaild_path = 0;
-	init_imgs(&game->imgs);
 }
 
 /* initialize the map */
@@ -85,22 +70,22 @@ void	init_map(t_game *game, int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			return (close(fd), free_images(game), close_error(0), (void)0);
-		map_line_and_player(game, line, i);
+			close_game(game, 0);
+		gen_map_col(game, line, i);
 		if (i + 1 == game->height)
-			is_valid = check_surrounded_wall(line);
+			is_valid = check_lastline(line);
 		if (!is_valid)
-			return (close(fd), free_images(game), close_error(0), (void)0);
+			close_game(game, 0);
 		draw_map(game, line, i);
 		free(line);
 		i++;
 	}
 	check_path(game);
-	ft_printf("\033[0;34m[GAME START]\033[0m\n");
+	ft_printf("[GAME START]\n");
 }
 
-/* to make map line and update the position of the player */
-void	map_line_and_player(t_game *game, char *line, int len)
+/* to make map to line */
+void	gen_map_col(t_game *game, char *line, int len)
 {
 	int	i;
 
