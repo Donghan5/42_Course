@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 21:56:09 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:06:07 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ static void	doing_cmd_process(t_pipex *pipex, char **argv, char **envp)
 	i = pipex->start;
 	while (i < pipex->limit)
 	{
-		if (pipe(pipex->tube) == -1)
-			handle_error_cleanup(pipex, "Fail to pipe");
 		pipex->pid1 = fork();
 		if (pipex->pid1 == -1)
 			handle_error_cleanup(pipex, "Fail to generate pid");
@@ -97,6 +95,9 @@ static void	doing_cmd_process(t_pipex *pipex, char **argv, char **envp)
 /* doing the process total pid 1 and pid 2 */
 void	doing_process(t_pipex *pipex, int argc, char **argv, char **envp)
 {
+	int	i;
+
+	i = -1;
 	if (pipex->here_doc)
 	{
 		here_doc(argv[2], pipex);
@@ -114,7 +115,7 @@ void	doing_process(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->outfile == -1)
 		handle_error_cleanup(pipex, "Fail to open outfile");
+	while (++i < pipex->tube_count)
+		pipe(pipex->tube + i * 2);
 	doing_cmd_process(pipex, argv, envp);
-	if (pipe(pipex->tube) == -1)
-		handle_error_cleanup(pipex, "Fail to pipe");
 }

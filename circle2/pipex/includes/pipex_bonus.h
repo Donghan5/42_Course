@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/11 21:27:14 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:33:23 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct s_pipex
 	char	**cmd_args;
 	int		infile;
 	int		outfile;
-	int		tube[2];
+	int		*tube;
+	int		tube_count;
 	int		here_doc;
 	int		start;
 	int		limit;
@@ -47,7 +48,7 @@ char	*find_path(t_pipex	*pipex, char **envp);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- pipex_bonus.c ----------*/
-void	init_pipex(t_pipex *pipex, int fd1, int fd2);
+void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count);
 void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);

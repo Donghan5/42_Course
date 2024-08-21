@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/18 15:59:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:31:50 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ void	handle_error_cleanup(t_pipex *pipex, char *msg)
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
+	int		cmd_count;
 
 	if (argc < 5)
 		handle_error("Make sure of your command line arguement");
-	init_pipex(&pipex, -1, -1);
+	cmd_count = argc - 3;
+	init_pipex(&pipex, -1, -1, cmd_count);
 	pipex.here_doc = !ft_strncmp(argv[1], "here_doc", 8);
 	if (pipex.here_doc && argc != 6)
 		handle_error_cleanup(&pipex, \
