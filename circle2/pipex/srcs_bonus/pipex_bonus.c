@@ -6,19 +6,19 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/21 16:02:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:16:01 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-/* initialize all element in the struct of the pipex */
-void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count)
+static void	init_pid_tube(t_pipex *pipex, int cmd_count)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	pipex->pid1 = -1;
+	j = 0;
 	pipex->tube_count = cmd_count - 1;
 	pipex->tube = malloc(sizeof(int) * 2 * pipex->tube_count);
 	if (!pipex->tube)
@@ -28,6 +28,21 @@ void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count)
 		pipex->tube[i] = -1;
 		i++;
 	}
+	pipex->pid_count = cmd_count - 1;
+	pipex->pid = malloc(sizeof(pid_t) * pipex->pid_count);
+	if (!pipex->pid)
+		handle_error("Fail to allocate mem for pids");
+	while (j < pipex->pid_count)
+	{
+		pipex->pid[j] = -1;
+		j++;
+	}
+}
+
+/* initialize all element in the struct of the pipex */
+void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count)
+{
+	init_pid_tube(pipex, cmd_count);
 	pipex->here_doc = 0;
 	pipex->start = 0;
 	pipex->limit = 0;
@@ -60,12 +75,6 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 */
 void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 {
-	if (pipex->here_doc && cmd_index == pipex->start)
-		pipex->infile = open(".heredoc_tmp", O_RDONLY);
-	else
-		pipex->infile = open(argv[1], O_RDONLY);
-	if (pipex->infile == -1)
-		handle_error_cleanup(pipex, "Fail to open file (child)");
 	if (cmd_index > pipex->start)
 		close(pipex->tube[2 * (cmd_index - pipex->start) - 2]);
 	if (cmd_index < pipex->limit - 1)
@@ -89,13 +98,6 @@ void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 */
 void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 {
-	if (cmd_index == pipex->limit - 1)
-	{
-		pipex->outfile = open(argv[cmd_index], \
-			O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (pipex->outfile == -1)
-			handle_error_cleanup(pipex, "Fail to open file (parent)");
-	}
 	if (cmd_index < pipex->limit - 1)
 		pipex->outfile = pipex->tube[2 * (cmd_index - pipex->start) + 1];
 	close(pipex->tube[2 * (cmd_index - pipex->start) + 1]);

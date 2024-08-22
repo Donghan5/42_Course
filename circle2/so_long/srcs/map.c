@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:49 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/21 14:33:56 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:40:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	map_checking(t_game *game, char *line, int wall_check, int fd)
 		if (wall_check || i == 0 || i == len - 1)
 		{
 			if (line[i] != '1')
-				return (close(fd), 1);
+				return (close(fd), \
+				ft_printf("\033[0;31mNot surrounded by wall\033[0m\n"), 1);
 		}
 		if (line[i] != '1' && line[i] != '0' && line[i] != 'P' \
 			&& line[i] != 'E' && line[i] != 'C')

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/21 16:06:07 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:46:26 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 **	buf = to read in the standard input(gnl)
 */
 static void	here_doc(char *delimiter, t_pipex *pipex)
-{
+{	
 	int		file;
 	char	*buf;
 
@@ -31,7 +31,8 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 		buf = get_next_line(0);
 		if (!buf)
 			exit(EXIT_FAILURE);
-		if (!ft_strncmp(delimiter, buf, ft_strlen(delimiter)))
+		if (!ft_strncmp(delimiter, buf, ft_strlen(delimiter)) \
+			&& buf[ft_strlen(delimiter)] == '\n')
 			break ;
 		ft_putstr_fd(buf, file);
 		ft_putchar_fd('\n', file);
@@ -49,17 +50,8 @@ static void	handle_child(t_pipex *pipex, char **argv, char **envp, int i)
 {
 	if (i == pipex->start && pipex->here_doc)
 		child_process(pipex, argv, envp, i + 1);
-	else
+	else if (i == pipex->start && !pipex->here_doc)
 		child_process(pipex, argv, envp, i);
-}
-
-/* handle parent process */
-static void	handle_parent_close(t_pipex *pipex)
-{
-	close(pipex->tube[0]);
-	close(pipex->tube[1]);
-	waitpid(pipex->pid1, NULL, 0);
-	waitpid(pipex->pid2, NULL, 0);
 }
 
 /*
@@ -73,49 +65,52 @@ static void	doing_cmd_process(t_pipex *pipex, char **argv, char **envp)
 	i = pipex->start;
 	while (i < pipex->limit)
 	{
-		pipex->pid1 = fork();
-		if (pipex->pid1 == -1)
-			handle_error_cleanup(pipex, "Fail to generate pid");
-		if (pipex->pid1 == 0)
-			handle_child(pipex, argv, envp, i);
-		else
+		pipex->pid[i - pipex->start] = fork();
+		if (pipex->pid[i - pipex->start] == -1)
+			handle_error_cleanup(pipex, "Fail to gen pid");
+		if (pipex->pid[i - pipex->start] == 0)
 		{
-			pipex->pid2 = fork();
-			if (pipex->pid2 == -1)
-				handle_error_cleanup(pipex, "Fail to generate pid");
-			if (pipex->pid2 == 0)
-				parent_process(pipex, argv, envp, i + 1);
+			if (i == pipex->start)
+				handle_child(pipex, argv, envp, i);
 			else
-				handle_parent_close(pipex);
+				parent_process(pipex, argv, envp, i + 1);
 		}
+		i++;
+	}
+	close_all_pipe(pipex);
+	i = 0;
+	while (i < pipex->pid_count)
+	{
+		waitpid(pipex->pid[i], NULL, 0);
 		i++;
 	}
 }
 
 /* doing the process total pid 1 and pid 2 */
-void	doing_process(t_pipex *pipex, int argc, char **argv, char **envp)
+void	doing_process(t_pipex *pipex, int ac, char **av, char **envp)
 {
 	int	i;
 
 	i = -1;
 	if (pipex->here_doc)
 	{
-		here_doc(argv[2], pipex);
+		here_doc(av[2], pipex);
 		pipex->start = 3;
-		pipex->limit = argc - 2;
+		pipex->limit = ac - 2;
+		pipex->outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
 	else
 	{
-		pipex->infile = open(argv[1], O_RDONLY);
+		pipex->infile = open(av[1], O_RDONLY);
 		if (pipex->infile == -1)
 			handle_error_cleanup(pipex, "Fail to open infile");
 		pipex->start = 2;
-		pipex->limit = argc - 1;
+		pipex->limit = ac - 1;
+		pipex->outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
-	pipex->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (pipex->outfile == -1)
-		handle_error_cleanup(pipex, "Fail to open outfile");
 	while (++i < pipex->tube_count)
 		pipe(pipex->tube + i * 2);
-	doing_cmd_process(pipex, argv, envp);
+	if (pipex->outfile == -1)
+		handle_error_cleanup(pipex, "Fail to open the file (parent)");
+	doing_cmd_process(pipex, av, envp);
 }

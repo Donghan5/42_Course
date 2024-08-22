@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:42:29 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/21 16:31:20 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:33:23 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,11 @@ void	cleanup(t_pipex *pipex)
 		close(pipex->outfile);
 	if (pipex->tube)
 	{
-		while (i < 2 * pipex->tube_count)
-		{
-			close(pipex->tube[i]);
-			i++;
-		}
+		close_all_pipe(pipex);
 		free(pipex->tube);
 	}
+	if (pipex->pid)
+		free(pipex->pid);
 	if (pipex->here_doc)
 		unlink(".heredoc_tmp");
 }

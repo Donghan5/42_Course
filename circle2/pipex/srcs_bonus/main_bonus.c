@@ -6,11 +6,28 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/21 16:31:50 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:15:58 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+/* Closing all the pipes */
+void	close_all_pipe(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	if (pipex->tube)
+	{
+		while (i < 2 * pipex->tube_count)
+		{
+			if (pipex->tube[i] != -1)
+				close(pipex->tube[i]);
+			i++;
+		}
+	}
+}
 
 /* helper func to economize the lines */
 void	handle_error_cleanup(t_pipex *pipex, char *msg)
