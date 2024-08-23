@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:25:52 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/17 12:54:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:07:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ void	check_path(t_game *game)
 	init_check(game, &check);
 	dfs(game, &check, game->position.y, game->position.x);
 	if (!game->vaild_path || check.collectible > 0)
-		close_error(0);
+	{
+		free_visited(check.visited, game->height);
+		free_mlx_lib(&(*game));
+		ft_printf("\033[1;31m[ERROR]: \033[0m");
+		ft_printf("The map formule error\n");
+		close_game(game, 0);
+	}
 	free_visited(check.visited, game->height);
 }

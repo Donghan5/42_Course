@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:37:41 by donghank          #+#    #+#             */
-/*   Updated: 2024/07/25 14:15:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:07:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	put_image_empty(t_game *game, char texture, int h, int w)
 /* put the image of the exit */
 void	put_image_exit(t_game *game, char texture, int h, int w)
 {
-	if (texture == EXIT)
+	if (texture == EXIT && !game->imgs.exit)
 	{
 		game->imgs.exit = mlx_xpm_file_to_image(game->mlx, \
 					"imgs/exit.xpm", &w, &h);
