@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/22 12:13:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:02:58 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@
 /*---------- struct for pipex ----------*/
 typedef struct s_pipex
 {
-	pid_t	*pid;
-	int		pid_count;
+	pid_t	pid1;
+	pid_t	pid2;
 	char	*path;
 	char	*cmd;
 	char	**paths;
 	char	**cmd_args;
 	int		infile;
 	int		outfile;
-	int		*tube;
-	int		tube_count;
+	int		tube[2];
 	int		here_doc;
 	int		start;
 	int		limit;
@@ -48,11 +47,10 @@ char	*find_path(t_pipex	*pipex, char **envp);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- pipex_bonus.c ----------*/
-void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count);
+void	init_pipex(t_pipex *pipex, int fd1, int fd2);
 void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
-void	close_all_pipe(t_pipex *pipex);
 
 /*---------- utils_bonus.c ----------*/
 void	free_cmd_args(char **cmd_args);
