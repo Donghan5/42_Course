@@ -32,6 +32,7 @@ void	ft_union(char *str1, char *str2)
 		check_ascii_tab(ascii_tab, str1[i]);
 		i++;
 	}
+	i = 0;
 	while (str2[i] != '\0')
 	{
 		check_ascii_tab(ascii_tab, str2[i]);

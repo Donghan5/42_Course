@@ -1,8 +1,12 @@
-#include "flood_fill.h"
-
-void	fill(char **tab, t_point size, t_point begin, char to_fill)
+typedef struct  s_point
 {
-	if (begin.x < 0 || begin.y < 0 || begin.x >= size.x || begin.y >= size.y || tab[begin.y][begin.x] != t0_fill)
+	int				x;
+	int				y;
+}					t_point;
+
+void	make_flood_fill(char **tab, t_point size, t_point begin, char to_fill)
+{
+	if (begin.x < 0 || begin.y < 0 || begin.x >= size.x || begin.y >= size.y || tab[begin.y][begin.x] != to_fill)
 		return ;
 	tab[begin.y][begin.x] = 'F';
 	fill(tab, size, (t_point){begin.x - 1, begin.y}, to_fill);
