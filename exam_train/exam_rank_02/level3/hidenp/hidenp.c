@@ -1,6 +1,7 @@
 /* Exam no norm */
 #include <unistd.h>
 
+/* to search the same character (i.e. abc aXTbWSc ==> 1)*/
 void	hidenp(char *s1, char *s2)
 {
 	int i = 0;
@@ -25,4 +26,3 @@ int	main(int ac, char **av)
 	write(1, "\n", 1);
 	return (0);
 }
-

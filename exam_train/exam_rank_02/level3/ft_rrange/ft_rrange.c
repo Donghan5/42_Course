@@ -1,7 +1,8 @@
 /* exam no norm rule */
 #include <stdlib.h>
 
-int	ft_rrange(int start, int end)
+/* this is a reverse range so start at the end */
+int	*ft_rrange(int start, int end)
 {
 	int	*range;
 	int i = 0;
@@ -9,7 +10,7 @@ int	ft_rrange(int start, int end)
 
 	if (n < 0)
 		n *= -1;
-	n++;
+	n++; // to count all element of the array
 	range = (int *)malloc(sizeof(int) * n);
 	if (range)
 	{

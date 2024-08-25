@@ -15,7 +15,7 @@ int main(int ac, char **av)
 				flag = 1;
 			if (!(av[1][i] == ' ' || av[1][i] == '\t'))
 			{
-				if (flag)
+				if (flag) // before there is a white space or tab space
 					write(1, " ", 1);
 				flag = 0;
 				write(1, &av[1][i], 1);

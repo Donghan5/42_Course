@@ -3,10 +3,11 @@
 
 int	*ft_range(int start, int end)
 {
-	int	*range;
-	int	len;
+	int	*range; // to stock the range of end - start
+	int	len; // length of the lange
 	int	i = 0;
 
+	// setting the length
 	if (end - start >= 0)
 		len = (end - start) + 1;
 	if (end - start < 0)
