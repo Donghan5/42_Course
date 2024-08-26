@@ -1,6 +1,7 @@
 /* exam no norm rule */
 #include <unistd.h>
 
+// to convert param to integer
 int	ft_atoi(char *s)
 {
 	int i = 0;

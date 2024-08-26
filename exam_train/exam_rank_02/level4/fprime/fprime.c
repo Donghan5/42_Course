@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// prime factors
 int main(int ac, char **av)
 {
 	int i;
@@ -13,7 +14,7 @@ int main(int ac, char **av)
 		num = atoi(av[1]);
 		if (num == 1)
 			printf("1");
-		while (num >= ++i)
+		while (num >= ++i) //prefix increment
 		{
 			if (num % i == 0)
 			{

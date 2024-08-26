@@ -13,14 +13,14 @@ char	*ft_strncpy(char *s1, char *s2, int n)
 char	**ft_split(char *str)
 {
 	int i = 0;
-	int j = 0;
-	int k = 0;
+	int j = 0; // index of the start...?
+	int k = 0; // index of the splitted output (double array)
 	int word_count = 0;
 	while (str[i])
 	{
 		while (str[i] && (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'))
 			i++;
-		while (str[i])
+		while (str[i]) // inside of the char
 			word_count++;
 		while (str[i] && str[i] != ' ' || str[i] != '\n' || str[i] != '\t')
 			i++;
@@ -31,7 +31,7 @@ char	**ft_split(char *str)
 	{
 		while (str[i] && (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'))
 			i++;
-		j = i;
+		j = i; // setting the start
 		while (str[i] && (str[i] != ' ' || str[i] != '\n' || str[i] != '\t'))
 			i++;
 		while (i > j)

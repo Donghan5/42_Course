@@ -4,17 +4,22 @@ typedef struct  s_point
 	int				y;
 }					t_point;
 
-void	make_flood_fill(char **tab, t_point size, t_point begin, char to_fill)
+// tab = 2D array representing gray / size = the dimension of the grid / cur = current point
+void	make_flood_fill(char **tab, t_point size, t_point cur, char to_fill)
 {
-	if (begin.x < 0 || begin.y < 0 || begin.x >= size.x || begin.y >= size.y || tab[begin.y][begin.x] != to_fill)
+	// all of the error cases out of the range and the different char with want to fill
+	if (cur.x < 0 || cur.y < 0 || cur.x >= size.x || cur.y >= size.y || tab[cur.y][cur.x] != to_fill)
 		return ;
-	tab[begin.y][begin.x] = 'F';
-	fill(tab, size, (t_point){begin.x - 1, begin.y}, to_fill);
-	fill(tab, size, (t_point){begin.x + 1, begin.y}, to_fill);
-	fill(tab, size, (t_point){begin.x, begin.y - 1}, to_fill);
-	fill(tab, size, (t_point){begin.x, begin.y + 1}, to_fill);
+	tab[cur.y][cur.x] = 'F'; // initalize 'F'
+
+	// Recursive calls for adjacent(인접한) cells
+	make_flood_fill(tab, size, (t_point){cur.x - 1, cur.y}, to_fill);
+	make_flood_fill(tab, size, (t_point){cur.x + 1, cur.y}, to_fill);
+	make_flood_fill(tab, size, (t_point){cur.x, cur.y - 1}, to_fill);
+	make_flood_fill(tab, size, (t_point){cur.x, cur.y + 1}, to_fill);
 }
+
 void	flood_fill(char **tab, t_point size, t_point begin)
 {
-	fill(tab, size, begin, tab[begin.y][begin.x]);
+	make_flood_fill(tab, size, begin, tab[begin.y][begin.x]);
 }

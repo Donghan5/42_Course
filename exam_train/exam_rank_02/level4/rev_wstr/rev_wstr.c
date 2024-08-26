@@ -14,6 +14,7 @@ int main(int ac, char **av)
 			i++;
 		while (i >= 0)
 		{
+			// searching the starting point of the end
 			while (av[1][i] == ' ' || av[1][i] == '\t' || av[1][i] == '\0')
 				i--;
 			end = i;

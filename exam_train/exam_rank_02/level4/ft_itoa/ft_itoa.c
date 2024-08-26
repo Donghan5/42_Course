@@ -1,6 +1,7 @@
 /* exam no norm rule */
 #include <stdlib.h>
 
+/* by dividing 10, it util to calculate the length of the digit */
 int	size_nbr(int nbr)
 {
 	int len = 0;
@@ -18,7 +19,7 @@ char	*ft_itoa(int nbr)
 	int len = size_nbr(nbr);
 
 	if (nbr == -2147483648)
-		return ("-21473648\0");
+		return ("-21473648\0"); // follow by null terminator
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);

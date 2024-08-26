@@ -6,11 +6,13 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
+// tuyrn to interger type in the parameter
 int ft_atoi(char *str)
 {
 	int sign = 1;
 	int res = 0;
 
+// while (*str == ' ' || (*str >= 9 && &str <= 13)) --> more shorter
 	while (*str == ' ' || *str == '\t' || *str == '\v' || *str == '\n' || *str == '\r')
 		str++;
 	if (*str == '+' || *str == '-')
@@ -35,7 +37,7 @@ void	ft_putnbr(int num)
 
 int	main(int ac, char **av)
 {
-	int i;
+	int i; // index of the 1, 2, 3, 4 .. in the subject
 	int	nbr;
 
 	if (ac == 2)

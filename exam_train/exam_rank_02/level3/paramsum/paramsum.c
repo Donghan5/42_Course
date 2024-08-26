@@ -6,6 +6,7 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
+/* to print the numbers*/
 void	ft_putnbr(int n)
 {
 	if (n >= 10)
@@ -21,3 +22,5 @@ int main(int ac, char **av)
 	ft_putnbr(num);
 	return (0);
 }
+
+/* number of the arguement passed it */
