@@ -1,6 +1,8 @@
 /* Exam no norm */
 #include <unistd.h>
 #include <stdlib.h>
+
+/* to write the character by ascending order */
 void	write_word(char *start, char *end)
 {
 	while (start < end)
@@ -19,6 +21,7 @@ int	main(int ac, char **av)
 	if (ac > 1)
 	{
 		str = av[1];
+		// to set the start point of the string(or word)
 		while (*str == ' ' || *str == '\t')
 			str++;
 		f_word_start = str;
