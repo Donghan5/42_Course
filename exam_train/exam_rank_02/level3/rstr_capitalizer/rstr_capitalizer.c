@@ -2,13 +2,15 @@
 #include <unistd.h>
 
 // lower to upper the last word (if lower) to upper
+// important to respect the sequence
 void	rstr_capitalizer(char *str)
 {
 	int i = 0;
 
 	while (str[i])
 	{
-		if (str[i] >= 'A' && str[i] <= 'Z') // conver lower to upper
+		// convert uppercase to lowercase
+		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += 32;
 		// to verify next index of the last letter of the word is a tab space or '\0
 		if ((str[i] >= 'a' && str[i] <= 'z') && (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\0'))
