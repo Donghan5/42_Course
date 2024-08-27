@@ -20,12 +20,17 @@ void	wdmatch(char *first, char *second)
 	int i = 0;
 	int	j = 0;
 
+	// when the element of the second is not null
 	while (second[j] != '\0')
 	{
+		// if the first element is equal to second element
 		if (first[i] == second[j])
+			// increment the index of the first
 			i++;
+		// if not increment the index of the second
 		j++;
 	}
+	// if i is equal to length of the first
 	if (i == ft_strlen(first))
 		ft_putstr(first);
 }

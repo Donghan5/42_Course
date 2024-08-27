@@ -11,6 +11,7 @@ size_t ft_strlen(char *src)
 		idx++;
 	return (idx);
 }
+
 char *ft_strdup(char *src)
 {
 	char *new;
@@ -25,6 +26,7 @@ char *ft_strdup(char *src)
 		new[idx] = src[idx];
 		idx++;
 	}
+	 // don't forget to add the null char at the end of the string copied
 	new[idx] = '\0';
 	return (new);
 }

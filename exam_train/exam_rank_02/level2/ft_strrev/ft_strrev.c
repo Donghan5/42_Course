@@ -1,6 +1,7 @@
 /* exam no norm rule */
 #include <unistd.h>
 
+// to calculate the length of the string
 int	ft_strlen(char *str)
 {
 	int i = 0;
@@ -16,6 +17,7 @@ char	*ft_strrev(char *str)
 	int len = ft_strlen(str) - 1;
 	char	tmp;
 
+	// swap the last thing and the first one idx is increment, len is decrement
 	while (idx < len)
 	{
 		tmp = str[idx];

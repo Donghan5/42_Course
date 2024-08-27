@@ -10,11 +10,15 @@ void	snake_to_camel(char *str)
 {
 	int	idx = 0;
 
+	// when str is not null
 	while (str[idx] != '\0')
 	{
+		// if index of the str is _
 		if (str[idx] == '_')
 		{
+			// first increment of the idx
 			idx++;
+			// and add the space
 			str[idx] -= ' ';
 		}
 		ft_putchar(str[idx]);

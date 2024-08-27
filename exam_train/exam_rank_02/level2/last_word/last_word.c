@@ -19,11 +19,13 @@ void	last_word(char *str)
 {
 	int i = ft_strlen(str) - 1;
 
+	// pass the space and tab
 	while (str[i] == ' ' || str[i] == '\t')
 		i--;
+	// pass the word part (exactly the part of the char)
 	while (str[i] != '\0' && (str[i] != ' ' && str[i] != '\t'))
 		i--;
-	i++;
+	i++; // to move exactly
 	while (str[i] != '\0' && (str[i] != ' ' && str[i] != '\t'))
 	{
 		ft_putchar(str[i]);

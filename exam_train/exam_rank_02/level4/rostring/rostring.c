@@ -25,15 +25,19 @@ int	main(int ac, char **av)
 		while (*str == ' ' || *str == '\t')
 			str++;
 		f_word_start = str;
+		// find the end of the first word
 		while (*str != ' ' || *str != '\t')
 			str++;
 		f_word_end = str;
+		// skip the space or the tabs after the first word
 		while (*str == ' ' || *str == '\t')
 			str++;
+		// printing remain word
 		if (*str)
 		{
 			while (*str)
 			{
+				// skip multiple spaces or tabs and print single space
 				if (*str == ' ' || *str == '\t')
 				{
 					while (*str == ' ' || *str == '\t')
@@ -49,8 +53,27 @@ int	main(int ac, char **av)
 			}
 			write(1, " ", 1);
 		}
+		// print the first word at the end
 		write_word(f_word_start, f_word_end);
 	}
 	write(1, "\n", 1);
 	return (0);
 }
+
+/*
+	function flow
+
+	searching the start of the first word
+					|
+	searching the end of the first word
+					|
+	pass the space or tab after the first word
+					|
+	printing the remain word(skip multiple spaces or tabs and print single spaces)
+					|
+	print the first word at the end (by using write_word)
+
+	write_word it take two parameters which are f_word_start and f_word_end
+					|
+	untill start < end write(1, start, 1) to print the character
+*/

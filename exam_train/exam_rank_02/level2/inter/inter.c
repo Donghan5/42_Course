@@ -23,6 +23,7 @@ void	inter(char *s1, char *s2)
 	int ascii_tab[256];
 
 	idx = 0;
+	// initialize the value of the ascii tab to 0
 	while (idx < 256)
 	{
 		ascii_tab[idx] = 0;

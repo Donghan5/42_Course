@@ -14,24 +14,30 @@ char	**ft_split(char *str)
 {
 	int i = 0;
 	int j = 0; // index of the start...?
-	int k = 0; // index of the splitted output (double array)
+	int k = 0; // index of the splitted output (double pointer)
 	int word_count = 0;
 	while (str[i])
 	{
+		// skip space, newline and tab before the first word
 		while (str[i] && (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'))
 			i++;
-		while (str[i]) // inside of the char
+		while (str[i]) // count the word(character)
 			word_count++;
+		// pass spaces newline and tab after the word
 		while (str[i] && str[i] != ' ' || str[i] != '\n' || str[i] != '\t')
 			i++;
 	}
+	// declare the double pointer of the char to stock each words.
 	char **out = (char **)malloc(sizeof(char *) * (word_count + 1));
 	i = 0;
 	while (str[i])
 	{
+		// skip(pass) the space, newline and tab before the word
 		while (str[i] && (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'))
 			i++;
-		j = i; // setting the start
+		// setting the start point
+		j = i;
+		// pass the space, newline and tab after the word
 		while (str[i] && (str[i] != ' ' || str[i] != '\n' || str[i] != '\t'))
 			i++;
 		while (i > j)

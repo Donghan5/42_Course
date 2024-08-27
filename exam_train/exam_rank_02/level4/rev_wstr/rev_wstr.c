@@ -14,10 +14,11 @@ int main(int ac, char **av)
 			i++;
 		while (i >= 0)
 		{
-			// searching the starting point of the end
+			// searching the starting point of the end (pass the space tab and EOL(end of line))
 			while (av[1][i] == ' ' || av[1][i] == '\t' || av[1][i] == '\0')
 				i--;
 			end = i;
+			// pass the space and tab (to search the start of the word)
 			while (av[1][i] && av[1][i] != ' ' && av[1][i] != '\t')
 				i--;
 			start = i + 1;

@@ -8,11 +8,15 @@ int main(int ac, char **av)
 		int i = 0;
 		while (av[1][i] != '\0')
 		{
+			// when the element is uppercase
 			if (av[1][i] >= 65 && av[1][i] <= 90)
 			{
+				// swap to lowercase
 				av[1][i] += 32;
+				// after put _
 				write(1, "_", 1);
 			}
+			// after the if condition print
 			write(1, &av[1][i], 1);
 			i++;
 		}

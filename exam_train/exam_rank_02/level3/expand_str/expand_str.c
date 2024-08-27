@@ -9,7 +9,7 @@ int main(int ac, char **av)
 	if (ac == 2)
 	{
 		i = 0;
-		// if the white space or tab just pass
+		// pass the space or the tab
 		while (av[1][i] == ' ' || av[1][i] == '\t')
 			i++;
 		while (av[1][i])
