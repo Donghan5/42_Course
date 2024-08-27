@@ -1,29 +1,41 @@
-/* exam no norm rule */
 #include <stdlib.h>
 
-/* by dividing 10, it util to calculate the length of the digit */
-int	size_nbr(int nbr)
+/* to calculate the length of the number */
+int ft_numlen(int n)
 {
-	int len = 0;
-	while (nbr)
+	int size = 0;
+
+	if (n < 0)
+		n *= -1;
+	if (n == 0)
+		return (1);
+	while (n--)
 	{
-		nbr /= 10;
-		len++;
+		n /= 10;
+		size++;
 	}
-	return (len);
+	return (size);
+}
+
+/* to check the number is negative */
+int	is_negative(int n)
+{
+	if (n < 0)
+		return (1);
+	return (0);
 }
 
 char	*ft_itoa(int nbr)
 {
-	char *res;
-	int len = size_nbr(nbr);
+	char	*res;
+	int	len = ft_numlen(nbr);
+	int negative = is_negative(nbr);
 
 	if (nbr == -2147483648)
-		return ("-21473648\0"); // follow by null terminator
-	res = (char *)malloc(sizeof(char) * (len + 1));
+		return ("-2147483648\0");
+	res = (char *)malloc(sizeof(char) * (negative + len + 1));
 	if (!res)
 		return (NULL);
-	res[len] = '\0';
 	if (nbr == 0)
 	{
 		res[0] = '0';
@@ -34,10 +46,15 @@ char	*ft_itoa(int nbr)
 		res[0] = '-';
 		nbr = -nbr;
 	}
-	while (nbr)
+	/* consider of the length when the number is negative number */
+	res[len + negative] = '\0';
+	/* beware of the condition of while */
+	while (len-- > 0)
 	{
-		res[--len] = nbr % 10 + '0';
+		res[len + negative] = nbr % 10 + '0';
 		nbr /= 10;
 	}
 	return (res);
 }
+
+/* more study the logic */

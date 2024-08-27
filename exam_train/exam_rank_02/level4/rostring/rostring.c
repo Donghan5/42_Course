@@ -1,8 +1,6 @@
-/* Exam no norm */
 #include <unistd.h>
 #include <stdlib.h>
 
-/* to write the character by ascending order */
 void	write_word(char *start, char *end)
 {
 	while (start < end)
@@ -12,32 +10,31 @@ void	write_word(char *start, char *end)
 	}
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	char	*str;
-	char	*f_word_start;
-	char	*f_word_end;
+	char *str;
+	char *f_word_start;
+	char *f_word_end;
 
 	if (ac > 1)
 	{
 		str = av[1];
-		// to set the start point of the string(or word)
+		// pass the space and tab to search start of the word
 		while (*str == ' ' || *str == '\t')
 			str++;
 		f_word_start = str;
-		// find the end of the first word
-		while (*str != ' ' || *str != '\t')
+		// pass the character to search end of the word
+		while (*str != ' ' && *str != '\t' && *str != '\0')
 			str++;
 		f_word_end = str;
-		// skip the space or the tabs after the first word
+		// after the word pass space and tab
 		while (*str == ' ' || *str == '\t')
 			str++;
-		// printing remain word
 		if (*str)
 		{
 			while (*str)
 			{
-				// skip multiple spaces or tabs and print single space
+				// this one to multiple spaces or tab to single space
 				if (*str == ' ' || *str == '\t')
 				{
 					while (*str == ' ' || *str == '\t')
@@ -53,13 +50,11 @@ int	main(int ac, char **av)
 			}
 			write(1, " ", 1);
 		}
-		// print the first word at the end
 		write_word(f_word_start, f_word_end);
 	}
 	write(1, "\n", 1);
 	return (0);
 }
-
 /*
 	function flow
 

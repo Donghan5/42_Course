@@ -11,6 +11,7 @@ int main(int ac, char **av)
 		i = 0;
 		while (av[1][i] != '\0')
 		{
+			// while(count--) have to exist inside of the if condition
 			if (av[1][i] >= 'a' && av[1][i] <= 'z')
 			{
 				count = av[1][i] - 'a' + 1;
