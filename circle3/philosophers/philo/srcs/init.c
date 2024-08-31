@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/31 17:07:15 by donghank          #+#    #+#             */
+/*   Updated: 2024/08/31 17:08:43 by donghank         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 // int init_mutex fail -> return 1
@@ -22,7 +34,7 @@ int	init_mutex_element(t_arg *arg)
 	return (0);
 }
 
-// init_args_element
+// init all element in the struct arg
 int	init_args_element(t_arg *arg, int ac, char **av)
 {
 	arg->num_of_philo = ft_atoi(av[1]);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/31 17:07:17 by donghank          #+#    #+#             */
+/*   Updated: 2024/08/31 17:07:53 by donghank         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 /* Aim to convert argv to int type */
@@ -38,3 +50,7 @@ long long	get_time(void)
 		return (-1);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
+
+// passing time
+
+// passing time after eat
