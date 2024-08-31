@@ -1,9 +1,11 @@
-#include "philosophers.h"
+#include "philo.h"
 
+/* Aim to convert argv to int type */
+// consider of the long long max
 int	ft_atoi(char *str)
 {
-	int	res;
-	int	sign;
+	long long	res;
+	int			sign;
 
 	res = 0;
 	sign = 1;
@@ -20,5 +22,19 @@ int	ft_atoi(char *str)
 		res = res * 10 + (*str - '0');
 		str++;
 	}
+	if (res > 9223372036854775807 && sign == -1)
+		return (-1);
+	else if (res > 9223372036854775807)
+		return (-1);
 	return (sign * res);
+}
+
+/* to calculate the time (in millisec) */
+long long	get_time(void)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		return (-1);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
