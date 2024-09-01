@@ -6,13 +6,13 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 16:04:27 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:54:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-// start philo thread
+// create philo thread
 int	create_philo_thread(t_arg *arg, t_philo *philo)
 {
 	int	idx;
@@ -21,12 +21,12 @@ int	create_philo_thread(t_arg *arg, t_philo *philo)
 	while (idx < arg->num_of_philo)
 	{
 		philo[idx].last_eat_time = get_time();
-		if (pthread_create(&(philo->thread), \
+		if (pthread_create(&(philo[idx].thread), \
 		NULL, philo_thread, &(philo[idx])))
 			return (1);
 		idx++;
 	}
-	monitoring_death(arg, philo);
+	monitoring(arg, philo);
 	idx = 0;
 	while (idx < arg->num_of_philo)
 	{
@@ -69,7 +69,7 @@ void	*philo_thread(void *argv)
 	arg = philo->arg;
 	if (philo->id % 2 == 0)
 		time_thinking(arg);
-	while (!arg->finish)
+	while (arg->finish == NOT_FINISH)
 	{
 		if (arg->num_of_philo - 1 == philo->id && philo->eat_count == 0)
 			usleep(1);
@@ -92,14 +92,14 @@ void	*philo_thread(void *argv)
 // now = to calculate the passed time (from start point)
 int	philo_stat_print(t_arg *arg, int id, char *msg)
 {
-	long long	now;
+	long long	cur_time;
 
 	pthread_mutex_lock(&(arg->print));
-	now = get_time();
-	if (now < 0)
+	cur_time = get_time();
+	if (cur_time < 0)
 		return (-1);
-	if (!(arg->finish))
-		printf("%lld %d %s", now - arg->start_time, id, msg);
+	if (arg->finish == NOT_FINISH)
+		printf("%lld %d %s\n", cur_time - arg->start_time, id, msg);
 	if (ft_strncmp(msg, "died", 4) == 0)
 		return (0);
 	pthread_mutex_unlock(&(arg->print));
@@ -109,14 +109,14 @@ int	philo_stat_print(t_arg *arg, int id, char *msg)
 // monitoring death each of the philos(thread)
 // cond 1. eat_times not 0, fini_eat(in philo_thread) == num philo
 // cond 2. each thread of philo(cur - last) is longer than time of died
-void	monitoring_death(t_arg *arg, t_philo *philo)
+void	monitoring(t_arg *arg, t_philo *philo)
 {
 	int			i;
 	long long	cur_time;
 
-	while (!arg->finish)
+	while (arg->finish == NOT_FINISH)
 	{
-		if ((arg->eat_times != 0) && (arg->finished_eat == arg->num_of_philo))
+		if ((arg->eat_times != 0) && (arg->num_of_philo == arg->finished_eat))
 		{
 			arg->finish = FINISH;
 			break ;
@@ -125,11 +125,13 @@ void	monitoring_death(t_arg *arg, t_philo *philo)
 		while (i < arg->num_of_philo)
 		{
 			cur_time = get_time();
-			if (cur_time - (philo[i].last_eat_time) > \
+			if ((cur_time - philo[i].last_eat_time) > \
 			((long long)arg->time_to_die))
 			{
+				philo_stat_print(arg, i, "died");
 				arg->finish = FINISH;
-				philo_stat_print(arg, philo->id, "is died");
+				pthread_mutex_unlock(&(arg->print));
+				break ;
 			}
 			i++;
 		}

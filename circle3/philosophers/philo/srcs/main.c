@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 15:59:32 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:16:37 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (printf("Invalid argument number\n"), 1);
+	memset(&arg, 0, sizeof(t_arg));
 	if (init_args_element(&arg, ac, av) == 1)
-		return (printf("Fail init the args struct"), 1);
+		return (printf("Fail init struct or the error occeurs in argv"), 1);
 	if (init_philo(&philo, &arg) == 1)
 		return (printf("Fail init philo struct"), 1);
 	if (create_philo_thread(&arg, philo) == 1)

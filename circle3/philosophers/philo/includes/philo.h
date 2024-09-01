@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:09:02 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 15:49:40 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 16:33:50 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 /*==================== define finish =====================*/
 # define FINISH 1
+# define NOT_FINISH 0
 
 /*==================== structs =====================*/
 // all of the arguement line
@@ -79,7 +80,7 @@ int			create_philo_thread(t_arg *arg, t_philo *philo);
 void		philo_action_eat(t_arg *arg, t_philo *philo);
 void		*philo_thread(void *argv);
 int			philo_stat_print(t_arg *arg, int id, char *msg);
-void		monitoring_death(t_arg *arg, t_philo *philo);
+void		monitoring(t_arg *arg, t_philo *philo);
 
 /*==================== main.c =====================*/
 void		distroy_all_mutex(t_arg *arg);

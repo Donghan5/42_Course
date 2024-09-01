@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 15:50:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:00:54 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	init_args_element(t_arg *arg, int ac, char **av)
 		if (arg->eat_times <= 0)
 			return (1);
 	}
+	arg->finish = 0;
+	arg->finished_eat = 0;
 	if (init_mutex_element(arg))
 		return (1);
 	return (0);
@@ -64,7 +66,7 @@ int	init_philo(t_philo **philo, t_arg *arg)
 	int	idx;
 
 	idx = 0;
-	*philo = (t_philo *)malloc(sizeof(t_philo));
+	*philo = malloc(sizeof(t_philo) * arg->num_of_philo);
 	if (!(*philo))
 		return (1);
 	while (idx < arg->num_of_philo)
