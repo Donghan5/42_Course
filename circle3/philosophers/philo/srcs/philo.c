@@ -6,13 +6,13 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 21:17:41 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 22:55:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-// create philo thread
+// create multiple philo thread
 int	create_philo_thread(t_arg *arg, t_philo *philo)
 {
 	int	idx;
@@ -38,6 +38,7 @@ int	create_philo_thread(t_arg *arg, t_philo *philo)
 
 // start with odd number philosopher. To avoid state deadlock
 // So start with left fork (I'm using Dijkstra's solution)
+// using with odd number
 int	philo_action_eat(t_arg *arg, t_philo *philo)
 {
 	pthread_mutex_lock(&(arg->fork[philo->left]));
@@ -86,7 +87,7 @@ void	*philo_thread(void *argv)
 		passing_time((long long)arg->time_to_sleep, arg);
 		philo_stat_print(arg, philo->id, "is thinking");
 	}
-	return (NULL);
+	return (0);
 }
 
 // to print the status of the philos
@@ -126,7 +127,7 @@ void	monitoring(t_arg *arg, t_philo *philo)
 		while (i < arg->num_of_philo)
 		{
 			cur_time = get_time();
-			if ((cur_time - philo[i].last_eat_time) > \
+			if ((cur_time - philo[i].last_eat_time) >= \
 			((long long)arg->time_to_die))
 			{
 				arg->finish = FINISH;
