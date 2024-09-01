@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 17:00:54 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 21:22:14 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	init_args_element(t_arg *arg, int ac, char **av)
 		arg->eat_times = ft_atoi(av[5]);
 		if (arg->eat_times <= 0)
 			return (1);
+		if (arg->num_of_philo == 1)
+			arg->eat_times = 0;
 	}
 	arg->finish = 0;
 	arg->finished_eat = 0;

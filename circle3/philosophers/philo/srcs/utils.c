@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:17 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 15:50:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 21:23:52 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ long long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-// passing time
+// passing time (to current time)
 void	passing_time(long long wait_time, t_arg *arg)
 {
 	long long	start;
-	long long	now;
+	long long	cur_time;
 
 	start = get_time();
 	while (!(arg->finish))
 	{
-		now = get_time();
-		if ((now - start) > wait_time)
+		cur_time = get_time();
+		if ((cur_time - start) > wait_time)
 			break ;
 		usleep(100);
 	}

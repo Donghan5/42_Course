@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 17:54:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 21:17:41 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	create_philo_thread(t_arg *arg, t_philo *philo)
 
 // start with odd number philosopher. To avoid state deadlock
 // So start with left fork (I'm using Dijkstra's solution)
-void	philo_action_eat(t_arg *arg, t_philo *philo)
+int	philo_action_eat(t_arg *arg, t_philo *philo)
 {
 	pthread_mutex_lock(&(arg->fork[philo->left]));
 	philo_stat_print(arg, philo->id, "has taken a fork");
@@ -55,6 +55,7 @@ void	philo_action_eat(t_arg *arg, t_philo *philo)
 		pthread_mutex_unlock(&(arg->fork[philo->right]));
 	}
 	pthread_mutex_unlock(&(arg->fork[philo->left]));
+	return (0);
 }
 
 // start with odd number (index) philosopher
@@ -128,8 +129,8 @@ void	monitoring(t_arg *arg, t_philo *philo)
 			if ((cur_time - philo[i].last_eat_time) > \
 			((long long)arg->time_to_die))
 			{
-				philo_stat_print(arg, i, "died");
 				arg->finish = FINISH;
+				philo_stat_print(arg, i, "died");
 				pthread_mutex_unlock(&(arg->print));
 				break ;
 			}
