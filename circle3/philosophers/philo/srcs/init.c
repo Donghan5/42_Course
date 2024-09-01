@@ -6,11 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/31 17:08:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 15:50:38 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 // int init_mutex fail -> return 1
 int	init_mutex_element(t_arg *arg)

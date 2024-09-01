@@ -6,14 +6,132 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/31 17:08:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 16:04:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 // start philo thread
+int	create_philo_thread(t_arg *arg, t_philo *philo)
+{
+	int	idx;
 
-// calculate the time
+	idx = 0;
+	while (idx < arg->num_of_philo)
+	{
+		philo[idx].last_eat_time = get_time();
+		if (pthread_create(&(philo->thread), \
+		NULL, philo_thread, &(philo[idx])))
+			return (1);
+		idx++;
+	}
+	monitoring_death(arg, philo);
+	idx = 0;
+	while (idx < arg->num_of_philo)
+	{
+		pthread_join(philo[idx].thread, NULL);
+		idx++;
+	}
+	return (0);
+}
 
-// check the dead philo monitoring
+// start with odd number philosopher. To avoid state deadlock
+// So start with left fork (I'm using Dijkstra's solution)
+void	philo_action_eat(t_arg *arg, t_philo *philo)
+{
+	pthread_mutex_lock(&(arg->fork[philo->left]));
+	philo_stat_print(arg, philo->id, "has taken a fork");
+	if (arg->num_of_philo != 1)
+	{
+		pthread_mutex_lock(&(arg->fork[philo->right]));
+		philo_stat_print(arg, philo->id, "has taken a fork");
+		philo_stat_print(arg, philo->id, "is eating");
+		pthread_mutex_lock(&(arg->time));
+		philo->last_eat_time = get_time();
+		pthread_mutex_unlock(&(arg->time));
+		philo->eat_count = philo->eat_count + 1;
+		passing_time((long long)arg->time_to_eat, arg);
+		pthread_mutex_unlock(&(arg->fork[philo->right]));
+	}
+	pthread_mutex_unlock(&(arg->fork[philo->left]));
+}
+
+// start with odd number (index) philosopher
+// if the eat_times and eat_count -> exit the loop
+// separate the function eating // sleeping and thinking
+void	*philo_thread(void *argv)
+{
+	t_arg	*arg;
+	t_philo	*philo;
+
+	philo = (t_philo *)argv;
+	arg = philo->arg;
+	if (philo->id % 2 == 0)
+		time_thinking(arg);
+	while (!arg->finish)
+	{
+		if (arg->num_of_philo - 1 == philo->id && philo->eat_count == 0)
+			usleep(1);
+		philo_action_eat(arg, philo);
+		if (arg->num_of_philo == 1)
+			passing_time((long long)arg->time_to_sleep, arg);
+		if (arg->eat_times == philo->eat_count)
+		{
+			arg->finished_eat++;
+			break ;
+		}
+		philo_stat_print(arg, philo->id, "is sleeping");
+		passing_time((long long)arg->time_to_sleep, arg);
+		philo_stat_print(arg, philo->id, "is thinking");
+	}
+	return (NULL);
+}
+
+// to print the status of the philos
+// now = to calculate the passed time (from start point)
+int	philo_stat_print(t_arg *arg, int id, char *msg)
+{
+	long long	now;
+
+	pthread_mutex_lock(&(arg->print));
+	now = get_time();
+	if (now < 0)
+		return (-1);
+	if (!(arg->finish))
+		printf("%lld %d %s", now - arg->start_time, id, msg);
+	if (ft_strncmp(msg, "died", 4) == 0)
+		return (0);
+	pthread_mutex_unlock(&(arg->print));
+	return (0);
+}
+
+// monitoring death each of the philos(thread)
+// cond 1. eat_times not 0, fini_eat(in philo_thread) == num philo
+// cond 2. each thread of philo(cur - last) is longer than time of died
+void	monitoring_death(t_arg *arg, t_philo *philo)
+{
+	int			i;
+	long long	cur_time;
+
+	while (!arg->finish)
+	{
+		if ((arg->eat_times != 0) && (arg->finished_eat == arg->num_of_philo))
+		{
+			arg->finish = FINISH;
+			break ;
+		}
+		i = 0;
+		while (i < arg->num_of_philo)
+		{
+			cur_time = get_time();
+			if (cur_time - (philo[i].last_eat_time) > \
+			((long long)arg->time_to_die))
+			{
+				arg->finish = FINISH;
+				philo_stat_print(arg, philo->id, "is died");
+			}
+			i++;
+		}
+	}
+}

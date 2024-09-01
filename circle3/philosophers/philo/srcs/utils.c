@@ -6,11 +6,30 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:17 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/31 17:07:53 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/01 15:50:46 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
+
+// compare the character died
+int	ft_strncmp(char *s1, char*s2, int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
+	{
+		if (s1[i] != s2[i])
+		{
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		}
+		i++;
+	}
+	return (0);
+}
 
 /* Aim to convert argv to int type */
 // consider of the long long max
@@ -52,5 +71,36 @@ long long	get_time(void)
 }
 
 // passing time
+void	passing_time(long long wait_time, t_arg *arg)
+{
+	long long	start;
+	long long	now;
 
-// passing time after eat
+	start = get_time();
+	while (!(arg->finish))
+	{
+		now = get_time();
+		if ((now - start) > wait_time)
+			break ;
+		usleep(100);
+	}
+}
+
+// passing time after eat, if not have to wait
+void	time_thinking(t_arg *arg)
+{
+	struct timeval	get_time;
+	struct timeval	time_stat;
+	int				time_take;
+
+	gettimeofday(&get_time, NULL);
+	while (1)
+	{
+		gettimeofday(&time_stat, NULL);
+		time_take = time_stat.tv_usec - get_time.tv_usec + \
+		(time_stat.tv_sec - get_time.tv_sec) * 1000000;
+		if (time_take > arg->time_to_eat * 900)
+			break ;
+		usleep(arg->time_to_eat);
+	}
+}
