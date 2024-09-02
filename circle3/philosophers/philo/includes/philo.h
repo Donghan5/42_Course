@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:09:02 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 21:17:52 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:22:47 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 # include <memory.h>
 # include <sys/time.h>
 
-/*==================== define finish =====================*/
-# define FINISH 1
-# define NOT_FINISH 0
 
 /*==================== structs =====================*/
 // all of the arguement line

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:17 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 22:04:32 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:19:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	passing_time(long long wait_time, t_arg *arg)
 	while (!(arg->finish))
 	{
 		cur_time = get_time();
-		if ((cur_time - start) > wait_time)
+		if ((cur_time - start) >= wait_time)
 			break ;
 		usleep(100);
 	}
