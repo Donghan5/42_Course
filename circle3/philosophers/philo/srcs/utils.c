@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:17 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 11:59:14 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:31:08 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void	time_thinking(t_arg *arg)
 		(time_stat.tv_sec - get_time.tv_sec) * 1000000;
 		if (time_take > arg->time_to_eat * 900)
 			break ;
-		usleep(arg->time_to_eat);
+		ft_usleep(arg->time_to_eat);
 	}
 }

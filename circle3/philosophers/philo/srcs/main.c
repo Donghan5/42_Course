@@ -6,11 +6,21 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 12:29:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:23:56 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+// cut in short loop
+void	ft_usleep(long long time)
+{
+	long long	start;
+
+	start = get_time();
+	while (start + (time * 1) > get_time())
+		usleep(100);
+}
 
 // distroy all the mutex
 void	distroy_all_mutex(t_arg *arg)

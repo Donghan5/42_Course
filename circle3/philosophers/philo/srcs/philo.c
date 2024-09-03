@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 13:07:44 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:07:33 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ int	philo_action_eat(t_arg *arg, t_philo *philo)
 		pthread_mutex_lock(&(arg->time));
 		philo->last_eat_time = get_time();
 		pthread_mutex_unlock(&(arg->time));
-		philo->eat_count = philo->eat_count + 1;
+		philo->eat_count++;
 		passing_time((long long)arg->time_to_eat, arg);
 		pthread_mutex_unlock(&(arg->fork[philo->right]));
 	}
 	pthread_mutex_unlock(&(arg->fork[philo->left]));
+	ft_usleep(100);
 	return (0);
 }
 
@@ -56,9 +57,8 @@ void	*philo_thread(void *argv)
 	arg = philo->arg;
 	if (philo->id % 2 == 0)
 		time_thinking(arg);
-	while (!arg->finish)
+	while (!(arg->finish))
 	{
-		pthread_mutex_lock(&(arg->fini_mutex));
 		philo_lifespan(arg, philo);
 		if (arg->eat_times == philo->eat_count)
 		{
@@ -68,7 +68,6 @@ void	*philo_thread(void *argv)
 		philo_stat_print(arg, philo->id, "is sleeping");
 		passing_time((long long)arg->time_to_sleep, arg);
 		philo_stat_print(arg, philo->id, "is thinking");
-		pthread_mutex_unlock(&(arg->fini_mutex));
 	}
 	return (0);
 }
@@ -84,9 +83,12 @@ int	philo_stat_print(t_arg *arg, int id, char *msg)
 	if (cur_time < 0)
 		return (-1);
 	if (!(arg->finish))
-		printf("%lld %d %s\n", cur_time - arg->start_time, id, msg);
+		printf("%lld m/s %d %s\n", cur_time - arg->start_time, id, msg);
 	if (ft_strncmp(msg, "died", 4) == 0)
+	{
+		pthread_mutex_unlock(&(arg->print));
 		return (0);
+	}
 	pthread_mutex_unlock(&(arg->print));
 	return (0);
 }
@@ -99,13 +101,10 @@ void	monitoring(t_arg *arg, t_philo *philo)
 	int			i;
 	long long	cur_time;
 
-	while (!(arg->finish))
+	while (arg->finish == 0)
 	{
 		if ((arg->eat_times != 0) && (arg->num_of_philo == arg->finished_eat))
-		{
 			arg->finish = 1;
-			break ;
-		}
 		i = 0;
 		while (i < arg->num_of_philo)
 		{
@@ -115,7 +114,6 @@ void	monitoring(t_arg *arg, t_philo *philo)
 				philo_stat_print(arg, i, "died");
 				arg->finish = 1;
 				pthread_mutex_unlock(&(arg->print));
-				break ;
 			}
 			i++;
 		}

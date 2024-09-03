@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 13:08:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:06:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ int	init_args_element(t_arg *arg, int ac, char **av)
 		if (arg->num_of_philo == 1)
 			arg->eat_times = 0;
 	}
-	arg->finish = 0;
-	arg->finished_eat = 0;
 	if (init_mutex_element(arg))
 		return (1);
 	return (0);
@@ -99,9 +97,7 @@ int	create_philo_thread(t_arg *arg, t_philo *philo)
 			return (1);
 		i++;
 	}
-	pthread_mutex_lock(&(arg->fini_mutex));
 	monitoring(arg, philo);
-	pthread_mutex_unlock(&(arg->fini_mutex));
 	i = 0;
 	while (i < arg->num_of_philo)
 	{

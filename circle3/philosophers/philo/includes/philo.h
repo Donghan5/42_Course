@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:09:02 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 12:58:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:24:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void		monitoring(t_arg *arg, t_philo *philo);
 
 /*==================== main.c =====================*/
 void		distroy_all_mutex(t_arg *arg);
+void		ft_usleep(long long time);
 
 #endif
