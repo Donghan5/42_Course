@@ -25,9 +25,9 @@ char	*get_next_line(int fd)
 	int			i;
 
 	i = 0;
-	while (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (1)
+	while (1) //infinity loop for the while
 	{
 		if (buffer_pos >= buffer_readed)
 		{

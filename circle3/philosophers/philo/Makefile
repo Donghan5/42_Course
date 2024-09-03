@@ -6,16 +6,16 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 17:09:07 by donghank          #+#    #+#              #
-#    Updated: 2024/09/03 17:10:07 by donghank         ###   ########.fr        #
+#    Updated: 2024/09/03 22:16:14 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g3 -lpthread -Iincludes
+# CFLAGS = -Wall -Wextra -Werror -g3 -lpthread -Iincludes
 
 # this for the mac m1
-# CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread -lpthread -Iincludes
 
 TARGET = philo
 
