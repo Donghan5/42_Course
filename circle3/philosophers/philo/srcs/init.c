@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 21:22:14 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:08:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	init_mutex_element(t_arg *arg)
 	if (pthread_mutex_init(&(arg->print), NULL))
 		return (1);
 	if (pthread_mutex_init(&(arg->time), NULL))
+		return (1);
+	if (pthread_mutex_init(&(arg->fini_mutex), NULL))
 		return (1);
 	arg->fork = malloc(sizeof(pthread_mutex_t) * arg->num_of_philo);
 	if (!arg->fork)
@@ -65,21 +67,46 @@ int	init_args_element(t_arg *arg, int ac, char **av)
 // i -> create the number of the philos
 int	init_philo(t_philo **philo, t_arg *arg)
 {
-	int	idx;
+	int	i;
 
-	idx = 0;
+	i = 0;
 	*philo = malloc(sizeof(t_philo) * arg->num_of_philo);
 	if (!(*philo))
 		return (1);
-	while (idx < arg->num_of_philo)
+	while (i < arg->num_of_philo)
 	{
-		(*philo)[idx].arg = arg;
-		(*philo)[idx].id = idx;
-		(*philo)[idx].left = idx;
-		(*philo)[idx].right = (idx + 1) % arg->num_of_philo;
-		(*philo)[idx].last_eat_time = get_time();
-		(*philo)[idx].eat_count = 0;
-		idx++;
+		(*philo)[i].arg = arg;
+		(*philo)[i].id = i;
+		(*philo)[i].left = i;
+		(*philo)[i].right = (i + 1) % arg->num_of_philo;
+		(*philo)[i].last_eat_time = get_time();
+		(*philo)[i].eat_count = 0;
+		i++;
+	}
+	return (0);
+}
+
+// create multiple philo thread
+int	create_philo_thread(t_arg *arg, t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < arg->num_of_philo)
+	{
+		philo[i].last_eat_time = get_time();
+		if (pthread_create(&(philo[i].thread), NULL, philo_thread, &(philo[i])))
+			return (1);
+		i++;
+	}
+	pthread_mutex_lock(&(arg->fini_mutex));
+	monitoring(arg, philo);
+	pthread_mutex_unlock(&(arg->fini_mutex));
+	i = 0;
+	while (i < arg->num_of_philo)
+	{
+		pthread_join(philo[i].thread, NULL);
+		i++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:23 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/01 17:16:37 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:29:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	distroy_all_mutex(t_arg *arg)
 
 	pthread_mutex_destroy(&(arg->print));
 	pthread_mutex_destroy(&(arg->time));
+	pthread_mutex_destroy(&(arg->fini_mutex));
 	i = 0;
 	while (i < arg->num_of_philo)
 	{

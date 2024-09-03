@@ -6,34 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/02 16:31:31 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:07:44 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-// create multiple philo thread
-int	create_philo_thread(t_arg *arg, t_philo *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < arg->num_of_philo)
-	{
-		philo[i].last_eat_time = get_time();
-		if (pthread_create(&(philo[i].thread), NULL, philo_thread, &(philo[i])))
-			return (1);
-		i++;
-	}
-	monitoring(arg, philo);
-	i = 0;
-	while (i < arg->num_of_philo)
-	{
-		pthread_join(philo[i].thread, NULL);
-		i++;
-	}
-	return (0);
-}
 
 // start with odd number philosopher. To avoid state deadlock
 // So start with left fork (I'm using Dijkstra's solution)
@@ -58,6 +35,15 @@ int	philo_action_eat(t_arg *arg, t_philo *philo)
 	return (0);
 }
 
+static void	philo_lifespan(t_arg *arg, t_philo *philo)
+{
+	if (arg->num_of_philo - 1 == philo->id && philo->eat_count == 0)
+		usleep(1);
+	philo_action_eat(arg, philo);
+	if (arg->num_of_philo == 1)
+		passing_time((long long)arg->time_to_sleep, arg);
+}
+
 // start with odd number (index) philosopher
 // if the eat_times and eat_count -> exit the loop
 // separate the function eating // sleeping and thinking
@@ -70,13 +56,10 @@ void	*philo_thread(void *argv)
 	arg = philo->arg;
 	if (philo->id % 2 == 0)
 		time_thinking(arg);
-	while (!(arg->finish))
+	while (!arg->finish)
 	{
-		if (arg->num_of_philo - 1 == philo->id && philo->eat_count == 0)
-			usleep(1);
-		philo_action_eat(arg, philo);
-		if (arg->num_of_philo == 1)
-			passing_time((long long)arg->time_to_sleep, arg);
+		pthread_mutex_lock(&(arg->fini_mutex));
+		philo_lifespan(arg, philo);
 		if (arg->eat_times == philo->eat_count)
 		{
 			arg->finished_eat++;
@@ -85,6 +68,7 @@ void	*philo_thread(void *argv)
 		philo_stat_print(arg, philo->id, "is sleeping");
 		passing_time((long long)arg->time_to_sleep, arg);
 		philo_stat_print(arg, philo->id, "is thinking");
+		pthread_mutex_unlock(&(arg->fini_mutex));
 	}
 	return (0);
 }
@@ -115,7 +99,7 @@ void	monitoring(t_arg *arg, t_philo *philo)
 	int			i;
 	long long	cur_time;
 
-	while (!arg->finish)
+	while (!(arg->finish))
 	{
 		if ((arg->eat_times != 0) && (arg->num_of_philo == arg->finished_eat))
 		{
