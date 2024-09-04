@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:09:02 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/04 12:33:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:46:01 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <unistd.h>
 # include <memory.h>
 # include <sys/time.h>
-
 
 /*==================== structs =====================*/
 // all of the arguement line
@@ -43,7 +42,6 @@ typedef struct s_arg
 	pthread_mutex_t	time;
 	pthread_mutex_t	fini_mutex;
 }	t_arg;
-
 
 // all of the element of the philo
 // id = id of the philo

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:43:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/04 12:34:47 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:46:16 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	pthread_mutex_lock_and_unlock(t_arg *arg)
 	arg->finish = 1;
 	pthread_mutex_unlock(&(arg->fini_mutex));
 }
-
 
 // cut in short loop
 void	ft_usleep(int ms)
