@@ -18,7 +18,8 @@ void	put_string(char *str, int *length)
 void	put_digit(long long int number, int base, int *length)
 {
 	// when is the number is negative number number multiple by -1 and calculate pointer operation with write(1, "-", 1)
-	if (number < 0){
+	if (number < 0)
+	{
 		number *= -1;
 		*length += write(1, "-", 1);
 	}
@@ -35,6 +36,7 @@ int	ft_printf(const char *format, ... )
 
 	// to using va_arg declare as pointer
 	va_list	pointer;
+	// don't forget ;
 	va_start(pointer, format);
 	while (*format)
 	{
