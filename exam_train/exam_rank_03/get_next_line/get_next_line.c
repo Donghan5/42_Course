@@ -36,11 +36,13 @@ char	*get_next_line(int fd)
 			if (buffer_readed <= 0)
 				break ;
 		}
-		line[i++] = buffer[buffer_pos];
+		// i increment and also buffer_pos increment
+		line[i++] = buffer[buffer_pos++];
 		if (line[i - 1] == '\n')
 			break ;
 	}
 	line[i] = '\0';
+	// don't forget i == 0 to return NULL
 	if (i == 0)
 		return (NULL);
 	return (ft_strdup(line));
