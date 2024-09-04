@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:09:02 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 15:24:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:33:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void		passing_time(long long wait_time, t_arg *arg);
 void		time_thinking(t_arg *arg);
 long long	get_time(void);
 
+/*==================== philo_utils.c =====================*/
+int			monitoring_fini_mutex(t_arg *arg);
+void		pthread_mutex_lock_and_unlock(t_arg *arg);
+void		ft_usleep(int ms);
+
 /*==================== init.c =====================*/
 int			init_mutex_element(t_arg *arg);
 int			init_args_element(t_arg *arg, int ac, char **av);
@@ -82,6 +87,5 @@ void		monitoring(t_arg *arg, t_philo *philo);
 
 /*==================== main.c =====================*/
 void		distroy_all_mutex(t_arg *arg);
-void		ft_usleep(long long time);
 
 #endif

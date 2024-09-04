@@ -6,20 +6,20 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 17:09:07 by donghank          #+#    #+#              #
-#    Updated: 2024/09/03 22:16:14 by donghank         ###   ########.fr        #
+#    Updated: 2024/09/04 11:51:13 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-# CFLAGS = -Wall -Wextra -Werror -g3 -lpthread -Iincludes
+CFLAGS = -Wall -Wextra -Werror -g3 -lpthread -Iincludes
 
 # this for the mac m1
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread -lpthread -Iincludes
+# CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread -lpthread -Iincludes
 
 TARGET = philo
 
-SRCS = srcs/init.c srcs/main.c srcs/philo.c srcs/utils.c
+SRCS = srcs/init.c srcs/main.c srcs/philo.c srcs/utils.c srcs/philo_utils.c
 
 $(TARGET):
 	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET)

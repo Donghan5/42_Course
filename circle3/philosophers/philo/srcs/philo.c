@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/03 22:19:58 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:39:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	philo_action_eat(t_arg *arg, t_philo *philo)
 		pthread_mutex_unlock(&(arg->fork[philo->right]));
 	}
 	pthread_mutex_unlock(&(arg->fork[philo->left]));
-	ft_usleep(100);
 	return (0);
 }
 
@@ -57,7 +56,7 @@ void	*philo_thread(void *argv)
 	arg = philo->arg;
 	if (philo->id % 2 == 0)
 		time_thinking(arg);
-	while (!(arg->finish))
+	while (!monitoring_fini_mutex(arg))
 	{
 		philo_lifespan(arg, philo);
 		if (arg->eat_times == philo->eat_count)
@@ -82,13 +81,10 @@ int	philo_stat_print(t_arg *arg, int id, char *msg)
 	cur_time = get_time();
 	if (cur_time < 0)
 		return (-1);
-	if (!(arg->finish))
-		printf("%lld m/s %d %s\n", cur_time - arg->start_time, id, msg);
+	if (!monitoring_fini_mutex(arg))
+		printf("%lld %d %s\n", cur_time - arg->start_time, id, msg);
 	if (ft_strncmp(msg, "died", 4) == 0)
-	{
-		pthread_mutex_unlock(&(arg->print));
 		return (0);
-	}
 	pthread_mutex_unlock(&(arg->print));
 	return (0);
 }
@@ -101,23 +97,20 @@ void	monitoring(t_arg *arg, t_philo *philo)
 	int			i;
 	long long	cur_time;
 
-	while (arg->finish == 0)
+	while (!monitoring_fini_mutex(arg))
 	{
 		if ((arg->eat_times != 0) && (arg->num_of_philo == arg->finished_eat))
-			arg->finish = 1;
+			pthread_mutex_lock_and_unlock(arg);
 		i = 0;
 		while (i < arg->num_of_philo)
 		{
-			pthread_mutex_lock(&(arg->time));
 			cur_time = get_time();
-			if ((cur_time - philo[i].last_eat_time) >= (arg->time_to_die))
+			if ((cur_time - philo[i].last_eat_time) > (arg->time_to_die))
 			{
 				philo_stat_print(arg, i, "died");
-				arg->finish = 1;
-				pthread_mutex_unlock(&(arg->time));
+				pthread_mutex_lock_and_unlock(arg);
 				pthread_mutex_unlock(&(arg->print));
 			}
-			pthread_mutex_unlock(&(arg->time));
 			i++;
 		}
 	}
