@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:07:30 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/04 12:39:13 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:14:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	monitoring(t_arg *arg, t_philo *philo)
 		while (i < arg->num_of_philo)
 		{
 			cur_time = get_time();
-			if ((cur_time - philo[i].last_eat_time) > (arg->time_to_die))
+			if ((cur_time - philo[i].last_eat_time) >= (arg->time_to_die))
 			{
 				philo_stat_print(arg, i, "died");
 				pthread_mutex_lock_and_unlock(arg);
