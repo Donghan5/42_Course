@@ -8,6 +8,6 @@ Circle 2 : push_swap (86/100) / minitalk (125/100) / pipex (not evaluated) / so_
 
 EXAM_RANK_02 (100/100)
 
-Circle 3 : philosophers (still doing) / minishell
+Circle 3 : philosophers (100/100) / minishell(doing)
 
-EXAM_RANK03 (still doing)
+EXAM_RANK03 (100/100)

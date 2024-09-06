@@ -6,19 +6,20 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 17:09:07 by donghank          #+#    #+#              #
-#    Updated: 2024/09/05 20:30:42 by donghank         ###   ########.fr        #
+#    Updated: 2024/09/06 10:25:05 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-# CFLAGS = -Wall -Wextra -Werror -g3 -lpthread -Iincludes
+# linux valgrind and helgrind
+CFLAGS = -Wall -Wextra -Werror -g3 -lpthread -Iincludes
 
 # this for the mac m1
 # CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread -lpthread -Iincludes
 
 # this for the mac m1 (leak check)
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -lpthread -Iincludes
+# CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -lpthread -Iincludes
 
 TARGET = philo
 
