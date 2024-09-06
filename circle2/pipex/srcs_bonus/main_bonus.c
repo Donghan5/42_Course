@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/23 12:50:47 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/06 22:51:47 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		handle_error("Make sure of your command line arguement");
 	cmd_count = argc - 3;
-	init_pipex(&pipex, -1, -1);
+	init_pipex(&pipex, -1, -1, cmd_count);
 	pipex.here_doc = !ft_strncmp(argv[1], "here_doc", 8);
 	if (pipex.here_doc && argc != 6)
 		handle_error_cleanup(&pipex, \
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!pipex.here_doc && argc < 5)
 		handle_error_cleanup(&pipex, \
 		"Usage: ./pipex infile cmd1 cmd2 ... outfile");
-	doing_process(&pipex, argc, argv, envp);
+	doing_process(&pipex, argv, envp, cmd_count);
 	cleanup(&pipex);
 	if (pipex.here_doc)
 		unlink(".heredoc_tmp");

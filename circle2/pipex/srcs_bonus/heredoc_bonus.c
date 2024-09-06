@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/23 16:35:52 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/06 22:52:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,59 +45,30 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 		unlink(".heredoc_tmp");
 }
 
-/* handle child process */
-static void	handle_child(t_pipex *pipex, char **argv, char **envp, int i)
-{
-	if (i == pipex->start && pipex->here_doc)
-		child_process(pipex, argv, envp, i + 1);
-	else
-		child_process(pipex, argv, envp, i);
-}
-
-/*
-**	separate func doing_process due to limit the line
-**	i = start;
-*/
-static void	doing_cmd_process(t_pipex *pipex, char **argv, char **envp)
+/* doing pipe opreation */
+void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count)
 {
 	int	i;
 
-	i = pipex->start;
-	while (i < pipex->limit - 1)
+	i = 0;
+	if (pipe(pipex->tube) == -1)
+		handle_error_cleanup(pipex, "Fail to create pipe");
+	while (i < cmd_count)
 	{
-		if (pipe(pipex->tube) == -1)
-			handle_error("Fail to pipe");
-		pipex->pid1 = fork();
-		if (pipex->pid1 == -1)
-			handle_error("Fail to generate pid");
-		if (pipex->pid1 == 0)
-			handle_child(pipex, argv, envp, i);
-		pipex->pid2 = fork();
-		if (pipex->pid2 == -1)
-			handle_error("Fail to generate pid");
-		if (pipex->pid2 == 0)
-			parent_process(pipex, argv, envp, i + 1);
-		close(pipex->tube[0]);
-		close(pipex->tube[1]);
-		waitpid(pipex->pid1, NULL, 0);
+		pipex->pids[i] = fork();
+		if (pipex->pids[i] == 0)
+		{
+			if (pipex->here_doc)
+			{
+				here_doc(argv[2], pipex);
+				child_process(pipex, argv, envp, i + 1);
+			}
+			child_process(pipex, argv, envp, i);
+		}
+		parent_process(pipex, argv, envp, i + 1);
 		i++;
+		waitpid(pipex->pids[i + 1], NULL, 0);
 	}
-	waitpid(pipex->pid2, NULL, 0);
-}
-
-/* doing the process total pid 1 and pid 2 */
-void	doing_process(t_pipex *pipex, int ac, char **av, char **envp)
-{
-	if (pipex->here_doc)
-	{
-		here_doc(av[2], pipex);
-		pipex->start = 3;
-		pipex->limit = ac - 2;
-	}
-	else
-	{
-		pipex->start = 2;
-		pipex->limit = ac - 1;
-	}
-	doing_cmd_process(pipex, av, envp);
+	close(pipex->tube[0]);
+	close(pipex->tube[1]);
 }

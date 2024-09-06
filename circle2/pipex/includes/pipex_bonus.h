@@ -6,10 +6,9 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/08/23 16:02:58 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/06 22:51:34 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
@@ -27,8 +26,7 @@
 /*---------- struct for pipex ----------*/
 typedef struct s_pipex
 {
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	*pids;
 	char	*path;
 	char	*cmd;
 	char	**paths;
@@ -47,7 +45,7 @@ char	*find_path(t_pipex	*pipex, char **envp);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- pipex_bonus.c ----------*/
-void	init_pipex(t_pipex *pipex, int fd1, int fd2);
+void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count);
 void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
@@ -60,7 +58,6 @@ void	cleanup(t_pipex *pipex);
 int		ft_strarray_len(char **arr);
 void	handle_error_cleanup(t_pipex *pipex, char *msg);
 
-
 /*---------- heredoc_bonus.c ----------*/
-void	doing_process(t_pipex *pipex, int ac, char **av, char **envp);
+void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count);
 #endif

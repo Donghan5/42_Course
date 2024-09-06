@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/23 12:16:18 by donghank          #+#    #+#              #
-#    Updated: 2024/08/19 13:17:05 by donghank         ###   ########.fr        #
+#    Updated: 2024/09/06 21:58:40 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,10 @@ NAME = pipex
 BONUS = pipex_bonus
 
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g3 -I./includes -I./libft
+# This for linux
+# CFLAGS = -Werror -Wall -Wextra -g3 -I./includes -I./libft
+# This for the mac environnement
+CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=address -I./includes -I./libft
 
 RM = rm -rf
 
