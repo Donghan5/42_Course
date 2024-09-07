@@ -10,3 +10,5 @@ int	main()
 	// free cmd tokenizing
 	// free all struct
 }
+
+// lexer -> parser -> expander -> excuter
