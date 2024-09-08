@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/06 22:51:34 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:00:25 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@
 # include <errno.h>
 # include "libft.h"
 
+/*---------- defines ----------*/
+# define MSG_INFILE_ERROR "Fail to open infile"
+# define MSG_OUTFILE_ERROR "Fail to open outfile"
+# define MSG_EXEC_ERROR "Fail to exec"
+# define MSG_DUP2_ERROR "Fail to dup2"
+# define USAGE "Usage: ./piepx here_doc LIMITER cmd1 cmd2 outfile"
+# define MSG_HEREDOC_ERROR "Fail to open .heredoc_tmp"
+# define MSG_PIPE "Fail to create pipe"
+# define FAIL 1
+# define SUCCESS 0
+
 /*---------- struct for pipex ----------*/
 typedef struct s_pipex
 {
@@ -33,7 +44,7 @@ typedef struct s_pipex
 	char	**cmd_args;
 	int		infile;
 	int		outfile;
-	int		tube[2];
+	int		**tubes;
 	int		here_doc;
 	int		start;
 	int		limit;
@@ -46,8 +57,8 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- pipex_bonus.c ----------*/
 void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count);
-void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
-void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
+int		child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index);
+void	parent_process(t_pipex *pipex);
 void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index);
 
 /*---------- utils_bonus.c ----------*/

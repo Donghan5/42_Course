@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/06 22:52:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:15:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (file == -1)
-		handle_error("Fail to open the file");
+		handle_error(MSG_HEREDOC_ERROR);
 	while (1)
 	{
 		ft_printf("[heredoc] ");
@@ -51,10 +51,13 @@ void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count)
 	int	i;
 
 	i = 0;
-	if (pipe(pipex->tube) == -1)
-		handle_error_cleanup(pipex, "Fail to create pipe");
 	while (i < cmd_count)
 	{
+		if (i < cmd_count - 1)
+		{
+			if (pipe(pipex->tubes[i]) == -1)
+				handle_error_cleanup(pipex, MSG_PIPE);
+		}
 		pipex->pids[i] = fork();
 		if (pipex->pids[i] == 0)
 		{
@@ -63,12 +66,10 @@ void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count)
 				here_doc(argv[2], pipex);
 				child_process(pipex, argv, envp, i + 1);
 			}
-			child_process(pipex, argv, envp, i);
+			else
+				child_process(pipex, argv, envp, i);
 		}
-		parent_process(pipex, argv, envp, i + 1);
 		i++;
-		waitpid(pipex->pids[i + 1], NULL, 0);
 	}
-	close(pipex->tube[0]);
-	close(pipex->tube[1]);
+	parent_process(pipex);
 }

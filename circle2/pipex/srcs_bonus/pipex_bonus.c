@@ -6,30 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/06 22:41:49 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/08 17:58:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-/* initialize all element in the struct of the pipex */
-void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count)
-{
-	pipex->tube[0] = -1;
-	pipex->tube[1] = -1;
-	pipex->pids = malloc(sizeof(pid_t) * cmd_count);
-	if (!pipex->pids)
-		handle_error("Fail to allocate the memory");
-	pipex->here_doc = 0;
-	pipex->start = 0;
-	pipex->limit = 0;
-	pipex->infile = fd1;
-	pipex->outfile = fd2;
-	pipex->path = NULL;
-	pipex->paths = NULL;
-	pipex->cmd = NULL;
-	pipex->cmd_args = NULL;
-}
 
 /*
 **	implement pipe-line
@@ -47,65 +28,24 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int cmd_index)
 }
 
 /*
-**	get children process
-**	infile = open infile
-*/
-void	child_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
-{
-	int	tmp_pipe[2];
-
-	if (cmd_index == pipex->start)
-	{
-		if (pipex->here_doc)
-			pipex->infile = open(".heredoc_tmp", O_RDONLY);
-		else
-			pipex->infile = open(argv[1], O_RDONLY);
-	}
-	if (pipex->infile == -1)
-		handle_error("Fail to open the file (child)");
-	if (cmd_index < pipex->limit - 1)
-		close(pipex->tube[0]);
-	if (dup2(pipex->infile, STDIN_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail to dup2 stdin (child)");
-	if (dup2(tmp_pipe[1], STDOUT_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail to dup2 stdout (child)");
-	close(tmp_pipe[1]);
-	close(pipex->infile);
-	ft_pipex(pipex, argv, envp, cmd_index);
-	cleanup(pipex);
-	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
-		handle_error_cleanup(pipex, "Fail execve (child)");
-}
-
-/*
 **	get parent process
 **	outfile = outfile the last thing in the command
 */
-void	parent_process(t_pipex *pipex, char **argv, char **envp, int cmd_index)
+void	parent_process(t_pipex *pipex)
 {
-	int	tmp_pipe[2];
-	if (cmd_index == pipex->limit - 1)
+	int	i;
+
+	i = 0;
+	while (i < pipex->limit - 1)
 	{
-		if (pipex->here_doc)
-			pipex->outfile = open(argv[cmd_index], \
-			O_CREAT | O_RDWR | O_APPEND, 0644);
-		else
-			pipex->outfile = open(argv[cmd_index], \
-			O_CREAT | O_RDWR | O_TRUNC, 0644);
+		close(pipex->tubes[i][0]);
+		close(pipex->tubes[i][1]);
+		i++;
 	}
-	else
-		pipex->outfile = pipex->tube[1];
-	if (pipex->outfile == -1)
-		handle_error("Fail to open the file (parent)");
-	close(pipex->tube[1]);
-	if (dup2(tmp_pipe[0], STDIN_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail dup2 stdin (parent)");
-	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
-		handle_error_cleanup(pipex, "Fail dup2 stdout (parent)");
-	close(tmp_pipe[0]);
-	ft_pipex(pipex, argv, envp, cmd_index);
-	if (cmd_index == pipex->limit - 1)
-		close(pipex->outfile);
-	if (execve(pipex->path, pipex->cmd_args, envp) == -1)
-		handle_error_cleanup(pipex, "Fail execve (parent)");
+	i = 0;
+	while (i < pipex->limit)
+	{
+		waitpid(*pipex->tubes[i], NULL, 0);
+		i++;
+	}
 }

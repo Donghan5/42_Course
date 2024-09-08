@@ -6,7 +6,7 @@
 #    By: donghank <donghank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/23 12:16:18 by donghank          #+#    #+#              #
-#    Updated: 2024/09/06 21:58:40 by donghank         ###   ########.fr        #
+#    Updated: 2024/09/08 17:50:58 by donghank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ BONUS_DIR = srcs_bonus
 
 SRCS = srcs/main.c srcs/parsing.c srcs/pipex.c srcs/utils.c
 SRCS_BONUS = srcs_bonus/main_bonus.c srcs_bonus/parsing_bonus.c \
-			srcs_bonus/pipex_bonus.c srcs_bonus/utils_bonus.c srcs_bonus/heredoc_bonus.c
+			srcs_bonus/pipex_bonus.c srcs_bonus/utils_bonus.c srcs_bonus/heredoc_bonus.c \
+			srcs_bonus/init.c srcs_bonus/process_child.c
 
 LIBFT = libft/libft.a
 
