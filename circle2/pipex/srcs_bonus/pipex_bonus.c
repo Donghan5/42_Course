@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:45:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/08 17:58:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:25:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	parent_process(t_pipex *pipex)
 	i = 0;
 	while (i < pipex->limit)
 	{
-		waitpid(*pipex->tubes[i], NULL, 0);
+		wait(NULL);
 		i++;
 	}
 }

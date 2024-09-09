@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 16:00:40 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/08 18:00:50 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:26:16 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	init_tubes_and_pids(t_pipex *pipex, int cmd_count)
 		pipex->tubes[i] = malloc(sizeof(int) * 2);
 		if (pipe(pipex->tubes[i]) == -1)
 			handle_error(MSG_PIPE);
+		i++;
 	}
 	pipex->pids = malloc(sizeof(pid_t) * cmd_count);
 	if (!pipex->pids)
@@ -34,7 +35,7 @@ static void	init_tubes_and_pids(t_pipex *pipex, int cmd_count)
 void	init_pipex(t_pipex *pipex, int fd1, int fd2, int cmd_count)
 {
 	init_tubes_and_pids(pipex, cmd_count);
-	pipex->here_doc = 0;
+	pipex->heredoc = 0;
 	pipex->start = 0;
 	pipex->limit = 0;
 	pipex->infile = fd1;

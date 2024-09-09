@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:01:44 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/08 18:01:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:24:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	main(int argc, char **argv, char **envp)
 		handle_error(USAGE);
 	cmd_count = argc - 3;
 	init_pipex(&pipex, -1, -1, cmd_count);
-	pipex.here_doc = !ft_strncmp(argv[1], "here_doc", 8);
-	if (pipex.here_doc && argc != 6)
+	pipex.heredoc = !ft_strncmp(argv[1], "heredoc", 8);
+	if (pipex.heredoc && argc != 6)
 		handle_error_cleanup(&pipex, USAGE);
-	if (!pipex.here_doc && argc < 5)
+	if (!pipex.heredoc && argc < 5)
 		handle_error_cleanup(&pipex, USAGE);
 	doing_process(&pipex, argv, envp, cmd_count);
 	cleanup(&pipex);
-	if (pipex.here_doc)
-		unlink(".heredoc_tmp");
+	if (pipex.heredoc)
+		unlink(".heredoc");
 	return (0);
 }

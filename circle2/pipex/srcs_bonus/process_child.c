@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 16:16:28 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/08 17:56:54 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:18:57 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 // first assist to process infile
 static int	process_assist_one(t_pipex *pipex, char **argv, int cmd_index)
 {
-	if (pipex->here_doc)
+	if (pipex->heredoc)
 		pipex->infile = open(".heredoc_tmp", O_RDONLY);
 	else
 		pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
 		return (handle_error(MSG_INFILE_ERROR), FAIL);
+	close(pipex->tubes[cmd_index - 1][0]);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
 	close(pipex->infile);
 	if (dup2(pipex->tubes[cmd_index][1], STDOUT_FILENO) == -1)
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
+	close(pipex->tubes[cmd_index][1]);
+	close(pipex->infile);
 	return (SUCCESS);
 }
 
@@ -36,10 +39,12 @@ static int	process_assist_two(t_pipex *pipex, char **argv, int cmd_index)
 		O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (pipex->outfile == -1)
 		return (handle_error(MSG_INFILE_ERROR), FAIL);
+	close(pipex->tubes[cmd_index][1]);
 	if (dup2(pipex->tubes[cmd_index - 1][0], STDIN_FILENO) == -1)
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
 	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
+	close(pipex->tubes[cmd_index - 1][0]);
 	close(pipex->outfile);
 	return (SUCCESS);
 }
@@ -50,6 +55,8 @@ static int	process_assist_three(t_pipex *pipex, int cmd_index)
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
 	if (dup2(pipex->tubes[cmd_index][1], STDOUT_FILENO))
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
+	close(pipex->tubes[cmd_index - 1][0]);
+	close(pipex->tubes[cmd_index][1]);
 	return (SUCCESS);
 }
 

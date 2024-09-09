@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/08 18:15:22 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:26:38 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 	int		file;
 	char	*buf;
 
-	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	file = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (file == -1)
 		handle_error(MSG_HEREDOC_ERROR);
 	while (1)
@@ -40,9 +40,9 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 	}
 	free(buf);
 	close(file);
-	pipex->infile = open(".heredoc_tmp", O_RDONLY);
+	pipex->infile = open(".heredoc", O_RDONLY);
 	if (pipex->infile < 0)
-		unlink(".heredoc_tmp");
+		unlink(".heredoc");
 }
 
 /* doing pipe opreation */
@@ -51,23 +51,27 @@ void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count)
 	int	i;
 
 	i = 0;
+	if (i < cmd_count - 1)
+	{
+		if (pipe(pipex->tubes[i]) == -1)
+			handle_error_cleanup(pipex, MSG_PIPE);
+	}
 	while (i < cmd_count)
 	{
-		if (i < cmd_count - 1)
-		{
-			if (pipe(pipex->tubes[i]) == -1)
-				handle_error_cleanup(pipex, MSG_PIPE);
-		}
 		pipex->pids[i] = fork();
 		if (pipex->pids[i] == 0)
 		{
-			if (pipex->here_doc)
+			if (pipex->heredoc && i == pipex->start)
 			{
+				pipex->start = 3;
 				here_doc(argv[2], pipex);
 				child_process(pipex, argv, envp, i + 1);
 			}
 			else
+			{
+				pipex->start = 2;
 				child_process(pipex, argv, envp, i);
+			}
 		}
 		i++;
 	}

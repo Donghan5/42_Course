@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 00:27:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/08 18:00:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:24:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 	int		**tubes;
-	int		here_doc;
+	int		heredoc;
 	int		start;
 	int		limit;
 }	t_pipex;
