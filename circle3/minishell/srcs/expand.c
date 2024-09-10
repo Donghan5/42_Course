@@ -6,13 +6,15 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/10 23:21:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/10 23:25:54 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_exit_status;
+
+// unclosed quote...? if that case str[idx] = '\0'
 
 // In key=value return the length of the value
 int	size_env_value(char *str, int size, char **envp)
@@ -65,37 +67,4 @@ int	env_cnt(char *str, int *size, char **envp)
 	return (idx);
 }
 
-// get excutable inside of the double quote
-// $ mean --> after, that is the environnement value
-int	double_quote_cnt(char *str, int *size, char **envp)
-{
-	int	idx;
-
-	idx = 1;
-	while (str[idx] && str[idx] == '\"')
-	{
-		if (str[idx] == '$')
-			idx += (env_cnt(&(str[idx]), size, envp) + 1);
-		else
-		{
-			idx++;
-			(*size)++;
-		}
-	}
-	return (idx);
-}
-
-// to treat single quote cases
-// calculate the string inside of the single quote
-int	single_quote_cnt(char *str, int *size)
-{
-	int	idx;
-
-	idx = 1;
-	while (str[idx] && str[idx] != '\'')
-	{
-		idx++;
-		(*size)++;
-	}
-	return (idx);
-}
+// have to get the environ parse length
