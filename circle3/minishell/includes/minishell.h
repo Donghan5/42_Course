@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/10 16:04:45 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:20:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include "../Libft/libft.h"
+# include <signal.h>
 // defines
 # define DOUBLE_OUT 1
 # define DOUBLE_IN 2
@@ -38,6 +39,10 @@
 # define PIPE 5
 # define DOUBLE_PIPE 6
 # define DOUBLE_AND 7
+
+// defines for signals
+# define STDOUT 1
+# define STDIN 0
 
 typedef struct s_command
 {
