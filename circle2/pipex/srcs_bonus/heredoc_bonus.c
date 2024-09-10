@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:25:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/09 16:26:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:14:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,22 @@ static void	here_doc(char *delimiter, t_pipex *pipex)
 		unlink(".heredoc");
 }
 
+// helper function of the doing_process
+static void	set_start_line(t_pipex *pipex, char **argv, char **envp, int idx)
+{
+	if (pipex->heredoc && idx == pipex->start)
+	{
+		pipex->start = 3;
+		here_doc(argv[2], pipex);
+		child_process(pipex, argv, envp, idx + 1);
+	}
+	else
+	{
+		pipex->start = 2;
+		child_process(pipex, argv, envp, idx);
+	}
+}
+
 /* doing pipe opreation */
 void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count)
 {
@@ -60,19 +76,7 @@ void	doing_process(t_pipex *pipex, char **argv, char **envp, int cmd_count)
 	{
 		pipex->pids[i] = fork();
 		if (pipex->pids[i] == 0)
-		{
-			if (pipex->heredoc && i == pipex->start)
-			{
-				pipex->start = 3;
-				here_doc(argv[2], pipex);
-				child_process(pipex, argv, envp, i + 1);
-			}
-			else
-			{
-				pipex->start = 2;
-				child_process(pipex, argv, envp, i);
-			}
-		}
+			set_start_line(pipex, argv, envp, i);
 		i++;
 	}
 	parent_process(pipex);
