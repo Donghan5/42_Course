@@ -1,6 +1,5 @@
 #!/bin/bash
-
-# This is a more sophisticated version of the basic test script
+# Simple basic test semi automatic tester
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
