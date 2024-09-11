@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/11 16:07:53 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:54:53 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@
 
 // define buffer to use in gnl func
 # define BUFFER_SIZE 256
+
+// error msgs
+# define ALLOC_ERROR "Fail to allocate"
 
 typedef struct s_command
 {
@@ -128,6 +131,11 @@ int		size_env_value(char *str, int size, char **envp);
 int		size_env_key(char *str);
 int		env_cnt(char *str, int *size, char **envp);
 int		get_env_parse_len(char *str, char **envp);
+
+// env_utils2.c
+void	create_new_env_var(char *tok_str, t_list **env);
+char	*swap_new_env_var(char **cur_env_ptr, char *var_name, char *new_var);
+void	update_new_env_var(char *var, char *new_value, t_list *env);
 
 // expander.c
 char	*expander(char *input_str, char **envp);
