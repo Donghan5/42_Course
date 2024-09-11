@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/10 22:20:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:07:53 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
-# include "../Libft/libft.h"
 # include <signal.h>
-// defines
+
+// custom header files
+# include "../Libft/libft.h"
+
+// defines redirections and directions
 # define DOUBLE_OUT 1
 # define DOUBLE_IN 2
 # define OUT 3
@@ -40,9 +43,15 @@
 # define DOUBLE_PIPE 6
 # define DOUBLE_AND 7
 
-// defines for signals
+// defines quotes check
+# define NOT_CLOSED 0
+# define CLOSED 1
+
+// define signal
 # define STDOUT 1
-# define STDIN 0
+
+// define buffer to use in gnl func
+# define BUFFER_SIZE 256
 
 typedef struct s_command
 {
@@ -66,6 +75,7 @@ typedef struct s_env
 
 // ft_get.c
 char	*get_value_for_name(t_name_value *arr, char *name);
+char	*replace_home_tilde(char *cwd);
 char	*get_prompt(void);
 
 // check.c
@@ -96,11 +106,30 @@ void	handle_redirection(t_command *cmd, t_command *cmd2);
 void	print_arr(char **arr);
 void	free_doub_array(void **arr);
 char	*triple_strjoin(char *s1, char *s2, char *s3);
+char	*get_next_line(int fd);
 
 // ft_whitesplit.c
 char	**ft_whitesplit(char const *s);
 
 // ft_whitespace.c
 int		ft_iswhitespace(int c);
+
+// quote.c
+int		check_unclosed_quote(char *str, char quote);
+int		double_quote_cnt(char *str, int *size, char **envp);
+int		single_quote_cnt(char *str, int *size);
+
+// signal.c
+void	handle_signal(int signo);
+void	set_signal(void);
+
+// env_utils.c
+int		size_env_value(char *str, int size, char **envp);
+int		size_env_key(char *str);
+int		env_cnt(char *str, int *size, char **envp);
+int		get_env_parse_len(char *str, char **envp);
+
+// expander.c
+char	*expander(char *input_str, char **envp);
 
 #endif

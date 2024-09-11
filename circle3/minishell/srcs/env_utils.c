@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/10 23:25:54 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:43:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// global varialbe to set exit status
 int	g_exit_status;
-
-// unclosed quote...? if that case str[idx] = '\0'
 
 // In key=value return the length of the value
 int	size_env_value(char *str, int size, char **envp)
@@ -24,7 +23,7 @@ int	size_env_value(char *str, int size, char **envp)
 	idx = -1;
 	while (envp[++idx])
 	{
-		if (!(ft_strncmp(&str[idx], envp, size)) && envp[idx][size] == '=')
+		if (!(ft_strncmp(&str[idx], *envp, size)) && envp[idx][size] == '=')
 			return (ft_strlen(envp[idx]) + size + 1);
 	}
 	return (0);
@@ -48,6 +47,7 @@ int	size_env_key(char *str)
 }
 
 // to return env length
+// when meet ? --> exit(quit...?) the program
 int	env_cnt(char *str, int *size, char **envp)
 {
 	int		idx;
@@ -67,4 +67,24 @@ int	env_cnt(char *str, int *size, char **envp)
 	return (idx);
 }
 
-// have to get the environ parse length
+// to get parsed len of the env
+int	get_env_parse_len(char *str, char **envp)
+{
+	int	idx;
+	int	size;
+
+	idx = -1;
+	size = 0;
+	while (str[++idx])
+	{
+		if (str[idx] == '\'' && check_unclosed_quote(str, '\''))
+			size += single_quote_cnt(&str[idx], &size);
+		else if (str[idx] == '"' && check_unclosed_quote(str, '"'))
+			size += double_quote_cnt(&str[idx], &size, envp);
+		else if (str[idx] == '$')
+			size += env_cnt(&str[idx], &size, envp);
+		else
+			size++;
+	}
+	return (size);
+}

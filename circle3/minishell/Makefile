@@ -1,6 +1,6 @@
 SRC = main.c srcs/ft_whitesplit.c srcs/ft_whitespace.c srcs/check.c \
 	srcs/excute.c srcs/fill.c srcs/ft_exit.c srcs/ft_get.c srcs/parsing.c \
-	srcs/pipe.c srcs/utils.c
+	srcs/pipe.c srcs/utils.c srcs/signal.c srcs/quote.c srcs/env_utils.c srcs/expander.c
 OBJ = $(SRC:.c=.o)
 CFLAGS = #-Wall -Wextra -Werror
 DEPS = $(SRC:.c=.d)

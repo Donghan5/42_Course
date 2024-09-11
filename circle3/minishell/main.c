@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/10 17:33:43 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:19:57 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char **argv)
 	parse_env(&env);
 	// printf("%s\n", get_value_for_name(env.environ_name_value, "HOME"));
 	using_history();
+	set_signal();
 	int tempin = dup(STDIN_FILENO);
 	while (1)
 	{

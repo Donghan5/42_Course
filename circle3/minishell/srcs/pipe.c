@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:25:18 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/10 17:06:25 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:52:42 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void setup_pipes(int input_fd, int output_fd)
 	}
 }
 
-int is_readable(const char *filename) {
+int is_readable(const char *filename)
+{
 	struct stat buffer;
 
 	if (stat(filename, &buffer) == 0)
