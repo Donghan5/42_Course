@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/12 17:36:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 00:13:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,20 @@ enum e_operator
 # define NOT_CLOSED 0
 # define CLOSED 1
 
+// define success and fail
+# define SUCCESS 0
+# define FAIL 1
+
 // define signal
 # define STDOUT 1
+# define STDIN 0
 
 // define buffer to use in gnl func
 # define BUFFER_SIZE 256
 
 // error msgs
 # define ALLOC_ERROR "Fail to allocate"
-# define NOT_IDENTIFY "not a valid identifier"
+# define NOT_IDENTIFY "export: not a valid identifier"
 
 // define for shlvl.c files
 # define NON_VALID 1
@@ -94,6 +99,7 @@ typedef struct s_env
 // node for environement data
 typedef struct s_env_node
 {
+	char				*key;
 	char				*content;
 	struct s_env_node	*next;
 }				t_env_node;
@@ -172,5 +178,16 @@ char		*expander(char *input_str, char **envp);
 //prepare_pipeline
 t_g_pipe	*cmds_to_global_pipeline(t_command **cmds);
 int			prepare_pipeline(t_g_pipe *g);
+
+// export_utils.c
+int			env_list_size(t_env_node *env_node);
+char		**env_lst_to_array(t_env_node *env_node);
+void		sort_env_array(char **env_arr);
+
+// export.c
+int			check_identify_key(char *key);
+void		print_export(t_env_node *env_node);
+int			ft_export(t_command *cmd, t_env_node *env_node);
+int			export(t_command *cmd, t_env_node *env_node);
 
 #endif
