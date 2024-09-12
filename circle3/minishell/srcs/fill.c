@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:26:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/10 13:27:20 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:58:06 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ int	fill_interaction(t_command *cmd, char *word)
 
 	interaction = 0;
 	if (!ft_strncmp(word, "||", 3))
-		interaction = DOUBLE_PIPE;
+		interaction = OR;
 	else if (!ft_strncmp(word, "&&", 3))
-		interaction = DOUBLE_AND;
+		interaction = AND;
 	else if (!ft_strncmp(word, ">>", 3))
-		interaction = DOUBLE_OUT;
+		interaction = APPEND_OUT;
 	else if (!ft_strncmp(word, "<<", 3))
-		interaction = DOUBLE_IN;
+		interaction = HERE_DOC;
 	else if ((word[0] == '|') && (ft_strlen(word) == 1))
 		interaction = PIPE;
 	else if ((word[0] == '>') && (ft_strlen(word) == 1))
-		interaction = OUT;
+		interaction = REDIRECT_OUT;
 	else if ((word[0] == '<') && (ft_strlen(word) == 1))
-		interaction = IN;
+		interaction = REDIRECT_IN;
 	if (interaction && cmd)
 		cmd->next_interaction = interaction;
 	return (interaction);

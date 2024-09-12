@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:25:18 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/11 15:52:42 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:59:33 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void setup_pipes(int input_fd, int output_fd)
 	}
 }
 
-int is_readable(const char *filename)
-{
+int is_readable(const char *filename) {
 	struct stat buffer;
 
 	if (stat(filename, &buffer) == 0)
@@ -60,7 +59,7 @@ void	handle_redirection(t_command *cmd, t_command *cmd2)
 {
 	int	fd;
 
-	if (cmd->next_interaction == IN)
+	if (cmd->next_interaction == REDIRECT_IN)
 	{
 		fd = open(cmd2->exec_name, O_RDONLY);
 		if (fd < 0)
@@ -71,7 +70,7 @@ void	handle_redirection(t_command *cmd, t_command *cmd2)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	else if (cmd->next_interaction == OUT)
+	else if (cmd->next_interaction == REDIRECT_OUT)
 	{
 		fd = open(cmd->exec_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd < 0)
@@ -79,7 +78,7 @@ void	handle_redirection(t_command *cmd, t_command *cmd2)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	else if (cmd->next_interaction == DOUBLE_OUT)
+	else if (cmd->next_interaction == APPEND_OUT)
 	{
 		fd = open(cmd->exec_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
@@ -87,7 +86,7 @@ void	handle_redirection(t_command *cmd, t_command *cmd2)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	else if (cmd->next_interaction == DOUBLE_IN)
+	else if (cmd->next_interaction == HERE_DOC)
 	{
 		fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (fd < 0)

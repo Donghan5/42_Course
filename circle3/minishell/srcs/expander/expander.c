@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/11 16:10:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:08:09 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // to do role of the expanded_str in double quote
 // action like echo "Hello $USER" -> "Hello donghank(username)"
 // have to think where we put this things
+// maybe in parsing --> expanding the user input
 char	*expander(char *input_str, char **envp)
 {
 	int		idx;

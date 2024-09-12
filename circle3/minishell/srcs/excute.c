@@ -3,59 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   excute.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:23:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/10 13:32:44 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:57:30 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	search_path_and_run(t_command *cmd, t_env *env, int fds[2])
+void	close_fds(t_g_pipe *g)
 {
-	char	*path;
-	char	**splitted;
-	char	*full_path;
-	int		i;
-	int		executed;
+	int	i;
 
 	i = 0;
-	executed = 0;
-	path = getenv("PATH");
-	if (access(cmd->exec_name, X_OK) == 0)
-		execute_path(cmd->exec_name, cmd->args, env->environ, fds);
-	else
+	while (i < g->close_count)
 	{
-		splitted = ft_split(path, ':');
-		while (splitted && splitted[i])
-		{
-			full_path = triple_strjoin(splitted[i], "/", cmd->exec_name);
-			if (!full_path)
-			{
-				free_doub_array((void **) splitted);
-				exit_error("malloc");
-			}
-			if (access(full_path, X_OK) == 0)
-			{
-				executed = 1;
-				execute_path(full_path, cmd->args, env->environ, fds);
-				free(full_path);
-				break ;
-			}
-			i++;
-			free(full_path);
-		}
+		close(g->files_to_close[i]);
+		i++;
 	}
-	if (!executed)
-	{
-		write(2, cmd->exec_name, ft_strlen(cmd->exec_name));
-		write(2, ": command not found\n", 20);
-	}
-	free_doub_array((void **) splitted);
 }
 
-int	execute_path(char *path, char **args, char **environ, int fds[2])
+void search_path_and_run(t_g_pipe *g, t_env *env)
+{
+    char *path;
+    char **splitted;
+    char *full_path;
+    int i;
+
+    path = getenv("PATH");
+    if (access(g->cmd->exec_name, X_OK) == 0)
+        execve(g->cmd->exec_name, g->cmd->args, env->environ);
+    else
+    {
+        splitted = ft_split(path, ':');
+        i = 0;
+        while (splitted && splitted[i])
+        {
+            full_path = triple_strjoin(splitted[i], "/", g->cmd->exec_name);
+            if (!full_path)
+            {
+                free_doub_array((void **)splitted);
+                exit_error("malloc");
+            }
+            if (access(full_path, X_OK) == 0)
+            {
+                execve(full_path, g->cmd->args, env->environ);
+                free(full_path);
+                break;
+            }
+            free(full_path);
+            i++;
+        }
+        free_doub_array((void **)splitted);
+    }
+    
+    write(2, g->cmd->exec_name, ft_strlen(g->cmd->exec_name));
+    write(2, ": command not found\n", 20);
+    exit(127);
+}
+
+void	setup_operators_child(t_g_pipe *g)
+{
+	if (g->standard_io[0] != STDIN_FILENO)
+	{
+		dup2(g->standard_io[0], STDIN_FILENO);
+		close(g->standard_io[0]);
+	}
+	if (g->standard_io[1] != STDOUT_FILENO)
+	{
+		dup2(g->standard_io[1], STDOUT_FILENO);
+		close(g->standard_io[1]);
+	}
+	close_fds(g);
+}
+
+int	execute_path(char *path, t_g_pipe *g, char **environ)
 {
 	pid_t	pid;
 	int		status;
@@ -63,25 +86,41 @@ int	execute_path(char *path, char **args, char **environ, int fds[2])
 	pid = fork();
 	if (pid < 0)
 	{
-		free(path);
-		free_doub_array((void **) args);
+		if (path)
+			free(path);
+		free_doub_array((void **) g->cmd->args);
 		exit_error("fork");
 	}
 	if (pid == 0)
 	{
-		setup_pipes(fds[0], fds[1]);
-		if (execve(path, args, environ) == -1)
+		setup_operators_child(g);
+		if (path && (execve(path, g->cmd->args, environ) == -1))
 		{
 			free(path);
-			free_doub_array((void **) args);
+			free_doub_array((void **) g->cmd->args);
+			exit_error("execve");
+		}
+		else if (execve(g->cmd->exec_name, g->cmd->args, environ) == -1)
+		{
+			free_doub_array((void **) g->cmd->args);
 			exit_error("execve");
 		}
 	}
 	else
 	{
-		waitpid(pid, &status, WUNTRACED);
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(pid, &status, WUNTRACED);
+		close_fds(g);
+		if (g->cmd->next_interaction != PIPE)
+		{
+			int status;
+			waitpid(pid, &status, 0);
+			status = WEXITSTATUS(status);
+
+			if ((g->cmd->next_interaction == AND && status != 0) ||
+				(g->cmd->next_interaction == OR && status == 0))
+			{
+				return (0);
+			}
+		}
 	}
 	return (1);
 }

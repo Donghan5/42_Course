@@ -6,12 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/11 12:19:57 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:27:36 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // readline, rl_clear_history, rl_on_new_line,
 // rl_replace_line, rl_redisplay, add_history,
@@ -24,20 +23,86 @@
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
 
+void run_global_pipeline(t_g_pipe *g, t_env *env)
+{
+    t_g_pipe	*temp;
+    pid_t		pid;
+    int			status;
+    int			prev_pipe[2];
+	int			is_builtin;
 
-// void	execute_commmands(t_command	**cmds, t_env *env)
-// {
-// 	int	i;
+	temp = g;
+	prev_pipe[0] = -1;
+	prev_pipe[1] = -1;
+    while (temp)
+    {
+        if (!temp->is_exec_ignore)
+        {
+            if (temp->cmd->next_interaction == PIPE)
+            {
+                if (pipe(temp->pipe_fds) == -1)
+                    exit_error("pipe");
+            }
+			is_builtin = builtin_check(g->cmd);
+			if (!is_builtin)
+			{
+				pid = fork();
+				if (pid == -1)
+					exit_error("fork");
+			}
+            if (is_builtin || (pid == 0))
+            {
+                setup_operators_child(temp);
 
-// 	i = 0;
-// 	while (cmds[i])
-// 	{
-// 		i++;
-// 	}
+                if (prev_pipe[0] != -1)
+                {
+                    dup2(prev_pipe[0], STDIN_FILENO);
+                    close(prev_pipe[0]);
+                    close(prev_pipe[1]);
+                }
 
-// 	if (!buildin_check(env, cmd))
-// 		search_path_and_run(cmd, env);
-// }
+                if (temp->cmd->next_interaction == PIPE)
+                {
+                    close(temp->pipe_fds[0]);
+                    dup2(temp->pipe_fds[1], STDOUT_FILENO);
+                    close(temp->pipe_fds[1]);
+                }
+
+                if (!builtin_run(env, temp->cmd))
+				{
+                    search_path_and_run(temp, env);
+                	exit(1);
+				}
+            }
+            if (is_builtin || (pid != 0))
+            {
+                if (prev_pipe[0] != -1)
+                {
+                    close(prev_pipe[0]);
+                    close(prev_pipe[1]);
+                }
+                if (temp->cmd->next_interaction == PIPE)
+                {
+                    prev_pipe[0] = temp->pipe_fds[0];
+                    prev_pipe[1] = temp->pipe_fds[1];
+                }
+                else
+                    prev_pipe[0] = prev_pipe[1] = -1;
+                if (!is_builtin && (temp->cmd->next_interaction != PIPE))
+                {
+                    waitpid(pid, &status, 0);
+                    if ((temp->cmd->next_interaction == AND && WEXITSTATUS(status) != 0) ||
+                        (temp->cmd->next_interaction == OR && WEXITSTATUS(status) == 0))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        temp = temp->next;
+    }
+    while (wait(NULL) > 0);
+}
 
 int	main(int argc, char **argv)
 {
@@ -46,21 +111,14 @@ int	main(int argc, char **argv)
 	t_env		env;
 	extern char **environ;
 	char		*prompt;
-	int			i;
 	char		**to_free;
-	int			fds[2];
-	int			pipe_fd[2];
-	int			temp_pipe_read;
+	t_g_pipe	*g;
 
 	env.environ = environ;
 	parse_env(&env);
-	// printf("%s\n", get_value_for_name(env.environ_name_value, "HOME"));
 	using_history();
-	set_signal();
-	int tempin = dup(STDIN_FILENO);
 	while (1)
 	{
-		i = 0;
 		prompt = get_prompt();
 		line = readline(prompt);
 		free(prompt);
@@ -70,36 +128,12 @@ int	main(int argc, char **argv)
 			add_history(line);
 		to_free = parse(&cmds, line);
 		free(line);
-		temp_pipe_read = STDIN_FILENO;
-		while (cmds && cmds[i])
-		{
-			fds[0] = temp_pipe_read;
-			fds[1] = STDOUT_FILENO;
-			if (cmds[i]->next_interaction == PIPE)
-			{
-				if (pipe(pipe_fd) == -1)
-					exit_error("pipe");
-				fds[1] = pipe_fd[1];
-			}
-			// handle_redirection(cmds[0], cmds[1]);
-			// printf("cmd=%s, iner=%d\n", cmds[i]->exec_name, cmds[i]->next_interaction);
-			if (!buildin_check(&env, cmds[i]))
-				search_path_and_run(cmds[i], &env, fds);
-			if (temp_pipe_read != STDIN_FILENO)
-				close(temp_pipe_read);
-			if (cmds[i]->next_interaction == PIPE)
-			{
-				close(pipe_fd[1]);
-				temp_pipe_read = pipe_fd[0];
-			}
-			else
-				temp_pipe_read = STDIN_FILENO;
-			i++;
-		}
+		g = cmds_to_global_pipeline(cmds);
+		prepare_pipeline(g);
+		run_global_pipeline(g, &env);
 		free_doub_array((void **) to_free);
 		if (cmds)
 			free_doub_array((void **) cmds);
-		dup2(tempin, STDIN_FILENO);
 	}
 	rl_clear_history();
 	return (0);

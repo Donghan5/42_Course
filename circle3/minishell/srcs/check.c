@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/10 17:38:32 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:32:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cd_check(t_command	*cmd, t_env *env)
 	{
 		if (cmd->args[1] == NULL)
 		{
-			if (chdir(getenv("HOME")) != 0)
+			if(chdir(getenv("HOME")) != 0)
 				perror("cd");
 		}
 		else if (cmd->args[1][0] == '~')
@@ -52,7 +52,16 @@ int	pwd_check(t_command *cmd)
 	return (0);
 }
 
-int	buildin_check(t_env *env, t_command	*cmd)
+int	builtin_check(t_command	*cmd)
+{
+	if ((!ft_strncmp(cmd->exec_name, "pwd", ft_strlen(cmd->exec_name)))
+		|| (!ft_strncmp(cmd->exec_name, "exit", ft_strlen(cmd->exec_name)))
+		|| (!ft_strncmp(cmd->exec_name, "cd", ft_strlen(cmd->exec_name))))
+		return (1);
+	return (0);
+}
+
+int	builtin_run(t_env *env, t_command	*cmd)
 {
 	normal_exit_check(cmd);
 	if (pwd_check(cmd) || cd_check(cmd, env))
