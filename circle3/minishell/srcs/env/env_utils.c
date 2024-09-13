@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/11 15:43:22 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:39:31 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int	g_exit_status;
 
 // In key=value return the length of the value
+// size is the size of the key(str)
 int	size_env_value(char *str, int size, char **envp)
 {
 	int	idx;
@@ -87,4 +88,23 @@ int	get_env_parse_len(char *str, char **envp)
 			size++;
 	}
 	return (size);
+}
+
+// add the new element in the back of the list
+void	env_add_back(t_name_value **node, t_name_value *new)
+{
+	t_name_value	*cur;
+
+	cur = *node;
+	while (cur)
+	{
+		if (!cur->next)
+		{
+			cur->next = new;
+			return ;
+		}
+		cur = cur->next;
+	}
+	if (!cur)
+		*node = new;
 }

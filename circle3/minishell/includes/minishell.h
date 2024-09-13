@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/13 00:13:13 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:48:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ enum e_operator
 	HERE_DOC
 };
 
+// defines run or not
+# define RUN 1
+# define NOT_RUN 0
+
 // defines quotes check
 # define NOT_CLOSED 0
 # define CLOSED 1
@@ -54,13 +58,17 @@ enum e_operator
 # define STDOUT 1
 # define STDIN 0
 
+// define to env_utils2
+# define UPDATED 1
+# define NOT_UPDATED 0
+
 // define buffer to use in gnl func
 # define BUFFER_SIZE 256
 
 // error msgs
 # define ALLOC_ERROR "Fail to allocate"
-# define NOT_IDENTIFY "export: not a valid identifier"
-
+# define EXPORT_NOT_IDENTIFY "export: not a vaild identifier"
+# define UNSET_NOT_IDENTIFY "unset: not a vaild identifier"
 // define for shlvl.c files
 # define NON_VALID 1
 # define VALID 0
@@ -86,15 +94,11 @@ typedef struct s_g_pipe
 
 typedef struct s_name_value
 {
-	char	*name;
-	char	*value;
-}				t_name_value;
+	char				*name;
+	char				*value;
+	struct s_name_value	*next;
 
-typedef struct s_env
-{
-	char			**environ;
-	t_name_value	*environ_name_value;
-}				t_env;
+}				t_name_value;
 
 // node for environement data
 typedef struct s_env_node
@@ -103,6 +107,13 @@ typedef struct s_env_node
 	char				*content;
 	struct s_env_node	*next;
 }				t_env_node;
+
+typedef struct s_env
+{
+	char			**environ;
+	t_name_value	*environ_name_value;
+	t_env_node		*env_node;
+}				t_env;
 
 // ft_get.c
 char		*get_value_for_name(t_name_value *arr, char *name);
@@ -156,38 +167,47 @@ int			single_quote_cnt(char *str, int *size);
 void		handle_signal(int signo);
 void		set_signal(void);
 
+// init_env.c
+void		init_env(t_env *env, t_command *cmd);
+
 // env_utils.c
 int			size_env_value(char *str, int size, char **envp);
 int			size_env_key(char *str);
 int			env_cnt(char *str, int *size, char **envp);
 int			get_env_parse_len(char *str, char **envp);
+void		env_add_back(t_name_value **node, t_name_value *new);
 
 // env_utils2.c
-void		create_new_env_var(char *tok_str, t_env_node **env_node);
-char		*swap_new_env_var(char **cur_e_ptr, char *var_name, char *new_var);
-void		update_new_env_var(char *var, char *new_value, t_env_node *env);
-void		env_node_add_front(t_env_node **env_node, t_env_node *new_node);
-t_env_node	*new_env_node(char *content);
+void			create_new_env_var(char *tok_str, t_env *env);
+char			*swap_new_env_var(t_env *env, char *var_name, char *new_var);
+int				update_new_env_var(char *var, char *new_val, t_env *env);
+void			env_node_add_front(t_name_value **env_node, t_name_value *new_node);
+t_name_value	*new_env_node(char *content);
 
 // shlvl.c
-void		increment_shell_level(t_env_node *env);
+void			increment_shell_level(t_name_value *env);
 
 // expander.c
-char		*expander(char *input_str, char **envp);
+char			*expander(char *input_str, char **envp);
 
 //prepare_pipeline
 t_g_pipe	*cmds_to_global_pipeline(t_command **cmds);
 int			prepare_pipeline(t_g_pipe *g);
 
 // export_utils.c
-int			env_list_size(t_env_node *env_node);
-char		**env_lst_to_array(t_env_node *env_node);
+int			env_list_size(t_name_value *env_node);
+char		**env_lst_to_array(t_name_value *env_node);
 void		sort_env_array(char **env_arr);
 
 // export.c
-int			check_identify_key(char *key);
-void		print_export(t_env_node *env_node);
-int			ft_export(t_command *cmd, t_env_node *env_node);
-int			export(t_command *cmd, t_env_node *env_node);
+int			print_export(t_env *env);
+int			ft_export(t_command *cmd, t_env *env);
+int			export(t_command *cmd, t_env *env);
+void		create_new_env_var_back(char *tok_str, t_env *env);
+
+// unset.c
+int			unset(t_command *cmd, char **envp);
+char		*key_duplicate(t_command *cmd);
+char		*getenv_value(t_command *cmd, char **envp);
 
 #endif
