@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 17:24:52 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:14:48 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	get_level(const char *str)
 
 // goal : to increase the level of the shell
 // note : using struct of the libft
-void	increment_shell_level(t_name_value *env_node)
+void	increment_shell_level(t_env *env)
 {
 	char	*shlvl_str;
 	int		shell_lvl;
@@ -74,6 +74,6 @@ void	increment_shell_level(t_name_value *env_node)
 	new_shlvl_str = ft_itoa(shell_lvl);
 	if (!new_shlvl_str)
 		exit_error(ALLOC_ERROR);
-	update_new_env_var(shlvl_str, new_shlvl_str, env_node);
+	update_new_env_var(shlvl_str, new_shlvl_str, env);
 	free(new_shlvl_str);
 }

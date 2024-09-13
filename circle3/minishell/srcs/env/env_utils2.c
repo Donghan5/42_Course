@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 18:00:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:16:15 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 	char			*fin_env;
 	t_name_value	*node;
 
-	node = env->env_node;
+	node = env->environ_name_value;
 	while (node)
 	{
 		if (ft_strncmp(node->name, var_name, ft_strlen(var_name)) == 0 \
@@ -42,7 +42,7 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 		{
 			if (node->value)
 			{
-				fin_env = triple_strjoin(var_name, '=', new_var);
+				fin_env = triple_strjoin(var_name, "=", new_var);
 				if (!fin_env)
 					exit_error(ALLOC_ERROR);
 				free(node->value);
@@ -59,16 +59,16 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 // example var=value - update_new_env_var -> val=new_value
 int	update_new_env_var(char *var, char *new_val, t_env *env)
 {
-	t_env_node	*node;
+	t_name_value	*node;
 
 	node = env->environ_name_value;
 	while (node)
 	{
-		if (ft_strncmp(node->key, var, ft_strlen(var)) == 0 &&\
-		node->key[ft_strlen(var)] == '=')
+		if (ft_strncmp(node->name, var, ft_strlen(var)) == 0 &&\
+		node->name[ft_strlen(var)] == '=')
 		{
-			free(node->content);
-			node->content = swap_new_env_var(env, new_val, var);
+			free(node->value);
+			node->value = swap_new_env_var(env, new_val, var);
 			return (UPDATED);
 		}
 		node = node->next;

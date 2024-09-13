@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/13 18:00:28 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:15:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void			env_node_add_front(t_name_value **env_node, t_name_value *new_node);
 t_name_value	*new_env_node(char *content);
 
 // shlvl.c
-void			increment_shell_level(t_name_value *env);
+void			increment_shell_level(t_env *env);
 
 // expander.c
 char			*expander(char *input_str, char **envp);
