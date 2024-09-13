@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 17:48:56 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:00:01 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ t_name_value	*new_env_node(char *content)
 	new_node->value = NULL;
 	new_node->next = NULL;
 	new_node->name = NULL;
-
 	if (content)
 	{
 		equal_sign = ft_strchr(content, '=');

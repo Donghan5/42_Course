@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/13 17:48:28 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:00:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,23 +191,23 @@ void			increment_shell_level(t_name_value *env);
 char			*expander(char *input_str, char **envp);
 
 //prepare_pipeline
-t_g_pipe	*cmds_to_global_pipeline(t_command **cmds);
-int			prepare_pipeline(t_g_pipe *g);
+t_g_pipe		*cmds_to_global_pipeline(t_command **cmds);
+int				prepare_pipeline(t_g_pipe *g);
 
 // export_utils.c
-int			env_list_size(t_name_value *env_node);
-char		**env_lst_to_array(t_name_value *env_node);
-void		sort_env_array(char **env_arr);
+int				env_list_size(t_name_value *env_node);
+char			**env_lst_to_array(t_name_value *env_node);
+void			sort_env_array(char **env_arr);
 
 // export.c
-int			print_export(t_env *env);
-int			ft_export(t_command *cmd, t_env *env);
-int			export(t_command *cmd, t_env *env);
-void		create_new_env_var_back(char *tok_str, t_env *env);
+int				print_export(t_env *env);
+int				ft_export(t_command *cmd, t_env *env);
+int				export(t_command *cmd, t_env *env);
+void			create_new_env_var_back(char *tok_str, t_env *env);
 
 // unset.c
-int			unset(t_command *cmd, char **envp);
-char		*key_duplicate(t_command *cmd);
-char		*getenv_value(t_command *cmd, char **envp);
+int				unset(t_command *cmd, char **envp);
+char			*key_duplicate(t_command *cmd);
+char			*getenv_value(t_command *cmd, char **envp);
 
 #endif
