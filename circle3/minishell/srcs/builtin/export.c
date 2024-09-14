@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:46:51 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 17:48:41 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/14 14:17:52 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int	ft_export(t_command *cmd, t_env *env)
 	i++;
 	value = ft_strdup(&cmd->args[1][i]);
 	key_value = triple_strjoin(key, "=", value);
-	if (update_new_env_var(key, value, env) == NOT_UPDATED)
-		create_new_env_var_back(key_value, env);
+	new_env_node(key_value);
 	free(key);
 	free(value);
 	free(key_value);
