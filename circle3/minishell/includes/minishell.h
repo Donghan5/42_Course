@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/15 15:30:41 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:32:10 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,75 +112,75 @@ typedef struct s_env
 }				t_env;
 
 // ft_get.c
-char		*get_value_for_name(t_name_value *arr, char *name);
-char		*replace_home_tilde(char *cwd);
-char		*get_prompt(void);
+char			*get_value_for_name(t_name_value *arr, char *name);
+char			*replace_home_tilde(char *cwd);
+char			*get_prompt(void);
 
 // check.c
-int			cd_check(t_command *cmd, t_env *env);
-int			builtin_check(t_command *cmd);
-int			builtin_run(t_env *env, t_command	*cmd);
+int				cd_check(t_command *cmd, t_env *env);
+int				builtin_check(t_command *cmd);
+int				builtin_run(t_env *env, t_command	*cmd);
 
 // excute.c
-void		search_path_and_run(t_g_pipe *g, t_env *env);
-int			execute_path(char *path, t_g_pipe *g, char **environ);
-void		setup_operators_child(t_g_pipe *g);
+void			search_path_and_run(t_g_pipe *g, t_env *env);
+int				execute_path(char *path, t_g_pipe *g, char **environ);
+void			setup_operators_child(t_g_pipe *g);
 
 // fill.c
-void		fill_cmd(char **whitespaced, t_command *cmd, int n, int start_index);
-int			fill_interaction(t_command *cmd, char *word);
+void			fill_cmd(char **whitespaced, t_command *cmd, int n, int start_index);
+int				fill_interaction(t_command *cmd, char *word);
 
 // ft_exit.c
-void		normal_exit_check(t_command *cmd);
-void		exit_error(char *perror_message);
+void			normal_exit_check(t_command *cmd);
+void			exit_error(char *perror_message);
 
 // parsing.c
-char		**parse(t_command **(*cmds), char *line);
-void		parse_env(t_env *env);
+char			**parse(t_command **(*cmds), char *line);
+void			parse_env(t_env *env);
 
 // pipe.c
-void		setup_pipes(int input_fd, int output_fd);
-void		handle_redirection(t_command *cmd, t_command *cmd2);
+void			setup_pipes(int input_fd, int output_fd);
+void			handle_redirection(t_command *cmd, t_command *cmd2);
 
 // utils.c
-void		print_arr(char **arr);
-void		free_doub_array(void **arr);
-char		*triple_strjoin(char *s1, char *s2, char *s3);
-char		*get_next_line(int fd);
+void			print_arr(char **arr);
+void			free_doub_array(void **arr);
+char			*triple_strjoin(char *s1, char *s2, char *s3);
+char			*get_next_line(int fd);
 
 // header.c
-void		header(void);
+void			header(void);
 
 // ft_whitesplit.c
-char		**ft_whitesplit(char const *s);
+char			**ft_whitesplit(char const *s);
 
 // ft_whitespace.c
-int			ft_iswhitespace(int c);
+int				ft_iswhitespace(int c);
 
 // quote.c
-int			check_unclosed_quote(char *str, char quote);
-int			double_quote_cnt(char *str, int *size, char **envp);
-int			single_quote_cnt(char *str, int *size);
+int				check_unclosed_quote(char *str, char quote);
+int				double_quote_cnt(char *str, int *size, char **envp);
+int				single_quote_cnt(char *str, int *size);
 
 // signal.c
-void		handle_signal(int signo);
-void		set_signal(void);
+void			handle_signal(int signo);
+void			set_signal(void);
 
 // init_env.c
-void		init_env(t_env *env, t_command *cmd);
+void			init_env(t_env *env, t_command *cmd);
 
 // env_utils.c
-int			size_env_value(char *str, int size, char **envp);
-int			size_env_key(char *str);
-int			env_cnt(char *str, int *size, char **envp);
-int			get_env_parse_len(char *str, char **envp);
-void		env_add_back(t_name_value **node, t_name_value *new);
+int				size_env_value(char *str, int size, char **envp);
+int				size_env_key(char *str);
+int				env_cnt(char *str, int *size, char **envp);
+int				get_env_parse_len(char *str, char **envp);
+void			env_add_back(t_name_value **node, t_name_value *new);
 
 // env_utils2.c
 void			create_new_env_var(char *tok_str, t_env *env);
 char			*swap_new_env_var(t_env *env, char *var_name, char *new_var);
 int				update_new_env_var(char *var, char *new_val, t_env *env);
-void			env_node_add_front(t_name_value **env_node, t_name_value *new_node);
+void			env_add_front(t_name_value **env_node, t_name_value *new_node);
 t_name_value	*new_env_node(char *content);
 
 // shlvl.c
@@ -199,8 +199,10 @@ char			**env_lst_to_array(t_name_value *env_node);
 void			sort_env_array(char **env_arr);
 int				print_export(t_env *env);
 
-// export.c
+// export_utils2.c
 int				ft_export(t_command *cmd, t_env *env);
+
+// export.c
 int				export(t_command *cmd, t_env *env);
 
 // unset.c

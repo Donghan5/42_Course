@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 18:16:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:32:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	update_new_env_var(char *var, char *new_val, t_env *env)
 }
 
 // add the environ node at front
-void	env_node_add_front(t_name_value **env_node, t_name_value *new_node)
+void	env_add_front(t_name_value **env_node, t_name_value *new_node)
 {
 	new_node->next = *env_node;
 	*env_node = new_node;

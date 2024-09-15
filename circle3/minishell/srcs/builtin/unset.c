@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/15 15:47:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:26:10 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,12 @@ static int	remove_env_var(t_command *cmd, t_env *env)
 	key_size = size_env_key(cmd->args[1]);
 	key = key_duplicate(cmd);
 	key = cmd->args[1];
-	// key_size = ft_strlen(key);
-	printf("Key: %s\n", key);
 	i = 0;
 	while (env->environ[i])
 	{
-		printf("For %s, %d, %d, %d\n", env->environ[i],ft_strncmp(env->environ[i], key, key_size), env->environ[i][key_size] == '=', env->environ[i][key_size] == '\0');
 		if (ft_strncmp(env->environ[i], key, key_size) == 0 && \
 		(env->environ[i][key_size] == '=' || env->environ[i][key_size] == '\0'))
 		{
-			printf("WWWWWWWWW");
 			free(env->environ[i]);
 			while (env->environ[i])
 			{
