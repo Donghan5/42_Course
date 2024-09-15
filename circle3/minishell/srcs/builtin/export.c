@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:46:51 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/14 14:17:52 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:16:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,38 +27,54 @@ static int	check_identify_key(char *key)
 	return (SUCCESS);
 }
 
-// add the declare -x in front of the paths
-int	print_export(t_env *env)
+static int	find_key_index(char **env_arr, char *key)
 {
-	char			**env_arr;
-	int				i;
-	int				j;
+	int	i;
 
-	env_arr = env->environ;
-	if (!env_arr)
-		return (FAIL);
-	sort_env_array(env_arr);
 	i = 0;
 	while (env_arr[i])
 	{
-		printf("declare -x %s\n", env_arr[i]);
+		if (!(ft_strncmp(env_arr[i], key, ft_strlen(key))) && \
+		env_arr[i][ft_strlen(key)] == '=')
+			return (i);
 		i++;
 	}
-	return (SUCCESS);
+	return (NOT_FOUND);
 }
 
-void	create_new_env_var_back(char *tok_str, t_env *env)
-{
-	t_name_value	*new_var;
-	char			*new_var_str;
+// to calcuate element of the double pointer array
+// static int
 
-	new_var_str = ft_strdup(tok_str);
-	if (!new_var_str)
-		exit_error(ALLOC_ERROR);
-	new_var = new_env_node((void *)new_var_str);
-	if (!new_var)
-		exit_error(ALLOC_ERROR);
-	env_add_back(&(env->environ_name_value), new_var);
+// to add and update new declaration
+static int	update_env_array(t_env *env, char *key_value)
+{
+	char	**new_env;
+	int		i;
+	int		var_index;
+
+	var_index = find_key_index(env->environ, key_value);
+	i = 0;
+	if (var_index != NOT_FOUND)
+	{
+		free(env->environ[var_index]);
+		env->environ[var_index] = ft_strdup(key_value);
+		return (SUCCESS);
+	}
+	while (env->environ[i])
+		i++;
+	new_env = (char **)malloc(sizeof(char *) * (i + 2));
+	if (!new_env)
+		return (FAIL);
+	i = 0;
+	while (env->environ[i])
+	{
+		new_env[i] = env->environ[i];
+		i++;
+	}
+	new_env[i] = ft_strdup(key_value);
+	new_env[i + 1] = NULL;
+	env->environ = new_env;
+	return (SUCCESS);
 }
 
 // args --> associate with t_command->exec_name
@@ -67,10 +83,11 @@ void	create_new_env_var_back(char *tok_str, t_env *env)
 // parameters key=value, and index
 int	ft_export(t_command *cmd, t_env *env)
 {
-	int		i;
-	char	*key;
-	char	*value;
-	char	*key_value;
+	int				i;
+	char			*key;
+	char			*value;
+	char			*key_value;
+	t_name_value	*new_var;
 
 	i = 0;
 	if (!cmd->args[1] || !(ft_strrchr(cmd->args[1], (int) '=')))
@@ -83,7 +100,8 @@ int	ft_export(t_command *cmd, t_env *env)
 	i++;
 	value = ft_strdup(&cmd->args[1][i]);
 	key_value = triple_strjoin(key, "=", value);
-	new_env_node(key_value);
+	// new_var = new_env_node(key_value);
+	update_env_array(env, key_value);
 	free(key);
 	free(value);
 	free(key_value);

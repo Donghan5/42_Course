@@ -6,11 +6,32 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 17:25:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:14:39 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+// add the declare -x in front of the paths
+int	print_export(t_env *env)
+{
+	char			**env_arr;
+	int				i;
+	int				j;
+
+	env_arr = env->environ;
+	if (!env_arr)
+		return (FAIL);
+	sort_env_array(env_arr);
+	i = 0;
+	while (env_arr[i])
+	{
+		printf("declare -x %s\n", env_arr[i]);
+		i++;
+	}
+	return (SUCCESS);
+}
 
 // to calculate the size of array
 int	env_list_size(t_name_value *env_node)

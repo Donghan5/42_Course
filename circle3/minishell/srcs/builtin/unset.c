@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 14:31:41 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:47:10 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	check_identify_key(char *key)
 }
 
 // to delete key in the envp
-static int	remove_env_var(t_command *cmd, char **envp)
+static int	remove_env_var(t_command *cmd, t_env *env)
 {
 	int		key_size;
 	char	*key;
@@ -76,16 +76,21 @@ static int	remove_env_var(t_command *cmd, char **envp)
 
 	key_size = size_env_key(cmd->args[1]);
 	key = key_duplicate(cmd);
+	key = cmd->args[1];
+	// key_size = ft_strlen(key);
+	printf("Key: %s\n", key);
 	i = 0;
-	while (envp[i])
+	while (env->environ[i])
 	{
-		if (ft_strncmp(envp[i], key, key_size) == 0 && \
-		(envp[i][key_size] == '=' || envp[i][key_size] == '\0'))
+		printf("For %s, %d, %d, %d\n", env->environ[i],ft_strncmp(env->environ[i], key, key_size), env->environ[i][key_size] == '=', env->environ[i][key_size] == '\0');
+		if (ft_strncmp(env->environ[i], key, key_size) == 0 && \
+		(env->environ[i][key_size] == '=' || env->environ[i][key_size] == '\0'))
 		{
-			free(envp[i]);
-			while (envp[i])
+			printf("WWWWWWWWW");
+			free(env->environ[i]);
+			while (env->environ[i])
 			{
-				envp[i] = envp[i + 1];
+				env->environ[i] = env->environ[i + 1];
 				i++;
 			}
 			return (SUCCESS);
@@ -96,7 +101,7 @@ static int	remove_env_var(t_command *cmd, char **envp)
 }
 
 // goal --> delete value
-int	unset(t_command *cmd, char **envp)
+int	unset(t_command *cmd, t_env *env)
 {
 	char	*key;
 	int		i;
@@ -104,7 +109,7 @@ int	unset(t_command *cmd, char **envp)
 	key = key_duplicate(cmd);
 	if (check_identify_key(key) == FAIL)
 		return (free(key), FAIL);
-	if (remove_env_var(cmd, envp) == FAIL)
+	if (remove_env_var(cmd, env) == FAIL)
 		return (free(key), FAIL);
 	free(key);
 	return (SUCCESS);

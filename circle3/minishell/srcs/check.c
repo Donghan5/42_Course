@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 16:10:20 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:30:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int	export_check(t_command *cmd, t_env *env)
 	return (NOT_RUN);
 }
 
-int	unset_check(t_command *cmd, char **envp)
+int	unset_check(t_command *cmd, t_env *env)
 {
 	if (!ft_strncmp(cmd->exec_name, "unset", ft_strlen(cmd->exec_name)))
 	{
-		return (unset(cmd, envp), RUN);
+		return (unset(cmd, env), RUN);
 	}
 	return (NOT_RUN);
 }
@@ -86,7 +86,7 @@ int	builtin_run(t_env *env, t_command *cmd)
 {
 	// init_env(env, cmd);
 	normal_exit_check(cmd);
-	if (pwd_check(cmd) || cd_check(cmd, env) || export_check(cmd, env) || unset_check(cmd, env->environ))
+	if (pwd_check(cmd) || cd_check(cmd, env) || export_check(cmd, env) || unset_check(cmd, env))
 		return (RUN);
 	return (NOT_RUN);
 }

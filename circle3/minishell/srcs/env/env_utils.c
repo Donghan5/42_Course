@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/13 17:39:31 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:46:37 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,11 @@ int	size_env_key(char *str)
 	int	idx;
 
 	idx = 0;
-	if (ft_isdigit(str[1]))
+	if (!ft_isalpha(str[1]) && str[idx] != '_')
 		return (1);
-	while (str[++idx])
-	{
-		if (ft_isalnum(str[idx]) && str[idx] == '_')
-			return (idx - 1);
-	}
-	return (idx - 1);
+	while (str[idx] && ((ft_isalnum(str[idx]) || str[idx] == '_')))
+		idx++;
+	return (idx);
 }
 
 // to return env length

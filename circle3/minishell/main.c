@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/12 16:27:36 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/15 13:48:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	main(int argc, char **argv)
 
 	env.environ = environ;
 	parse_env(&env);
+	header();
 	using_history();
 	while (1)
 	{
