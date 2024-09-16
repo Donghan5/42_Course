@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/15 21:32:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:50:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	create_new_env_var(char *tok_str, t_env *env)
 	new_var = new_env_node((void *)new_var_str);
 	if (!new_var)
 		exit_error(ALLOC_ERROR);
-	env_node_add_front(&(env->environ_name_value), new_var);
+	env_add_front(&(env->environ_name_value), new_var);
 }
 
 // swap_new_env_var --> goal : to replace env_var

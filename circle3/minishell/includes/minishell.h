@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/15 21:32:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:38:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_command
 	int			next_interaction;
 }				t_command;
 
+// struct of global pipe lines
 typedef struct s_g_pipe
 {
 	int					standard_io[2];
@@ -97,6 +98,7 @@ typedef struct s_g_pipe
 	struct s_g_pipe		*previous;
 }				t_g_pipe;
 
+// name key=value
 typedef struct s_name_value
 {
 	char				*name;
@@ -105,6 +107,7 @@ typedef struct s_name_value
 
 }				t_name_value;
 
+// struct of the global environment
 typedef struct s_env
 {
 	char			**environ;
@@ -116,8 +119,13 @@ char			*get_value_for_name(t_name_value *arr, char *name);
 char			*replace_home_tilde(char *cwd);
 char			*get_prompt(void);
 
-// check.c
+// cd.c
 int				cd_check(t_command *cmd, t_env *env);
+
+// pwd.c
+int				pwd_check(t_command *cmd);
+
+// check.c
 int				builtin_check(t_command *cmd);
 int				builtin_run(t_env *env, t_command	*cmd);
 
@@ -166,8 +174,6 @@ int				single_quote_cnt(char *str, int *size);
 void			handle_signal(int signo);
 void			set_signal(void);
 
-// init_env.c
-void			init_env(t_env *env, t_command *cmd);
 
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);
@@ -204,9 +210,13 @@ int				ft_export(t_command *cmd, t_env *env);
 
 // export.c
 int				export(t_command *cmd, t_env *env);
+int				export_check(t_command *cmd, t_env *env);
 
 // unset.c
 int				unset(t_command *cmd, t_env *env);
+int				unset_check(t_command *cmd, t_env *env);
+
+// unset_utils.c
 char			*key_duplicate(t_command *cmd);
 char			*getenv_value(t_command *cmd, char **envp);
 

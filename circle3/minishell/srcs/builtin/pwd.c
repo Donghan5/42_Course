@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_whitespace.c                                    :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 13:15:47 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/16 11:48:34 by donghank         ###   ########.fr       */
+/*   Created: 2024/09/16 11:25:41 by donghank          #+#    #+#             */
+/*   Updated: 2024/09/16 11:27:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_iswhitespace(int c)
+#include "minishell.h"
+
+// built-in function pwd --> print the path
+int	pwd_check(t_command *cmd)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || \
-	c == '\v' || c == '\f' || c == '\r')
-		return (1);
-	return (0);
+	int	buf;
+
+	if (!ft_strncmp(cmd->exec_name, "pwd", ft_strlen(cmd->exec_name)))
+	{
+		printf("%s\n", getcwd(NULL, buf));
+		return (RUN);
+	}
+	return (NOT_RUN);
 }

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/15 14:14:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:41:51 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	**env_lst_to_array(t_name_value *env)
 	return (env_arr);
 }
 
+// to calculate which is bigger (base on ascii)
 static int	array_cmp(char *s1, char *s2)
 {
 	int	i;
@@ -83,7 +84,7 @@ static int	array_cmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-// sorting the array
+// sorting the array by ascending order (by using array_cmp)
 void	sort_env_array(char **env_arr)
 {
 	int		i;
