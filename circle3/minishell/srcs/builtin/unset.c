@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 15:53:42 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:06:31 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,9 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 }
 
 // to check run cond and run func
-int	unset_check(t_glob_pipe *cmd, t_env *env, int *status)
+int	unset_check(t_glob_pipe *cmd, t_env *env)
 {
 	if (!ft_strncmp(cmd->name, "unset", ft_strlen(cmd->name)))
-	{
-		if (unset(cmd, env) == FAIL)
-			*status = 1;
-		return (RUN);
-	}
+		return (unset(cmd, env), RUN);
 	return (NOT_RUN);
 }

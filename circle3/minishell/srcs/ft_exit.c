@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 14:11:41 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:05:17 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	normal_exit_check(t_glob_pipe *cmd, int *status)
 	if (!ft_strncmp(cmd->name, "exit", ft_strlen(cmd->name)))
 	{
 		rl_clear_history();
-		free_doub_array((void **) cmd->args);
+		free_glob_pipe(&cmd);
 		printf("exit\n");
 		exit(*status);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/17 15:54:06 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:02:20 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,9 @@ typedef struct s_env
 	t_name_value	*environ_name_value;
 }				t_env;
 
+// run_global_pipeline.c
+void			run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status);
+
 // free.c
 void			free_glob_pipe(t_glob_pipe **glob_pipe);
 
@@ -142,7 +145,7 @@ void			exit_error(char *perror_message);
 
 // parsing.c
 int 			parse(t_glob_pipe **glob_pipe, char *line);
-void			parse_env(t_env *env);
+void			parse_env(t_env *env, char **environ);
 int 			is_redirect(char *token);
 int 			is_operator(char *token);
 
@@ -209,7 +212,7 @@ int				export_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // unset.c
 int				unset(t_glob_pipe *cmd, t_env *env);
-int				unset_check(t_glob_pipe *cmd, t_env *env, int *status);
+int				unset_check(t_glob_pipe *cmd, t_env *env);
 
 // unset_utils.c
 char			*key_duplicate(t_glob_pipe *cmd);

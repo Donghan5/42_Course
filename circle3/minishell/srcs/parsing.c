@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 14:00:06 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:06:57 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	is_operator(char *token)
 	int	next_interaction;
 
 	next_interaction = fill_operator(NULL, token);
-	if (next_interaction == AND || next_interaction == APPEND_OUT || next_interaction == HERE_DOC
+	if (next_interaction == AND || next_interaction == APPEND_OUT
+		|| next_interaction == HERE_DOC
 		|| next_interaction == OR)
 		return (2);
 	if ((next_interaction >= 1) && (next_interaction <= 7))
@@ -38,23 +39,23 @@ int	is_redirect(char *token)
 
 t_glob_pipe	*new_glob_pipe(t_glob_pipe	*prev);
 
-int	add_redir_as_glob_pipes(char **tokens, int n, int start_index, t_glob_pipe *temp_pipe)
+int	add_redir_as_glob_pipes(char **tokens, int n, int index, t_glob_pipe *temp)
 {
 	int	i;
-	
-	i = start_index;
-	while (i < start_index + n)
+
+	i = index;
+	while (i < index + n)
 	{
 		if (is_redirect(tokens[i]) && tokens[i + 1])
 		{
-			temp_pipe = new_glob_pipe(temp_pipe);
-			if (!temp_pipe)
+			temp = new_glob_pipe(temp);
+			if (!temp)
 				return (0);
-			fill_operator(temp_pipe, tokens[i]);
-			temp_pipe->args = malloc(sizeof (char *) * 2);
-			temp_pipe->args[0] = ft_strdup(tokens[i + 1]);
-			temp_pipe->args[1] = NULL;
-			temp_pipe->name = temp_pipe->args[0];
+			fill_operator(temp, tokens[i]);
+			temp->args = malloc(sizeof (char *) * 2);
+			temp->args[0] = ft_strdup(tokens[i + 1]);
+			temp->args[1] = NULL;
+			temp->name = temp->args[0];
 		}
 		i++;
 	}
@@ -68,7 +69,6 @@ t_glob_pipe	*new_glob_pipe(t_glob_pipe	*prev)
 	new_elem = malloc(sizeof (t_glob_pipe));
 	if (!new_elem)
 		return (NULL);
-	// memset(new_elem, 0, sizeof (t_glob_pipe));
 	new_elem->args = NULL;
 	new_elem->name = NULL;
 	new_elem->previous = NULL;
@@ -108,7 +108,7 @@ int	parse(t_glob_pipe **glob_pipe, char *line)
 		{
 			token_counter++;
 			if (!tokens[i + 1])
-				break;
+				break ;
 			i++;
 		}
 		if (tokens[i] && is_operator(tokens[i]) && !tokens[i + 1])
@@ -148,12 +148,13 @@ int	parse(t_glob_pipe **glob_pipe, char *line)
 	return (1);
 }
 
-void	parse_env(t_env *env)
+void	parse_env(t_env *env, char **environ)
 {
 	int		i;
 	char	**temp;
 
 	i = 0;
+	env->environ = environ;
 	while (env->environ[i])
 		i++;
 	// env->environ_name_value = malloc(sizeof(t_env *) * (i + 1));

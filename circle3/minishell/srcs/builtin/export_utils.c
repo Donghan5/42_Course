@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/16 12:41:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:03:13 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // add the declare -x in front of the paths
 int	print_export(t_env *env)
@@ -22,7 +21,7 @@ int	print_export(t_env *env)
 
 	env_arr = env->environ;
 	if (!env_arr)
-		return (FAIL);
+		return (0);
 	sort_env_array(env_arr);
 	i = 0;
 	while (env_arr[i])
@@ -30,7 +29,7 @@ int	print_export(t_env *env)
 		printf("declare -x %s\n", env_arr[i]);
 		i++;
 	}
-	return (SUCCESS);
+	return (1);
 }
 
 // to calculate the size of array
