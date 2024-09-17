@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/16 12:54:35 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:02:47 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_arr(char **arr)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!arr)

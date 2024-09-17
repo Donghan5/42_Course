@@ -3,7 +3,7 @@ SRC = main.c srcs/ft_whitesplit.c srcs/ft_whitespace.c srcs/check.c srcs/header.
 	srcs/pipe.c srcs/utils.c srcs/signal.c srcs/expander/quote.c srcs/expander/expander.c \
 	srcs/env/env_utils.c srcs/env/env_utils2.c srcs/env/shlvl.c srcs/prepare_pipeline.c \
 	srcs/builtin/export.c srcs/builtin/export_utils.c srcs/builtin/export_utils2.c srcs/builtin/unset.c \
-	srcs/builtin/cd.c srcs/builtin/pwd.c srcs/builtin/unset_utils.c
+	srcs/builtin/cd.c srcs/builtin/pwd.c srcs/builtin/unset_utils.c srcs/builtin/echo.c
 
 OBJ = $(SRC:.c=.o)
 

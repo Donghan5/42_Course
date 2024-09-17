@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/16 11:38:11 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:12:42 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ int				single_quote_cnt(char *str, int *size);
 void			handle_signal(int signo);
 void			set_signal(void);
 
-
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);
 int				size_env_key(char *str);
@@ -219,5 +218,9 @@ int				unset_check(t_command *cmd, t_env *env);
 // unset_utils.c
 char			*key_duplicate(t_command *cmd);
 char			*getenv_value(t_command *cmd, char **envp);
+
+// echo.c
+int				echo(t_command *cmd);
+int				echo_check(t_command *cmd);
 
 #endif

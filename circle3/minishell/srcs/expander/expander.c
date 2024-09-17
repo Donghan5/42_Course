@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/12 17:08:09 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:03:05 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,14 @@ char	*expander(char *input_str, char **envp)
 	int		idx;
 	int		size;
 	char	*expanded_str;
+	int		expanded_size;
 
-	size = get_env_parse_len(input_str, envp);
+	expanded_size = get_env_parse_len(input_str, envp);
+	expanded_str = (char *)malloc(sizeof(char) * (expanded_size + 1));
+	if (!expanded_str)
+		return (NULL);
 	idx = 0;
+	size = 0;
 	while (input_str[idx])
 	{
 		if (input_str[idx] == '\'' && \
