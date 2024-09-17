@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   unset_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:33:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/16 11:34:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:06:13 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // to dup the key
-char	*key_duplicate(t_command *cmd)
+char	*key_duplicate(t_glob_pipe *cmd)
 {
 	char	*key_dup;
 	int		key_size;
@@ -34,7 +34,7 @@ char	*key_duplicate(t_command *cmd)
 }
 
 // to get the value
-char	*getenv_value(t_command *cmd, char **envp)
+char	*getenv_value(t_glob_pipe *cmd, char **envp)
 {
 	int		key_size;
 	char	*key;

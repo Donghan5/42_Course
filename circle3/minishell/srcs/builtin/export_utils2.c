@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/15 21:29:09 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:05:02 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ static int	update_env_array(t_env *env, char *key_value)
 	return (SUCCESS);
 }
 
-// args --> associate with t_command->exec_name
+// args --> associate with t_command->name
 // in this function to facility, put the parameter to args(double pointer)
 // in using term, with t_command->args
 // parameters key=value, and index
-int	ft_export(t_command *cmd, t_env *env)
+int	ft_export(t_glob_pipe *cmd, t_env *env)
 {
 	int				i;
 	char			*key;

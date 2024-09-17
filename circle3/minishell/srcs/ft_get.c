@@ -6,13 +6,13 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/12 13:13:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:39:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_value_for_name(t_name_value	*arr, char *name)
+char	*get_value_for_name(t_name_value *arr, char *name)
 {
 	int	i;
 
@@ -73,6 +73,7 @@ char	*get_hostname(void)
 	return (hostname);
 }
 
+// to work prompt
 char	*get_prompt(void)
 {
 	char	*prompt;
@@ -93,5 +94,6 @@ char	*get_prompt(void)
 	free(prompt);
 	prompt = ft_strjoin(temp, "$ ");
 	free(temp);
+	free(hostname);
 	return (prompt);
 }

@@ -6,49 +6,81 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:26:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/12 14:58:06 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:58:46 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fill_cmd(char **whitespaced, t_command *cmd, int n, int start_index)
+int	calc_valid_args(char **whitespaced, int n, int start_index)
 {
 	int	i;
+	int	args_counter;
 
 	i = 0;
-	cmd->args = malloc (sizeof (char *) * (n + 1));
-	if (!cmd->args)
-		return ;
+	args_counter = 0;
 	while (i < n)
 	{
-		cmd->args[i] = whitespaced[start_index + i];
+		if (is_redirect(whitespaced[start_index + i]))
+			i++;
+		else
+			args_counter++;
 		i++;
 	}
-	cmd->args[i] = NULL;
-	cmd->exec_name = cmd->args[0];
+	return (args_counter);
 }
 
-int	fill_interaction(t_command *cmd, char *word)
+/* returns amount of redirects found */
+int	fill_args(char **tokens, t_glob_pipe *temp_pipe, int n, int start_index)
 {
-	int	interaction;
+	int	i_tokens;
+	int	i_args;
+	int	redirects_amount;
 
-	interaction = 0;
-	if (!ft_strncmp(word, "||", 3))
-		interaction = OR;
-	else if (!ft_strncmp(word, "&&", 3))
-		interaction = AND;
-	else if (!ft_strncmp(word, ">>", 3))
-		interaction = APPEND_OUT;
-	else if (!ft_strncmp(word, "<<", 3))
-		interaction = HERE_DOC;
-	else if ((word[0] == '|') && (ft_strlen(word) == 1))
-		interaction = PIPE;
-	else if ((word[0] == '>') && (ft_strlen(word) == 1))
-		interaction = REDIRECT_OUT;
-	else if ((word[0] == '<') && (ft_strlen(word) == 1))
-		interaction = REDIRECT_IN;
-	if (interaction && cmd)
-		cmd->next_interaction = interaction;
-	return (interaction);
+	i_tokens = 0;
+	redirects_amount = 0;
+	i_args = 0;
+	temp_pipe->args = malloc (sizeof (char *) * (calc_valid_args(tokens, n, start_index) + 1));
+	if (!temp_pipe->args)
+		return (0);
+	while (i_tokens < n)
+	{
+		if (is_redirect(tokens[start_index + i_tokens]))
+		{
+			i_tokens++;
+			redirects_amount++;
+		}
+		else
+			temp_pipe->args[i_args++] = ft_strdup(tokens[start_index + i_tokens]);
+		i_tokens++;
+	}
+	temp_pipe->args[i_args] = NULL;
+	temp_pipe->name = temp_pipe->args[0];
+	if (redirects_amount)
+		temp_pipe->operator = REDIRECT_EXPECTED;
+	return (redirects_amount);
+}
+
+int	fill_operator(t_glob_pipe *glob_pipe, char *word)
+{
+	int	operator;
+
+	operator = 0;
+	if (!ft_strncmp(word, "||", 2))
+		operator = OR;
+	else if (!ft_strncmp(word, "&&", 2))
+		operator = AND;
+	else if (!ft_strncmp(word, ">>", 2))
+		operator = APPEND_OUT;
+	else if (!ft_strncmp(word, "<<", 2))
+		operator = HERE_DOC;
+	else if (word[0] == '|')
+		operator = PIPE;
+	else if (word[0] == '>')
+		operator = REDIRECT_OUT;
+	else if (word[0] == '<')
+		operator = REDIRECT_IN;
+	if (operator && glob_pipe)
+		glob_pipe->operator = operator;
+	return (operator);
 }

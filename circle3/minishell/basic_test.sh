@@ -1,34 +1,33 @@
 #!/bin/bash
-# Simple basic test semi automatic tester
 
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-BLANK='\033[0m'
+# file command you can put in the command in this file
+COMMANDS_FILE="command.txt"
 
-# Check if exactly one parameter is provided
-if [ $# -ne 1 ]; then
-	echo "Please provide exactly one parameter."
-	echo "Example: bash basic_test.sh 'cd ..'"
-	exit 1
-fi
+# temp file to store the result
+MINISHELL_OUTPUT="minishell_output.txt"
+BASH_OUTPUT="bash_output.txt"
 
-# Assign the parameter to a variable
-command="$1"
+# init the result of the minishell and bash
+> $MINISHELL_OUTPUT
+> $BASH_OUTPUT
 
-# Execute the command using bash
-bash_result=$(echo "$command" | bash)
-bash_exit=$?
+# excute
+while IFS= read -r command; do
+    echo "Running: $command"
 
-# Execute the command using minishell
-minishell_result=$(echo "$command" | ./minishell)
-minishell_exit=$?
+    # minishell excute and store
+    echo "$command" | ./minishell >> $MINISHELL_OUTPUT 2>&1
 
-# Compare the results and display the output
-if [ "$bash_result" == "$minishell_result" ]; then
-	printf "$GREEN OK$BLANK\n"
+    # bash excute and store
+    echo "$command" | bash >> $BASH_OUTPUT 2>&1
+done < "$COMMANDS_FILE"
+
+# compare the result
+diff -u $MINISHELL_OUTPUT $BASH_OUTPUT
+
+# if diff --> print the difference
+if [ $? -eq 0 ]; then
+	echo -e "\e[32mAll outputs match!\e[0m"
 else
-	printf "$RED ERROR$BLANK\n"
+	echo -e "\e[31mOutputs differ!\e[0m"
 fi
-
-printf "=========bash_result=========\n$bash_result\n"
-printf "=========minishell_result=========\n$minishell_result\n"

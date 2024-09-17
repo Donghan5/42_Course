@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 20:15:08 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/17 13:47:22 by pzinurov         ###   ########.fr       */
+/*   Created: 2024/09/16 18:01:50 by pzinurov          #+#    #+#             */
+/*   Updated: 2024/09/17 14:12:03 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	free_glob_pipe(t_glob_pipe **glob_pipe)
 {
-	int	length;
+	t_glob_pipe	*temp;
+	t_glob_pipe *next;
 
-	if (!s)
+	if (!glob_pipe || !*glob_pipe)
 		return ;
-	length = ft_strlen(s);
-	if (length)
-		write(fd, s, length);
+	temp = *glob_pipe;
+	while (temp)
+	{
+		next = temp->next;
+		// fprintf(stderr, "freed %s\n", temp->name);
+		free_doub_array((void **) temp->args);
+		free(temp);
+		temp = next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/17 13:12:42 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:54:06 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ enum e_operator
 	REDIRECT_IN,
 	REDIRECT_OUT,
 	APPEND_OUT,
-	HERE_DOC
+	HERE_DOC,
+	REDIRECT_EXPECTED
 };
 
 // defines run or not
@@ -78,25 +79,20 @@ enum e_operator
 // define numbers tool
 # define NOT_FOUND -1
 
-typedef struct s_command
-{
-	char		*exec_name;
-	char		**args;
-	int			next_interaction;
-}				t_command;
-
 // struct of global pipe lines
-typedef struct s_g_pipe
+typedef struct	s_glob_pipe
 {
-	int					standard_io[2];
+	int					redir_io[2];
 	int					pipe_fds[2];
 	int					files_to_close[1024];
 	int					close_count;
 	int					is_exec_ignore;
-	t_command			*cmd;
-	struct s_g_pipe		*next;
-	struct s_g_pipe		*previous;
-}				t_g_pipe;
+	char				*name;
+	char				**args;
+	int					operator;
+	struct s_glob_pipe	*next;
+	struct s_glob_pipe	*previous;
+}				t_glob_pipe;
 
 // name key=value
 typedef struct s_name_value
@@ -114,41 +110,41 @@ typedef struct s_env
 	t_name_value	*environ_name_value;
 }				t_env;
 
+// free.c
+void			free_glob_pipe(t_glob_pipe **glob_pipe);
+
 // ft_get.c
 char			*get_value_for_name(t_name_value *arr, char *name);
 char			*replace_home_tilde(char *cwd);
 char			*get_prompt(void);
 
 // cd.c
-int				cd_check(t_command *cmd, t_env *env);
+int 			cd_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // pwd.c
-int				pwd_check(t_command *cmd);
+int				pwd_check(t_glob_pipe *cmd, int *status);
 
-// check.c
-int				builtin_check(t_command *cmd);
-int				builtin_run(t_env *env, t_command	*cmd);
+// builtins.c
+int				builtin_check(t_glob_pipe *cmd);
+int				builtin_run(t_env *env, t_glob_pipe *cmd, int *status);
 
-// excute.c
-void			search_path_and_run(t_g_pipe *g, t_env *env);
-int				execute_path(char *path, t_g_pipe *g, char **environ);
-void			setup_operators_child(t_g_pipe *g);
+// execute.c
+void			search_path_and_run(t_glob_pipe *glob_pipe, t_env *env);
+void			close_fds(t_glob_pipe *glob_pipe);
 
 // fill.c
-void			fill_cmd(char **whitespaced, t_command *cmd, int n, int start_index);
-int				fill_interaction(t_command *cmd, char *word);
+int				fill_args(char **tokens, t_glob_pipe *glob_pipe, int n, int start_index);
+int 			fill_operator(t_glob_pipe *glob_pipe, char *word);
 
 // ft_exit.c
-void			normal_exit_check(t_command *cmd);
+void			normal_exit_check(t_glob_pipe *cmd, int *status);
 void			exit_error(char *perror_message);
 
 // parsing.c
-char			**parse(t_command **(*cmds), char *line);
+int 			parse(t_glob_pipe **glob_pipe, char *line);
 void			parse_env(t_env *env);
-
-// pipe.c
-void			setup_pipes(int input_fd, int output_fd);
-void			handle_redirection(t_command *cmd, t_command *cmd2);
+int 			is_redirect(char *token);
+int 			is_operator(char *token);
 
 // utils.c
 void			print_arr(char **arr);
@@ -159,8 +155,8 @@ char			*get_next_line(int fd);
 // header.c
 void			header(void);
 
-// ft_whitesplit.c
-char			**ft_whitesplit(char const *s);
+// ft_split_tokens.c
+char			**ft_split_tokens(char const *s);
 
 // ft_whitespace.c
 int				ft_iswhitespace(int c);
@@ -173,6 +169,7 @@ int				single_quote_cnt(char *str, int *size);
 // signal.c
 void			handle_signal(int signo);
 void			set_signal(void);
+void			handle_eof(char *line);
 
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);
@@ -194,9 +191,8 @@ void			increment_shell_level(t_env *env);
 // expander.c
 char			*expander(char *input_str, char **envp);
 
-//prepare_pipeline
-t_g_pipe		*cmds_to_global_pipeline(t_command **cmds);
-int				prepare_pipeline(t_g_pipe *g);
+// prepare_pipeline.c
+int				prepare_pipeline(t_glob_pipe *glob_pipe);
 
 // export_utils.c
 int				env_list_size(t_name_value *env_node);
@@ -205,22 +201,22 @@ void			sort_env_array(char **env_arr);
 int				print_export(t_env *env);
 
 // export_utils2.c
-int				ft_export(t_command *cmd, t_env *env);
+int				ft_export(t_glob_pipe *cmd, t_env *env);
 
 // export.c
-int				export(t_command *cmd, t_env *env);
-int				export_check(t_command *cmd, t_env *env);
+void			export(t_glob_pipe *cmd, t_env *env, int *status);
+int				export_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // unset.c
-int				unset(t_command *cmd, t_env *env);
-int				unset_check(t_command *cmd, t_env *env);
+int				unset(t_glob_pipe *cmd, t_env *env);
+int				unset_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // unset_utils.c
-char			*key_duplicate(t_command *cmd);
-char			*getenv_value(t_command *cmd, char **envp);
+char			*key_duplicate(t_glob_pipe *cmd);
+char			*getenv_value(t_glob_pipe *cmd, char **envp);
 
 // echo.c
-int				echo(t_command *cmd);
-int				echo_check(t_command *cmd);
+int				echo(t_glob_pipe *cmd);
+int				echo_check(t_glob_pipe *cmd, int *status);
 
 #endif

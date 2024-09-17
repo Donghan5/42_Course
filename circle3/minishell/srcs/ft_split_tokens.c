@@ -1,16 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_whitesplit.c                                    :+:      :+:    :+:   */
+/*   ft_split_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/08/24 23:04:41 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:01:59 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "minishell.h"
 
 static int	get_strs_amount(char const *s)
@@ -22,23 +21,30 @@ static int	get_strs_amount(char const *s)
 	{
 		while (ft_iswhitespace(*s))
 			s++;
+		if (is_operator((char *)s))
+		{
+			amount++;
+			s += is_operator((char *)s);
+		}
 		if (*s)
 		{
 			amount++;
 			s++;
 		}
-		while (*s && !ft_iswhitespace(*s))
+		while (*s && !ft_iswhitespace(*s) && !is_operator((char *)s))
 			s++;
 	}
 	return (amount);
 }
 
-static int	strlen_before_c(char const *s)
+static int	length_of_token(char const *s)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && !ft_iswhitespace(s[i]))
+	if (is_operator((char *)s))
+		return (is_operator((char *)s));
+	while (s[i] && !ft_iswhitespace(s[i]) && !is_operator((char *)s))
 		i++;
 	return (i);
 }
@@ -60,30 +66,48 @@ static void	error_free(char **arr, int amount)
 	}
 }
 
-char	**ft_whitesplit(char const *s)
+int	is_still_an_operator(char *s)
+{
+	int	next_interaction;
+
+	next_interaction = fill_operator(NULL, s);
+	if ((next_interaction >= 1) && (next_interaction <= 7) || (*s == '&'))
+		return (1);
+	return (0);
+}
+
+char	**ft_split_tokens(char const *s)
 {
 	char	**splitted;
 	int		i;
 	int		j;
-	int		strs;
+	int		tokens;
 
 	i = 0;
 	if (!s)
 		return (NULL);
-	strs = get_strs_amount(s);
-	splitted = malloc(sizeof(char *) * (strs + 1));
+	tokens = get_strs_amount(s);
+	splitted = malloc(sizeof(char *) * (tokens + 1));
 	if (!splitted)
 		return (NULL);
-	while (i < strs)
+	while (i < tokens)
 	{
 		j = 0;
 		while (ft_iswhitespace(*s))
 			s++;
-		splitted[i] = malloc(strlen_before_c(s) + 1);
+		splitted[i] = malloc(length_of_token(s) + 1);
 		if (!splitted[i])
 			return (error_free(splitted, i), NULL);
-		while (*s && !ft_iswhitespace(*s))
-			splitted[i][j++] = *(s++);
+		if (is_operator((char *)s))
+		{
+			while (*s && !ft_iswhitespace(*s) && is_still_an_operator((char *)s))
+				splitted[i][j++] = *(s++);
+		}
+		else if (*s)
+		{
+			while (*s && !ft_iswhitespace(*s) && !is_operator((char *)s))
+				splitted[i][j++] = *(s++);
+		}
 		splitted[i++][j] = '\0';
 	}
 	return (splitted[i] = NULL, splitted);
