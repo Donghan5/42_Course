@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 17:07:18 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:26:28 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 		}
 		ft_heredoc(next->name, fd);
 		close(fd);
-		fd = open(".heredoc", O_RDONLY);
+		fd = open(".heredoc", O_RDONLY); // why open it twice ?
 		unlink(".heredoc");
 		current->redir_io[0] = fd;
 	}

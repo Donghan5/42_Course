@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 15:46:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/18 11:41:42 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,3 @@ void	set_signal(void)
 	signal(SIGQUIT, handle_signal);
 }
 
-// to handle ctrl D and add free to de-allocate line
-void	handle_eof(char *line)
-{
-	if (line == NULL)
-	{
-		rl_clear_history();
-		printf("exit\n");
-		free(line);
-		exit(0);
-	}
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/17 17:02:20 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/18 11:40:07 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char			*replace_home_tilde(char *cwd);
 char			*get_prompt(void);
 
 // cd.c
-int 			cd_check(t_glob_pipe *cmd, t_env *env, int *status);
+int				cd_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // pwd.c
 int				pwd_check(t_glob_pipe *cmd, int *status);
@@ -172,7 +172,6 @@ int				single_quote_cnt(char *str, int *size);
 // signal.c
 void			handle_signal(int signo);
 void			set_signal(void);
-void			handle_eof(char *line);
 
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);

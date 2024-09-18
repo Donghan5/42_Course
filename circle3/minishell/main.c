@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/17 17:09:17 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/18 11:42:56 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
 
+// this to verify eof(user input ctrl D)
 char	*get_line(int status)
 {
 	char	*prompt;
