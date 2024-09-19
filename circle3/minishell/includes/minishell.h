@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/19 14:15:50 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 01:21:27 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,13 @@ typedef struct s_env
 	t_name_value	*environ_name_value;
 }				t_env;
 
+// struct of the token
+typedef struct s_token
+{
+	char	*cmd;
+	char	redir_flag;
+}	t_token;
+
 // run_global_pipeline.c
 void			run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status);
 
@@ -190,11 +197,14 @@ t_name_value	*new_env_node(char *content);
 // shlvl.c
 void			increment_shell_level(t_env *env);
 
-// expander.c
+// expander_utils.c
 int				env_copy_cnt(char *src, char **dest, char **envp);
 int				double_quote_copy_cnt(char *src, char **dest, char **envp);
 int				single_quote_copy_cnt(char *src, char **dest);
-char			*expander(char *input, char **envp);
+void			copy_strings(char *input, char *dest, char **envp);
+
+// expander.c
+char			*expander(char *cmd, char **envp);
 
 // prepare_pipeline.c
 int				prepare_pipeline(t_glob_pipe *glob_pipe);
