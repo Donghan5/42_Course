@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 15:11:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:49:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_run(t_env *env, t_glob_pipe *cmd, int *status)
 {
 	normal_exit_check(cmd, status);
 	if (pwd_check(cmd, status) || cd_check(cmd, env, status) || \
-	export_check(cmd, env, status) || unset_check(cmd, env) || \
+	export_check(cmd, env, status) || unset_check(cmd, env, status) || \
 	echo_check(cmd, status))
 		return (RUN);
 	return (NOT_RUN);

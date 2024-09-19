@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/18 11:40:07 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:15:50 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,10 @@ t_name_value	*new_env_node(char *content);
 void			increment_shell_level(t_env *env);
 
 // expander.c
-char			*expander(char *input_str, char **envp);
+int				env_copy_cnt(char *src, char **dest, char **envp);
+int				double_quote_copy_cnt(char *src, char **dest, char **envp);
+int				single_quote_copy_cnt(char *src, char **dest);
+char			*expander(char *input, char **envp);
 
 // prepare_pipeline.c
 int				prepare_pipeline(t_glob_pipe *glob_pipe);
@@ -211,11 +214,12 @@ int				export_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // unset.c
 int				unset(t_glob_pipe *cmd, t_env *env);
-int				unset_check(t_glob_pipe *cmd, t_env *env);
+int				unset_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // unset_utils.c
 char			*key_duplicate(t_glob_pipe *cmd);
-char			*getenv_value(t_glob_pipe *cmd, char **envp);
+int				getenv_key(char *src, char **key);
+char			*getenv_value(char *key, char **envp);
 
 // echo.c
 int				echo(t_glob_pipe *cmd);

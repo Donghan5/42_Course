@@ -6,13 +6,13 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/15 15:46:37 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:49:48 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// global varialbe to set exit status
+// global status
 int	g_exit_status;
 
 // In key=value return the length of the value
@@ -21,11 +21,12 @@ int	size_env_value(char *str, int size, char **envp)
 {
 	int	idx;
 
-	idx = -1;
-	while (envp[++idx])
+	idx = 0;
+	while (envp[idx])
 	{
-		if (!(ft_strncmp(&str[idx], *envp, size)) && envp[idx][size] == '=')
+		if (!(ft_strncmp(&str[1], envp[idx], size)) && envp[idx][size] == '=')
 			return (ft_strlen(envp[idx]) + size + 1);
+		idx++;
 	}
 	return (0);
 }
@@ -59,7 +60,10 @@ int	env_cnt(char *str, int *size, char **envp)
 		return (1);
 	}
 	if (str[1] == '\0' || str[1] == '\"')
-		return (*size += 1, 0);
+	{
+		*size += 1;
+		return (0);
+	}
 	idx = size_env_key(str);
 	*size += size_env_value(str, idx, envp);
 	return (idx);
@@ -75,33 +79,15 @@ int	get_env_parse_len(char *str, char **envp)
 	size = 0;
 	while (str[++idx])
 	{
+		printf("idx: %d, char: %c\n", idx, str[idx]);
 		if (str[idx] == '\'' && check_unclosed_quote(str, '\''))
 			size += single_quote_cnt(&str[idx], &size);
-		else if (str[idx] == '"' && check_unclosed_quote(str, '"'))
+		else if (str[idx] == '\"' && check_unclosed_quote(str, '\"'))
 			size += double_quote_cnt(&str[idx], &size, envp);
 		else if (str[idx] == '$')
 			size += env_cnt(&str[idx], &size, envp);
-		else
+		else if (str[idx])
 			size++;
 	}
 	return (size);
-}
-
-// add the new element in the back of the list
-void	env_add_back(t_name_value **node, t_name_value *new)
-{
-	t_name_value	*cur;
-
-	cur = *node;
-	while (cur)
-	{
-		if (!cur->next)
-		{
-			cur->next = new;
-			return ;
-		}
-		cur = cur->next;
-	}
-	if (!cur)
-		*node = new;
 }

@@ -6,42 +6,111 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 13:03:05 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:35:39 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern int	g_exit_status;
+
+// to copy environ include double quote and dollar sign
+int	env_copy_cnt(char *src, char **dest, char **envp)
+{
+	int		src_idx;
+	char	*key;
+	char	*env_val;
+	int		env_len;
+	char	*status;
+
+	src_idx = 0;
+	if (src[1] == '?')
+	{
+		status = ft_itoa(g_exit_status);
+		ft_memcpy(*dest, status, ft_strlen(status));
+		*dest += ft_strlen(status);
+		free(status);
+		return (1);
+	}
+	if (src[1] == '\0' || src[1] == '\"')
+		return (**dest = '$', *dest += 1, 0);
+	src_idx = getenv_key(src, &key);
+	env_val = getenv_value(key, envp);
+	env_len = ft_strlen(env_val);
+	ft_memcpy(*dest, env_val, env_len);
+	*dest += env_len;
+	free(key);
+	return (src_idx);
+}
+
+// to copy inside of the double quote
+int	double_quote_copy_cnt(char *src, char **dest, char **envp)
+{
+	int	idx;
+
+	idx = 1;
+	while (src[idx] && src[idx] != '\"')
+	{
+		if (src[idx] == '$')
+			idx += (env_copy_cnt(&(src[idx]), dest, envp) + 1);
+		else
+		{
+			**dest = src[idx];
+			idx++;
+			(*dest)++;
+		}
+	}
+	return (idx);
+
+}
+
+// to copy inside of the single quote
+int	single_quote_copy_cnt(char *src, char **dest)
+{
+	int	src_idx;
+	int	dest_len;
+
+	src_idx = 1;
+	dest_len = 0;
+	while (src[src_idx] && src[src_idx] != '\'')
+	{
+		src_idx++;
+		dest_len++;
+	}
+	ft_memcpy(*dest, src + 1, dest_len);
+	*dest += dest_len;
+	return (src_idx);
+}
+
 // to do role of the expanded_str in double quote
 // action like echo "Hello $USER" -> "Hello donghank(username)"
 // have to think where we put this things
-// maybe in parsing --> expanding the user input
-char	*expander(char *input_str, char **envp)
+// in using input must be line(prompt), envp must be env.environ
+char	*expander(char *input, char **envp)
 {
 	int		idx;
 	int		size;
 	char	*expanded_str;
-	int		expanded_size;
+	char	*dest_end;
 
-	expanded_size = get_env_parse_len(input_str, envp);
-	expanded_str = (char *)malloc(sizeof(char) * (expanded_size + 1));
+	size = get_env_parse_len(input, envp);
+	printf("What is an input: %s and size: %d\n", input, size);
+	expanded_str = (char *)malloc(sizeof(char) * (size + 1));
 	if (!expanded_str)
 		return (NULL);
 	idx = 0;
-	size = 0;
-	while (input_str[idx])
+	dest_end = expanded_str;
+	while (input[idx])
 	{
-		if (input_str[idx] == '\'' && \
-		check_unclosed_quote(&input_str[idx], '\''))
-			idx += single_quote_cnt(&input_str[idx], &size);
-		else if (input_str[idx] == '"' && \
-		check_unclosed_quote(&input_str[idx], '"'))
-			idx += double_quote_cnt(&input_str[idx], &size, envp);
-		else if (input_str[idx] == '$')
-			idx += env_cnt(&input_str[idx], &size, envp);
+		if (input[idx] == '\'' && check_unclosed_quote(&input[idx], '\''))
+			idx += single_quote_copy_cnt(&input[idx], &dest_end);
+		else if (input[idx] == '\"' && check_unclosed_quote(&input[idx], '\"'))
+			idx += double_quote_copy_cnt(&input[idx], &dest_end, envp);
+		else if (input[idx] == '$')
+			idx += env_copy_cnt(&input[idx], &dest_end, envp);
 		else
-			expanded_str[size++] = input_str[idx++];
+			*dest_end++ = input[idx++];
 	}
-	expanded_str[size] = '\0';
+	*dest_end = '\0';
 	return (expanded_str);
 }

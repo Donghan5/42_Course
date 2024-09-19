@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:33:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 14:06:13 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:52:51 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,24 @@ char	*key_duplicate(t_glob_pipe *cmd)
 	return (key_dup);
 }
 
+// get key and return the length of the key
+int	getenv_key(char *src, char **key)
+{
+	int	key_len;
+
+	key_len = size_env_key(src);
+	*key = ft_substr(src, 1, key_len);
+	return (key_len);
+}
+
 // to get the value
-char	*getenv_value(t_glob_pipe *cmd, char **envp)
+char	*getenv_value(char *key, char **envp)
 {
 	int		key_size;
-	char	*key;
 	int		i;
 
-	key_size = size_env_key(cmd->args[1]);
-	key = key_duplicate(cmd);
 	i = 0;
+	key_size = ft_strlen(key);
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], key, key_size) && envp[i][key_size] == '=')

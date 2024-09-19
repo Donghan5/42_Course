@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/18 11:42:56 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:58:39 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
 
-// this to verify eof(user input ctrl D)
+// this to handle eof(user input ctrl D)
 char	*get_line(int status)
 {
 	char	*prompt;
@@ -43,7 +43,7 @@ char	*get_line(int status)
 	return (line);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_env		env;
@@ -59,15 +59,17 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		line = get_line(status);
-		if (!*line || !parse(&glob_pipe, line))
-		{
-			free(line);
-			continue ;
-		}
-		free(line);
-		if (prepare_pipeline(glob_pipe))
-			run_global_pipeline(glob_pipe, &env, &status);
-		free_glob_pipe(&glob_pipe);
+		char *expanded_line = expander(line, env.environ);
+		printf("%s\n", expanded_line);
+		// if (!*line || !parse(&glob_pipe, line))
+		// {
+		// 	free(line);
+		// 	continue ;
+		// }
+		// free(line);
+		// if (prepare_pipeline(glob_pipe))
+		// 	run_global_pipeline(glob_pipe, &env, &status);
+		// free_glob_pipe(&glob_pipe);
 	}
 	rl_clear_history();
 	return (0);
