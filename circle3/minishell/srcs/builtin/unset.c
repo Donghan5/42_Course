@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/18 14:16:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:49:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ static int	remove_env_var(t_glob_pipe *cmd, t_env *env)
 	char	*key;
 	int		i;
 
-	key_size = size_env_key(cmd->args[1]);
-	key = key_duplicate(cmd);
 	key = cmd->args[1];
+	key_size = ft_strlen(cmd->args[1]);
 	i = 0;
 	while (env->environ[i])
 	{
@@ -62,12 +61,11 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 	char	*key;
 	int		i;
 
-	key = key_duplicate(cmd);
+	key = cmd->args[1];
 	if (check_identify_key(key) == FAIL)
-		return (free(key), FAIL);
+		return (FAIL);
 	if (remove_env_var(cmd, env) == FAIL)
-		return (free(key), FAIL);
-	free(key);
+		return (FAIL);
 	return (SUCCESS);
 }
 
@@ -76,7 +74,7 @@ int	unset_check(t_glob_pipe *cmd, t_env *env, int *status)
 {
 	if (!ft_strncmp(cmd->name, "unset", ft_strlen(cmd->name)))
 	{
-		*status = 1;
+		*status = 0;
 		if (unset(cmd, env) == FAIL)
 			*status = 1;
 	}

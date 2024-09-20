@@ -6,31 +6,26 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:33:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/19 13:52:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:40:24 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // to dup the key
-char	*key_duplicate(t_glob_pipe *cmd)
+char	*get_key(t_glob_pipe *cmd)
 {
-	char	*key_dup;
+	char	*key;
 	int		key_size;
 	int		i;
 
-	key_size = size_env_key(cmd->args[1]);
-	key_dup = (char *)malloc(sizeof(char) * (key_size + 1));
-	if (!key_dup)
+	if (cmd->args[1] == NULL)
 		return (NULL);
-	i = 0;
-	while (i < key_size)
-	{
-		key_dup[i] = cmd->args[1][i];
-		i++;
-	}
-	key_dup[i] = '\0';
-	return (key_dup);
+	key_size = size_env_key(cmd->args[1]);
+	key = ft_substr(cmd->args[1], 0, key_size);
+	if (!key)
+		return (NULL);
+	return (key);
 }
 
 // get key and return the length of the key

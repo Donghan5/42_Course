@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 01:21:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:58:14 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	copy_strings(char *input, char *dest, char **envp)
 	int		size;
 	char	*dest_end;
 
-	printf("What is an input: %s\n", input);
 	idx = -1;
 	dest_end = dest;
 	while (input[++idx])

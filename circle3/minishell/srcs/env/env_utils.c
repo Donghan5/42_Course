@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 00:00:00 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:23:51 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	get_env_parse_len(char *str, char **envp)
 	size = 0;
 	while (str[++idx])
 	{
-		printf("idx: %d, char: %c\n", idx, str[idx]);
 		if (str[idx] == '\'' && check_unclosed_quote(str, '\''))
 			size += single_quote_cnt(&str[idx], &size);
 		else if (str[idx] == '\"' && check_unclosed_quote(str, '\"'))

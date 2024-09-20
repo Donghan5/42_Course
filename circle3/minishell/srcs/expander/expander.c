@@ -6,42 +6,57 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 01:21:06 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:04:33 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	cmd_cnt(char *cmd)
-{
-	int	i;
+// to extract inside of the quote
+// static int	cmd_cnt(char *cmd)
+// {
+// 	int	i;
 
-	i = 0;
-	while (cmd[i])
-	{
-		if (ft_iswhitespace((int)cmd[i]) == 1)
-			return (i);
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (cmd[i] && ft_iswhitespace((int)cmd[i]))
+// 		i++;
+// 	while (cmd[i] && !ft_iswhitespace((int)cmd[i]))
+// 		i++;
+// 	while (cmd[i])
+// 	{
+// 		while (cmd[i] && ft_iswhitespace((int)cmd[i]))
+// 			i++;
+// 		if (cmd[i] == '-')
+// 		{
+// 			i++;
+// 			while (cmd[i] && (ft_isalpha((int)cmd[i]) || \
+// 			cmd[i] == '-' || ft_isdigit((int)cmd[i])))
+// 				i++;
+// 		}
+// 		else
+// 			break ;
+// 	}
+// 	return (i);
+// }
 
 // to treat expander " or ' or $
 // tmp_expanded = expanded string which contain command
 // expanded = expanded string without command
-char	*expander(char *cmd, char **envp)
+// should be connect with the parse part
+char	*expander(char *cmd, t_env *env)
 {
 	int		cmd_len;
-	char	*tmp_expanded;
+	int		cmd_end;
 	char	*expanded;
 
-	cmd_len = get_env_parse_len(cmd, envp);
-	tmp_expanded = (char *)malloc(sizeof(char) * (cmd_len + 1));
-	if (!tmp_expanded)
+	if (cmd == NULL || env == NULL || env->environ == NULL)
+		return (ft_strdup(""));
+	cmd_len = get_env_parse_len(cmd, env->environ);
+	if (cmd_len == 0)
+		return (ft_strdup(""));
+	expanded = (char *)malloc(sizeof(char) * (cmd_len + 1));
+	if (!expanded)
 		return (NULL);
-	copy_strings(cmd, tmp_expanded, envp);
-	free(cmd);
-	printf("cmd_cnt: %d\n", cmd_cnt(cmd));
-	expanded = ft_substr(tmp_expanded, cmd_cnt(tmp_expanded) + 1, cmd_len);
+	copy_strings(cmd, expanded, env->environ);
 	return (expanded);
 }
