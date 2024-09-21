@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 14:05:02 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:09:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 	i++;
 	value = ft_strdup(&cmd->args[1][i]);
 	key_value = triple_strjoin(key, "=", value);
-	update_env_array(env, key_value);
+	if (ft_strncmp(key, "SHLVL", 5) == 0)
+		update_shlvl(key, value, env);
+	else
+		update_env_array(env, key_value);
 	free(key);
 	free(value);
 	free(key_value);

@@ -4,7 +4,7 @@ SRC = main.c srcs/ft_split_tokens.c srcs/ft_whitespace.c srcs/builtins.c srcs/he
 	srcs/env/env_utils.c srcs/env/env_utils2.c srcs/env/shlvl.c srcs/prepare_pipeline.c \
 	srcs/builtin/export.c srcs/builtin/export_utils.c srcs/builtin/export_utils2.c srcs/builtin/unset.c \
 	srcs/builtin/cd.c srcs/builtin/pwd.c srcs/builtin/unset_utils.c srcs/builtin/echo.c \
-	srcs/run_global_pipeline.c
+	srcs/run_global_pipeline.c srcs/init.c
 
 OBJ = $(SRC:.c=.o)
 

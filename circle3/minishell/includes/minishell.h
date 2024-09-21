@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/20 16:40:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 15:56:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ t_name_value	*new_env_node(char *content);
 
 // shlvl.c
 void			increment_shell_level(t_env *env);
+void			update_shlvl(char *key, char *value, t_env *env);
 
 // expander_utils.c
 int				env_copy_cnt(char *src, char **dest, char **envp);
@@ -236,4 +237,8 @@ char			*getenv_value(char *key, char **envp);
 int				echo(t_glob_pipe *cmd, t_env *env);
 int				echo_check(t_glob_pipe *cmd, t_env *env, int *status);
 
+// init.c
+void			init_env(t_env *env);
+t_name_value	*new_node_value(void);
+char			*get_key_from_env(char *env_str);
 #endif

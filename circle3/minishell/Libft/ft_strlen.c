@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:16:28 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/20 17:05:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:34:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	if (s == NULL)
-		return(0);
+		return (0);
 	i = 0;
 	while (s[i] != '\0')
 		i++;

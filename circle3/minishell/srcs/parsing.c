@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 15:06:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:47:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,26 +148,60 @@ int	parse(t_glob_pipe **glob_pipe, char *line)
 	return (1);
 }
 
+// //original
+// void	parse_env(t_env *env, char **environ)
+// {
+// 	int		i;
+// 	char	**temp;
+
+// 	i = 0;
+// 	env->environ = environ;
+// 	while (env->environ[i])
+// 		i++;
+// 	// env->environ_name_value = malloc(sizeof(t_env *) * (i + 1));
+// 	// if (!env->environ_name_value)
+// 	// 	exit_error("malloc");
+// 	// i = 0;
+// 	// while (env->environ[i])
+// 	// {
+// 	// 	temp = ft_split(env->environ[i], '=');
+// 	// 	env->environ_name_value[i].name = temp[0];
+// 	// 	env->environ_name_value[i].value = temp[1];
+// 	// 	i++;
+// 	// }
+// 	// env->environ_name_value[i].name = NULL;
+// 	// env->environ_name_value[i].value = NULL;
+// }
+
+// new version
 void	parse_env(t_env *env, char **environ)
 {
-	int		i;
-	char	**temp;
+	t_name_value	*last;
+	t_name_value	*new_node;
+	int				i;
 
 	i = 0;
 	env->environ = environ;
-	while (env->environ[i])
+	while (environ[i])
+	{
+		new_node = new_node_value();
+		new_node->name = ft_strdup(get_key_from_env(environ[i]));
+		new_node->value = ft_strdup(getenv_value(new_node->name, environ));
+		if (!new_node->value || !new_node->name)
+		{
+			free(new_node->name);
+			free(new_node);
+			exit_error(ALLOC_ERROR);
+		}
+		if (!env->environ_name_value)
+			env->environ_name_value = new_node;
+		else
+		{
+			last = env->environ_name_value;
+			while (last->next)
+				last = last->next;
+			last->next = new_node;
+		}
 		i++;
-	// env->environ_name_value = malloc(sizeof(t_env *) * (i + 1));
-	// if (!env->environ_name_value)
-	// 	exit_error("malloc");
-	// i = 0;
-	// while (env->environ[i])
-	// {
-	// 	temp = ft_split(env->environ[i], '=');
-	// 	env->environ_name_value[i].name = temp[0];
-	// 	env->environ_name_value[i].value = temp[1];
-	// 	i++;
-	// }
-	// env->environ_name_value[i].name = NULL;
-	// env->environ_name_value[i].value = NULL;
+	}
 }
