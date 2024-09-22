@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/22 14:50:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:14:59 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,8 @@ int				print_export(t_env *env);
 // export_utils2.c
 int				update_env_array(t_env *env, char *key_value);
 int				ft_export(t_glob_pipe *cmd, t_env *env);
+int				find_key_index(char **env_arr, char *key);
+int				size_environ(t_env	*env);
 
 // export.c
 void			export(t_glob_pipe *cmd, t_env *env, int *status);
@@ -265,8 +267,8 @@ int				echo(t_glob_pipe *cmd, t_env *env);
 int				echo_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // env_tool.c
-void			sync_env(t_env *env);
 void			add_new_environ(t_env *env, char *name, char *value);
 void			init_env(t_env *env);
 t_name_value	*new_node_value(void);
+char			*ft_getenv(const char *name, t_env *env);
 #endif

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 15:31:46 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:17:41 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,25 @@ void	increment_shell_level(t_env *env)
 	char	*shlvl_str;
 	int		shell_lvl;
 	char	*new_shlvl_str;
+	char	*key_value;
 
-	shlvl_str = getenv("SHLVL");
+	shlvl_str = ft_getenv("SHLVL", env);
 	if (!shlvl_str)
 		shell_lvl = 1;
 	else
 		shell_lvl = get_level(shlvl_str);
 	new_shlvl_str = ft_itoa(shell_lvl + 1);
-	printf("Updated new shlvl_str: %s\n", new_shlvl_str);
 	if (!new_shlvl_str)
 		exit_error(ALLOC_ERROR);
-	if (update_new_env_var("SHLVL", new_shlvl_str, env) == FAIL)
+	key_value = triple_strjoin("SHLVL", "=", new_shlvl_str);
+	if (update_env_array(env, key_value) == FAIL)
+	{
+		free(key_value);
+		free(new_shlvl_str);
 		printf("update fail");
-	// sync_env(env);
+	}
+	printf("Updated SHLVL to: %s\n", new_shlvl_str);
+	printf("Current SHLVL: %s\n", ft_getenv("SHLVL", env));
+	free(key_value);
 	free(new_shlvl_str);
 }

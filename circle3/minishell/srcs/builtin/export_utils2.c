@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 14:23:16 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:22:21 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	check_identify_key(char *key)
 	return (SUCCESS);
 }
 
-static int	find_key_index(char **env_arr, char *key)
+int	find_key_index(char **env_arr, char *key)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ static int	find_key_index(char **env_arr, char *key)
 }
 
 // to calcuate element of the double pointer array
-static int	size_environ(t_env	*env)
+int	size_environ(t_env	*env)
 {
 	int	i;
 
@@ -62,8 +62,8 @@ int	update_env_array(t_env *env, char *key_value)
 	int		var_index;
 
 	var_index = find_key_index(env->environ, key_value);
-	if (var_index != NOT_FOUND)
-		return (free(env->environ[var_index]), \
+	if (var_index != -1)
+		return (printf("debug: %s\n", env->environ[var_index]), free(env->environ[var_index]), \
 		env->environ[var_index] = ft_strdup(key_value), SUCCESS);
 	size_env = size_environ(env);
 	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
