@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/17 14:01:59 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:04:30 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	error_free(char **arr, int amount)
 	}
 }
 
-int	is_still_an_operator(char *s)
+static int	is_still_an_operator(char *s)
 {
 	int	next_interaction;
 

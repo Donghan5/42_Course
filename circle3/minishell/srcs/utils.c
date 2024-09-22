@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 12:02:47 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:07:55 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	smart_print_err(char *msg)
+{
+	if (errno)
+	{
+		perror(msg);
+		errno = 0;
+	}
+	else
+		ft_putstr_fd(msg, 2);
+}
 
 void	print_arr(char **arr)
 {

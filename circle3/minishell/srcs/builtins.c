@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 15:37:11 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:03:21 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	builtin_check(t_glob_pipe *cmd)
 
 int	builtin_run(t_env *env, t_glob_pipe *cmd, int *status)
 {
+	*status = 0;
 	normal_exit_check(cmd, status);
 	if (pwd_check(cmd, status) || cd_check(cmd, env, status) || \
 	export_check(cmd, env, status) || unset_check(cmd, env, status) || \

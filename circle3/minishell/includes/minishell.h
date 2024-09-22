@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/22 01:53:11 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:50:46 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <errno.h>
 
 // custom header files
 # include "../Libft/libft.h"
@@ -94,6 +95,17 @@ typedef struct	s_glob_pipe
 	struct s_glob_pipe	*previous;
 }				t_glob_pipe;
 
+typedef struct	s_free_exit
+{
+	t_glob_pipe	*glob_pipe;
+	char		**doub;
+	char		**doub_two;
+	char		string;
+	char		string_two;
+	char		error_message;
+	int			is_exit;
+}				t_free_exit;
+
 // name key=value
 typedef struct s_name_value
 {
@@ -114,14 +126,23 @@ typedef struct s_env
 typedef struct s_tokens
 {
 	char			*token;
-	int				literal;
+	int				is_literal;
 	struct s_tokens	*next;
 }	t_tokens;
+
+// pre_parsing.c
+char			***pre_parsing(char *line, t_env *env);
+
+// tokenizer.c
+char			**tokenizer(char const *s);
 
 // run_global_pipeline.c
 void			run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status);
 
 // free.c
+void			free_triple_tokens(char ***arr);
+int				handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg);
+int				handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg);
 void			free_glob_pipe(t_glob_pipe **glob_pipe);
 
 // ft_get.c
@@ -144,20 +165,25 @@ void			search_path_and_run(t_glob_pipe *glob_pipe, t_env *env);
 void			close_fds(t_glob_pipe *glob_pipe);
 
 // fill.c
-int				fill_args(char **tokens, t_glob_pipe *glob_pipe, int n, int start_index);
-int 			fill_operator(t_glob_pipe *glob_pipe, char *word);
+int				fill_args(char ***tokens, t_glob_pipe *glob_pipe, int n, int start_index);
+int				fill_operator(t_glob_pipe *glob_pipe, char *word);
+int				fill_operator_token(t_glob_pipe *glob_pipe, char **token);
 
 // ft_exit.c
 void			normal_exit_check(t_glob_pipe *cmd, int *status);
 void			exit_error(char *perror_message);
 
 // parsing.c
-int 			parse(t_glob_pipe **glob_pipe, char *line);
+// int 			parse(t_glob_pipe **glob_pipe, char *line);
+int				parse(t_glob_pipe **glob_pipe, char ***tokens);
+
 void			parse_env(t_env *env, char **environ);
-int 			is_redirect(char *token);
+int 			is_operator_token(char **token);
+int 			is_redirect(char **token);
 int 			is_operator(char *token);
 
 // utils.c
+void			smart_print_err(char *msg);
 void			print_arr(char **arr);
 void			free_doub_array(void **arr);
 char			*triple_strjoin(char *s1, char *s2, char *s3);
@@ -170,6 +196,7 @@ void			header(void);
 char			**ft_split_tokens(char const *s);
 
 // ft_whitespace.c
+int				is_quote(int c);
 int				ft_iswhitespace(int c);
 
 // quote.c
@@ -197,7 +224,6 @@ t_name_value	*new_env_node(char *content);
 
 // shlvl.c
 void			increment_shell_level(t_env *env);
-void			update_shlvl(char *key, char *value, t_env *env);
 
 // expander_utils.c
 int				env_copy_cnt(char *src, char **dest, char **envp);
@@ -218,6 +244,7 @@ void			sort_env_array(char **env_arr);
 int				print_export(t_env *env);
 
 // export_utils2.c
+int				update_env_array(t_env *env, char *key_value);
 int				ft_export(t_glob_pipe *cmd, t_env *env);
 
 // export.c
@@ -229,7 +256,7 @@ int				unset(t_glob_pipe *cmd, t_env *env);
 int				unset_check(t_glob_pipe *cmd, t_env *env, int *status);
 
 // unset_utils.c
-char			*get_key(t_glob_pipe *cmd);
+char			*key_duplicate(t_glob_pipe *cmd);
 int				getenv_key(char *src, char **key);
 char			*getenv_value(char *key, char **envp);
 
@@ -237,9 +264,9 @@ char			*getenv_value(char *key, char **envp);
 int				echo(t_glob_pipe *cmd, t_env *env);
 int				echo_check(t_glob_pipe *cmd, t_env *env, int *status);
 
-// init.c
+// env_tool.c
+void			sync_env(t_env *env);
+void			add_new_environ(t_env *env, char *name, char *value);
 void			init_env(t_env *env);
 t_name_value	*new_node_value(void);
-char			*get_key_from_env(char *env_str);
-int				sync_env_with_sys(t_env *env);
 #endif

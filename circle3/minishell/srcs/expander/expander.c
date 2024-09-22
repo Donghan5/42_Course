@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 17:04:33 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:51:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,7 @@ char	*expander(char *cmd, t_env *env)
 	int		cmd_end;
 	char	*expanded;
 
-	if (cmd == NULL || env == NULL || env->environ == NULL)
-		return (ft_strdup(""));
 	cmd_len = get_env_parse_len(cmd, env->environ);
-	if (cmd_len == 0)
-		return (ft_strdup(""));
 	expanded = (char *)malloc(sizeof(char) * (cmd_len + 1));
 	if (!expanded)
 		return (NULL);

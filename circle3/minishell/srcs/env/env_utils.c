@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 12:23:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:50:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,20 @@ int	get_env_parse_len(char *str, char **envp)
 			size++;
 	}
 	return (size);
+}
+
+// to search the key(name)
+char	*get_key_from_env(char *env_str)
+{
+	int		key_size;
+	char	*key;
+
+	key_size = 0;
+	while (env_str[key_size] && env_str[key_size] != '=')
+		key_size++;
+	key = (char *)malloc(sizeof(char) * (key_size + 1));
+	if (!key)
+		return (NULL);
+	key = ft_substr(env_str, 0, key_size);
+	return (key);
 }

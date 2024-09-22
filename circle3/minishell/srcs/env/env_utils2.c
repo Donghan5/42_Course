@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 01:52:36 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:40:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,21 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 {
 	char			*fin_env;
 	t_name_value	*node;
-	int				var_name_len;
 
-	var_name_len = ft_strlen(var_name);
 	node = env->environ_name_value;
 	while (node)
 	{
-		if (ft_strncmp(node->name, var_name, var_name_len) == 0)
+		if (ft_strncmp(node->name, var_name, ft_strlen(var_name)) == 0)
 		{
 			if (node->value)
 			{
 				fin_env = triple_strjoin(var_name, "=", new_var);
 				if (!fin_env)
-					return (printf("MEM ALLOC FAIL\n"), NULL);
-				// free(node->value);
+					exit_error(ALLOC_ERROR);
+				free(node->value);
+				printf("before: %s\n", node->value);
 				node->value = fin_env;
-				printf("fin env is: %s\n", node->value);
+				printf("after: %s\n", node->value);
 				return (fin_env);
 			}
 		}
@@ -62,25 +61,14 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 int	update_new_env_var(char *var, char *new_val, t_env *env)
 {
 	t_name_value	*node;
-	t_name_value	*new_node;
-	int				var_len;
 
-	var_len = ft_strlen(var);
 	node = env->environ_name_value;
 	while (node)
 	{
-		// printf("name: %s, cmp: %d, =:%d \n", node->name, ft_strncmp(node->name, var, var_len) == 0, node->name[var_len] == '=');
-
-		if ((ft_strncmp(node->name, var, var_len) == 0))
+		if (ft_strncmp(node->name, var, ft_strlen(var)) == 0)
 		{
-			printf("change: %s\n", node->name);
 			free(node->value);
-			node->value = swap_new_env_var(env, var, new_val);
-			printf("node->value: %s\n", node->value);
-			if (!node->value)
-				return (NOT_UPDATED);
-			if (sync_env_with_sys(env) == FAIL)
-				return (NOT_UPDATED);
+			node->value = swap_new_env_var(env, new_val, var);
 			return (UPDATED);
 		}
 		node = node->next;

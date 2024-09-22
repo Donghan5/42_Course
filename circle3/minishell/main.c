@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/21 13:04:23 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:42:40 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,43 @@ char	*get_line(int status)
 	return (line);
 }
 
+char	mark_literal(char	*str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !*str || !is_quote(*str))
+		return (0);
+	while (str[i] != '\0')
+		i++;
+	if ((i > 1) && (is_quote(str[i - 1])))
+		return (1);
+	return (0);
+}
+
+void	parse_and_run(char **line, t_env *env, int *status)
+{
+	char		***tokens;
+	t_glob_pipe	*glob_pipe;
+
+	tokens = pre_parsing(*line, env);
+	free(*line);
+	if (!tokens)
+		return ;
+	if (!parse(&glob_pipe, tokens))
+		return ;
+	if (prepare_pipeline(glob_pipe))
+		run_global_pipeline(glob_pipe, env, status);
+	else
+		*status = 1;
+	free_glob_pipe(&glob_pipe);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_env		env;
 	extern char	**environ;
-	t_glob_pipe	*	glob_pipe;
 	int			status;
 
 	status = 0;
@@ -61,15 +92,12 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = get_line(status);
-		if (!*line || !parse(&glob_pipe, line))
+		if (!*line)
 		{
 			free(line);
 			continue ;
 		}
-		free(line);
-		if (prepare_pipeline(glob_pipe))
-			run_global_pipeline(glob_pipe, &env, &status);
-		free_glob_pipe(&glob_pipe);
+		parse_and_run(&line, &env, &status);
 	}
 	rl_clear_history();
 	return (0);

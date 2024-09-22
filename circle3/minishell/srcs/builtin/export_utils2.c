@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 16:09:19 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:23:16 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	size_environ(t_env	*env)
 }
 
 // to add and update new declaration
-static int	update_env_array(t_env *env, char *key_value)
+int	update_env_array(t_env *env, char *key_value)
 {
 	char	**new_env;
 	int		i;
@@ -103,10 +103,7 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 	i++;
 	value = ft_strdup(&cmd->args[1][i]);
 	key_value = triple_strjoin(key, "=", value);
-	if (ft_strncmp(key, "SHLVL", 5) == 0)
-		update_shlvl(key, value, env);
-	else
-		update_env_array(env, key_value);
+	update_env_array(env, key_value);
 	free(key);
 	free(value);
 	free(key_value);

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 01:16:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:31:46 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	get_level(const char *str)
 }
 
 // goal : to increase the level of the shell
+// note : using struct of the libft
 void	increment_shell_level(t_env *env)
 {
 	char	*shlvl_str;
@@ -65,35 +66,16 @@ void	increment_shell_level(t_env *env)
 	char	*new_shlvl_str;
 
 	shlvl_str = getenv("SHLVL");
-	printf("shlvl_str: %s\n", shlvl_str);
 	if (!shlvl_str)
 		shell_lvl = 1;
 	else
 		shell_lvl = get_level(shlvl_str);
-	printf("current shell lvl: %d\n", shell_lvl);
 	new_shlvl_str = ft_itoa(shell_lvl + 1);
-	printf("new shlvl: %s\n", new_shlvl_str);
+	printf("Updated new shlvl_str: %s\n", new_shlvl_str);
 	if (!new_shlvl_str)
 		exit_error(ALLOC_ERROR);
-	if (update_new_env_var("SHLVL", new_shlvl_str, env) == UPDATED)
-	{
-		free(new_shlvl_str);
-		printf("Successfully update: %s\n", getenv("SHLVL"));
-	}
-	else
-	{
-		free(new_shlvl_str);
-		printf("upadate fail\n");
-	}
-}
-
-void	update_shlvl(char *key, char *value, t_env *env)
-{
-	char	*new_value;
-	int		lvl;
-
-	lvl = ft_atoi(value) + 1;
-	new_value = ft_itoa(lvl);
-	update_new_env_var(key, new_value, env);
-	free(new_value);
+	if (update_new_env_var("SHLVL", new_shlvl_str, env) == FAIL)
+		printf("update fail");
+	// sync_env(env);
+	free(new_shlvl_str);
 }

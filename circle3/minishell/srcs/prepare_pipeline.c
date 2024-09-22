@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/18 12:26:28 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:06:57 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ void	ft_heredoc(char *stop_word, int fd)
 		free (line);
 }
 
+int	print_file_err(char *filename)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(filename, 2);
+	ft_putstr_fd(": ", 2);
+	return (handle_errors(NULL, NULL, ""));
+}
+
 int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 {
 	int	fd;
@@ -80,27 +88,21 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 	}
 	else if (next->operator == HERE_DOC)
 	{
-		fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (fd < 0)
-		{
-			perror(".heredoc");
-			return (0);
-		}
+			return (print_file_err(".heredoc"));
 		ft_heredoc(next->name, fd);
 		close(fd);
-		fd = open(".heredoc", O_RDONLY); // why open it twice ?
+		fd = open(".heredoc", O_RDONLY);
+		if (fd < 0)
+			return (print_file_err(".heredoc"));
 		unlink(".heredoc");
 		current->redir_io[0] = fd;
 	}
 	else
 		return (1);
 	if (fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(next->name, 2);
-		ft_putstr_fd(": ", 2);
-		return (perror(""), 0);
-	}
+		return (print_file_err(next->name));
 	current->files_to_close[current->close_count++] = fd;
 	next->is_exec_ignore = 1;
 	return (1);
@@ -131,10 +133,9 @@ int	prepare_pipeline(t_glob_pipe *glob_pipe)
 		if (current->operator == PIPE)
 		{
 			if (pipe(current->pipe_fds) == -1)
-				return (perror("minishell: pipe"), 0);
+				return (handle_errors(NULL, NULL, "minishell: pipe"));
 		}
 		current = next;
 	}
-	// print_pipeline(glob_pipe, 0);
 	return (1);
 }

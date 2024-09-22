@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_whitespace.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:15:47 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/16 11:48:34 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:04:41 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,12 @@ int	ft_iswhitespace(int c)
 	if (c == ' ' || c == '\t' || c == '\n' || \
 	c == '\v' || c == '\f' || c == '\r')
 		return (1);
+	return (0);
+}
+
+int	is_quote(int c)
+{
+	if (c == '\'' || c == '\"')
+		return (c);
 	return (0);
 }

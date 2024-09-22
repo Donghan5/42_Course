@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 17:06:33 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:04:05 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*get_hostname(void)
 	return (hostname);
 }
 
-// to work prompt
 char	*get_prompt(void)
 {
 	char	*prompt;
@@ -87,13 +86,16 @@ char	*get_prompt(void)
 	cwd = replace_home_tilde(cwd);
 	hostname = get_hostname();
 	if (!hostname)
-		hostname = "default-hostname";
-	prompt = triple_strjoin(getenv("USER"), "@", hostname);
+		prompt = triple_strjoin(getenv("USER"), "@", "hostname");
+	else
+	{
+		prompt = triple_strjoin(getenv("USER"), "@", hostname);
+		free(hostname);
+	}
 	temp = triple_strjoin(prompt, ":", cwd);
 	free(cwd);
 	free(prompt);
 	prompt = ft_strjoin(temp, "$ ");
 	free(temp);
-	free(hostname);
 	return (prompt);
 }
