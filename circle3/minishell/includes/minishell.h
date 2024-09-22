@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/21 15:56:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:53:11 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,4 +241,5 @@ int				echo_check(t_glob_pipe *cmd, t_env *env, int *status);
 void			init_env(t_env *env);
 t_name_value	*new_node_value(void);
 char			*get_key_from_env(char *env_str);
+int				sync_env_with_sys(t_env *env);
 #endif

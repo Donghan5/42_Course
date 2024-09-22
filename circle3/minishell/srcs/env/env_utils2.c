@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 17:01:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:52:36 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 					return (printf("MEM ALLOC FAIL\n"), NULL);
 				// free(node->value);
 				node->value = fin_env;
-				printf("fin env is: %s\n", fin_env);
+				printf("fin env is: %s\n", node->value);
 				return (fin_env);
 			}
 		}
@@ -76,8 +76,10 @@ int	update_new_env_var(char *var, char *new_val, t_env *env)
 			printf("change: %s\n", node->name);
 			free(node->value);
 			node->value = swap_new_env_var(env, var, new_val);
-			printf("va: %s\n", node->value);
+			printf("node->value: %s\n", node->value);
 			if (!node->value)
+				return (NOT_UPDATED);
+			if (sync_env_with_sys(env) == FAIL)
 				return (NOT_UPDATED);
 			return (UPDATED);
 		}

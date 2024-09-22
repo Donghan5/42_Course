@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 16:51:29 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:16:43 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int	get_level(const char *str)
 }
 
 // goal : to increase the level of the shell
-// note : using struct of the libft
 void	increment_shell_level(t_env *env)
 {
 	char	*shlvl_str;
