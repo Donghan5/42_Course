@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/23 00:15:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:17:08 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,32 @@ char	*ft_getenv(const char *name, t_env *env)
 		i++;
 	}
 	return (NULL);
+}
+
+// update the shlvl value, replace old one to new one
+// so environ allocate in stack mem area
+int	update_environ(t_env *env, char *key_value)
+{
+	char	**new_env;
+	int		size_env;
+	int		var_i;
+	char	*key;
+
+	key = ft_substr(key_value, 0, ft_strchr(key_value, '=') - key_value);
+	if (!key)
+		return (FAIL);
+	var_i = find_key_index(env->environ, key);
+	free(key);
+	if (var_i != NOT_FOUND)
+		return (env->environ[var_i] = ft_strdup(key_value), SUCCESS);
+	size_env = size_environ(env);
+	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
+	if (!new_env)
+		return (FAIL);
+	ft_memcpy(new_env, env->environ, sizeof(char *) * size_env);
+	new_env[size_env] = ft_strdup(key_value);
+	if (!new_env[size_env])
+		return (free(new_env), FAIL);
+	new_env[size_env + 1] = NULL;
+	return (free(env->environ), env->environ = new_env, SUCCESS);
 }

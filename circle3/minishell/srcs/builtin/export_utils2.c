@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/23 00:22:21 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:15:34 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	check_identify_key(char *key)
 	return (SUCCESS);
 }
 
+// to find key(specify) index
 int	find_key_index(char **env_arr, char *key)
 {
 	int	i;
@@ -63,7 +64,7 @@ int	update_env_array(t_env *env, char *key_value)
 
 	var_index = find_key_index(env->environ, key_value);
 	if (var_index != -1)
-		return (printf("debug: %s\n", env->environ[var_index]), free(env->environ[var_index]), \
+		return (free(env->environ[var_index]), \
 		env->environ[var_index] = ft_strdup(key_value), SUCCESS);
 	size_env = size_environ(env);
 	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));

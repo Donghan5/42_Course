@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/23 00:14:59 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:24:51 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ enum e_operator
 # define BUFFER_SIZE 256
 
 // error msgs
-# define ALLOC_ERROR "Fail to allocate"
+# define ALLOC_ERROR "Allocate fail"
+# define UPDATE_ERROR "Update fail"
 # define EXPORT_NOT_IDENTIFY "export: not a vaild identifier"
 # define UNSET_NOT_IDENTIFY "unset: not a vaild identifier"
 # define FORK_ERROR "fork error"
@@ -271,4 +272,5 @@ void			add_new_environ(t_env *env, char *name, char *value);
 void			init_env(t_env *env);
 t_name_value	*new_node_value(void);
 char			*ft_getenv(const char *name, t_env *env);
+int 			update_environ(t_env *env, char *key_value);
 #endif
