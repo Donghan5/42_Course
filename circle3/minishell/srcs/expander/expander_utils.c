@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 12:49:14 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:38:51 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-extern int	g_exit_status;
+#include "../../includes/minishell.h"
 
 // to copy environ include double quote and dollar sign
-int	env_copy_cnt(char *src, char **dest, char **envp)
+int	env_copy_cnt(char *src, char **dest, t_env *env)
 {
 	int		src_idx;
 	char	*key;
@@ -26,7 +24,7 @@ int	env_copy_cnt(char *src, char **dest, char **envp)
 	src_idx = 0;
 	if (src[1] == '?')
 	{
-		status = ft_itoa(g_exit_status);
+		status = ft_itoa(*env->status);
 		ft_memcpy(*dest, status, ft_strlen(status));
 		*dest += ft_strlen(status);
 		free(status);
@@ -35,7 +33,7 @@ int	env_copy_cnt(char *src, char **dest, char **envp)
 	if (src[1] == '\0' || src[1] == '\"')
 		return (**dest = '$', *dest += 1, 0);
 	src_idx = getenv_key(src, &key);
-	env_val = getenv_value(key, envp);
+	env_val = getenv_value(key, env->environ);
 	env_len = ft_strlen(env_val);
 	ft_memcpy(*dest, env_val, env_len);
 	*dest += env_len;
@@ -44,7 +42,7 @@ int	env_copy_cnt(char *src, char **dest, char **envp)
 }
 
 // to copy inside of the double quote
-int	double_quote_copy_cnt(char *src, char **dest, char **envp)
+int	double_quote_copy_cnt(char *src, char **dest, t_env *env)
 {
 	int	idx;
 
@@ -52,7 +50,7 @@ int	double_quote_copy_cnt(char *src, char **dest, char **envp)
 	while (src[idx] && src[idx] != '\"')
 	{
 		if (src[idx] == '$')
-			idx += (env_copy_cnt(&(src[idx]), dest, envp) + 1);
+			idx += (env_copy_cnt(&(src[idx]), dest, env) + 1);
 		else
 		{
 			**dest = src[idx];
@@ -85,7 +83,7 @@ int	single_quote_copy_cnt(char *src, char **dest)
 // action like echo "Hello $USER" -> "Hello donghank(username)"
 // have to think where we put this things
 // in using input must be line(prompt), envp must be env.environ
-void	copy_strings(char *input, char *dest, char **envp)
+void	copy_strings(char *input, char *dest, t_env *env)
 {
 	int		idx;
 	int		size;
@@ -98,9 +96,9 @@ void	copy_strings(char *input, char *dest, char **envp)
 		if (input[idx] == '\'' && check_unclosed_quote(&input[idx], '\''))
 			idx += single_quote_copy_cnt(&input[idx], &dest_end);
 		else if (input[idx] == '\"' && check_unclosed_quote(&input[idx], '\"'))
-			idx += double_quote_copy_cnt(&input[idx], &dest_end, envp);
+			idx += double_quote_copy_cnt(&input[idx], &dest_end, env);
 		else if (input[idx] == '$')
-			idx += env_copy_cnt(&input[idx], &dest_end, envp);
+			idx += env_copy_cnt(&input[idx], &dest_end, env);
 		else
 			*dest_end++ = input[idx];
 	}

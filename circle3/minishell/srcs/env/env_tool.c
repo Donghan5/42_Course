@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/23 13:17:08 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:43:04 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // adding the new name(key) and value
 void	add_new_environ(t_env *env, char *name, char *value)
@@ -19,7 +19,7 @@ void	add_new_environ(t_env *env, char *name, char *value)
 
 	new_node = malloc(sizeof(t_name_value));
 	if (!new_node)
-		exit_error(ALLOC_ERROR);
+		return ;
 	new_node->name = ft_strdup(name);
 	new_node->value = ft_strdup(value);
 	new_node->next = env->environ_name_value;
@@ -72,6 +72,7 @@ int	update_environ(t_env *env, char *key_value)
 	int		size_env;
 	int		var_i;
 	char	*key;
+	char	*tmp;
 
 	key = ft_substr(key_value, 0, ft_strchr(key_value, '=') - key_value);
 	if (!key)
@@ -79,7 +80,7 @@ int	update_environ(t_env *env, char *key_value)
 	var_i = find_key_index(env->environ, key);
 	free(key);
 	if (var_i != NOT_FOUND)
-		return (env->environ[var_i] = ft_strdup(key_value), SUCCESS);
+		return (free(env->environ[var_i]), env->environ[var_i] = ft_strdup(key_value), SUCCESS);
 	size_env = size_environ(env);
 	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
 	if (!new_env)
@@ -89,5 +90,8 @@ int	update_environ(t_env *env, char *key_value)
 	if (!new_env[size_env])
 		return (free(new_env), FAIL);
 	new_env[size_env + 1] = NULL;
-	return (free(env->environ), env->environ = new_env, SUCCESS);
+	if (env->environ)
+		free_doub_array((void **)env->environ);
+	return (env->environ = new_env, SUCCESS);
 }
+

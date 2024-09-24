@@ -6,17 +6,11 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:01:50 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/21 15:54:46 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:42:21 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-/*
-	Freeing global pipe and double array, prints error with smart print.
-
-	Return value is 0 if err_msg exists, 1 otherwise.
-*/
+#include "../includes/minishell.h"
 
 void	free_triple_tokens(char ***arr)
 {
@@ -36,6 +30,11 @@ void	free_triple_tokens(char ***arr)
 		free (arr);
 }
 
+/*
+	Freeing double array and triple token array, prints error with smart print.
+
+	Return value is 0 if err_msg exists, 1 otherwise.
+*/
 int		handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg)
 {
 	if (doub_arr)
@@ -47,6 +46,11 @@ int		handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg)
 	return (err_msg == NULL);
 }
 
+/*
+	Freeing global pipe and double array, prints error with smart print.
+
+	Return value is 0 if err_msg exists, 1 otherwise.
+*/
 int		handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg)
 {
 	if (glob_pipe)
@@ -66,6 +70,8 @@ void	free_glob_pipe(t_glob_pipe **glob_pipe)
 	if (!glob_pipe || !*glob_pipe)
 		return ;
 	temp = *glob_pipe;
+	while (temp->previous)
+		temp = temp->previous;
 	while (temp)
 	{
 		next = temp->next;

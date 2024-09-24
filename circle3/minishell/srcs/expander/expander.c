@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/20 15:51:11 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:39:16 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // to extract inside of the quote
 // static int	cmd_cnt(char *cmd)
@@ -49,10 +49,10 @@ char	*expander(char *cmd, t_env *env)
 	int		cmd_end;
 	char	*expanded;
 
-	cmd_len = get_env_parse_len(cmd, env->environ);
+	cmd_len = get_env_parse_len(cmd, env);
 	expanded = (char *)malloc(sizeof(char) * (cmd_len + 1));
 	if (!expanded)
 		return (NULL);
-	copy_strings(cmd, expanded, env->environ);
+	copy_strings(cmd, expanded, env);
 	return (expanded);
 }

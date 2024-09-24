@@ -6,11 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:45:55 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 13:10:33 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:38:36 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	header(void)
 {
@@ -20,6 +20,6 @@ void	header(void)
 	printf("  / __ `__ \\/ / __ \\/ / ___/ __ \\/ _ \\/ / /\n");
 	printf(" / / / / / / / / / / (__  ) / / /  __/ / /\n");
 	printf("/_/ /_/ /_/_/_/ /_/_/____/_/ /_/\\___/_/_/\n");
-	printf("                   by donghank pzinrov\n");
+	printf("                   by donghank pzinurov\n");
 	printf("\033[0m\n");
 }

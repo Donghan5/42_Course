@@ -6,11 +6,11 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/21 16:17:21 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:32:37 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	is_literal(char	*str)
 {
@@ -38,6 +38,15 @@ int	count_tokens(char **tokens)
 	return (i);
 }
 
+/*
+	Returns char ***tokens, which is structured as:
+
+	tokens[i]	 - double array of two strings;
+	tokens[i][0] - content of a token (string);
+	tokens[i][1] - string with one character, indicating if string was quoted completely,
+		tokens[i][1][0]	== 1	if tokens[i][0] was quoted before expansion,
+		tokens[i][1][0] == 0	otherwise.
+*/
 char	***pre_parsing(char *line, t_env *env)
 {
 	char	***tokens;
@@ -47,7 +56,7 @@ char	***pre_parsing(char *line, t_env *env)
 	temp_strs = tokenizer(line);
 	if (!temp_strs || !temp_strs[0])
 		return (NULL);
-	tokens = malloc(sizeof(char **) * count_tokens(temp_strs));
+	tokens = malloc(sizeof(char **) * (count_tokens(temp_strs) + 1));
 	if (!tokens)
 		return (handle_errors_tokens(temp_strs, NULL, "malloc"), NULL);
 	i = 0;
@@ -67,5 +76,6 @@ char	***pre_parsing(char *line, t_env *env)
 		i++;
 	}
 	tokens[i] = NULL;
+	free_doub_array((void **)temp_strs);
 	return (tokens);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:33:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/19 13:52:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:26:36 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // to dup the key
 char	*key_duplicate(t_glob_pipe *cmd)

@@ -3,35 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 14:03:21 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:14:43 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	builtin_check(t_glob_pipe *cmd)
 {
-	if ((!ft_strncmp(cmd->name, "pwd", ft_strlen(cmd->name))) \
-		|| (!ft_strncmp(cmd->name, "exit", ft_strlen(cmd->name))) \
-		|| (!ft_strncmp(cmd->name, "cd", ft_strlen(cmd->name))) \
-		|| (!ft_strncmp(cmd->name, "export", ft_strlen(cmd->name))) \
-		|| (!ft_strncmp(cmd->name, "unset", ft_strlen(cmd->name))) \
-		|| (!ft_strncmp(cmd->name, "echo", ft_strlen(cmd->name))))
+	if ((!ft_strncmp(cmd->name, "exit", 5)) \
+		|| (!ft_strncmp(cmd->name, "pwd", 4)) \
+		|| (!ft_strncmp(cmd->name, "cd", 3)) \
+		|| (!ft_strncmp(cmd->name, "export", 7)) \
+		|| (!ft_strncmp(cmd->name, "unset", 6)) \
+		|| (!ft_strncmp(cmd->name, "echo", 5)))
 		return (RUN);
 	return (NOT_RUN);
 }
 
-int	builtin_run(t_env *env, t_glob_pipe *cmd, int *status)
+void	builtin_run(t_env *env, t_glob_pipe *cmd)
 {
-	*status = 0;
-	normal_exit_check(cmd, status);
-	if (pwd_check(cmd, status) || cd_check(cmd, env, status) || \
-	export_check(cmd, env, status) || unset_check(cmd, env, status) || \
-	echo_check(cmd, env, status))
-		return (RUN);
-	return (NOT_RUN);
+	if (!ft_strncmp(cmd->name, "exit", 5))
+		normal_exit_check(cmd, env);
+	if (!ft_strncmp(cmd->name, "pwd", 4))
+		pwd_check(cmd, env->status);
+	if (!ft_strncmp(cmd->name, "cd", 3))
+		cd_check(cmd, env);
+	if (!ft_strncmp(cmd->name, "export", 7))
+		export(cmd, env);
+	if (!ft_strncmp(cmd->name, "unset", 6))
+		unset_check(cmd, env);
+	if (!ft_strncmp(cmd->name, "echo", 5))
+		echo_check(cmd, env);
 }
-

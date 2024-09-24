@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/23 13:15:34 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:26:42 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // check identify (good characters in the key)
 static int	check_identify_key(char *key)

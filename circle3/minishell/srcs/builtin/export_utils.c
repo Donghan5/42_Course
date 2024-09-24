@@ -6,11 +6,11 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 17:03:13 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:26:44 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // add the declare -x in front of the paths
 int	print_export(t_env *env)

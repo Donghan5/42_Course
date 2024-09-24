@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/23 13:25:07 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:31:10 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // to check the shlvl is adapatble cases
 static int	is_valid_lvl(const char *str)
@@ -75,11 +75,11 @@ void	increment_shell_level(t_env *env)
 	if (!new_shlvl_str)
 		exit_error(ALLOC_ERROR);
 	key_value = triple_strjoin("SHLVL", "=", new_shlvl_str);
-	if (update_environ(env, key_value) == FAIL)
+	if (!key_value || update_environ(env, key_value) == FAIL)
 	{
 		free(key_value);
 		free(new_shlvl_str);
-		exit_error(UPDATE_ERROR);
+		return ;
 	}
 	free(key_value);
 	free(new_shlvl_str);

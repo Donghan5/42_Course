@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 14:04:05 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:54:14 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 char	*get_value_for_name(t_name_value *arr, char *name)
 {
@@ -38,12 +38,14 @@ char	*replace_home_tilde(char *cwd)
 	int		home_len;
 
 	home = getenv("HOME");
+	if (!home)
+		return (cwd);
 	home_len = ft_strlen(home);
 	if (ft_strncmp(cwd, home, home_len) == 0)
 	{
 		tilde = malloc(ft_strlen(cwd) - home_len + 2);
 		if (!tilde)
-			return (NULL);
+			return (cwd);
 		tilde[0] = '~';
 		ft_strlcpy(tilde + 1, cwd + home_len, ft_strlen(cwd) - home_len + 1);
 		free(cwd);

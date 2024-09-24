@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/23 13:23:08 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:30:44 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // to check identify is correct
 static int	check_identify_key(char *key)
@@ -71,13 +71,9 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 }
 
 // to check run cond and run func
-int	unset_check(t_glob_pipe *cmd, t_env *env, int *status)
+void	unset_check(t_glob_pipe *cmd, t_env *env)
 {
-	if (!ft_strncmp(cmd->name, "unset", ft_strlen(cmd->name)))
-	{
-		*status = 0;
-		if (unset(cmd, env) == FAIL)
-			*status = 1;
-	}
-	return (NOT_RUN);
+	*env->status = 0;
+	if (unset(cmd, env) == FAIL)
+		*env->status = 1;
 }

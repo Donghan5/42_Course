@@ -6,11 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:12:58 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 15:40:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:31:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // create_new_env_var --> goal : to create new env_var
 void	create_new_env_var(char *tok_str, t_env *env)
@@ -20,7 +20,7 @@ void	create_new_env_var(char *tok_str, t_env *env)
 
 	new_var_str = ft_strdup(tok_str);
 	if (!new_var_str)
-		exit_error(ALLOC_ERROR);
+		return ;
 	new_var = new_env_node((void *)new_var_str);
 	if (!new_var)
 		exit_error(ALLOC_ERROR);
@@ -43,7 +43,7 @@ char	*swap_new_env_var(t_env *env, char *var_name, char *new_var)
 			{
 				fin_env = triple_strjoin(var_name, "=", new_var);
 				if (!fin_env)
-					exit_error(ALLOC_ERROR);
+					return (NULL);
 				free(node->value);
 				printf("before: %s\n", node->value);
 				node->value = fin_env;

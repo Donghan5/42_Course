@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 14:50:13 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:37:13 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-// global status
-int	g_exit_status;
+#include "../../includes/minishell.h"
 
 // In key=value return the length of the value
 // size is the size of the key(str)
@@ -49,7 +46,7 @@ int	size_env_key(char *str)
 
 // to return env length
 // when meet ? --> exit(quit...?) the program
-int	env_cnt(char *str, int *size, char **envp)
+int	env_cnt(char *str, int *size, t_env *env)
 {
 	int		idx;
 	char	*status;
@@ -57,7 +54,7 @@ int	env_cnt(char *str, int *size, char **envp)
 	idx = 0;
 	if (str[1] == '?')
 	{
-		status = ft_itoa(g_exit_status);
+		status = ft_itoa(*env->status);
 		*size += ft_strlen(status);
 		free(status);
 		return (1);
@@ -68,12 +65,12 @@ int	env_cnt(char *str, int *size, char **envp)
 		return (0);
 	}
 	idx = size_env_key(str);
-	*size += size_env_value(str, idx, envp);
+	*size += size_env_value(str, idx, env->environ);
 	return (idx);
 }
 
 // to get parsed len of the env
-int	get_env_parse_len(char *str, char **envp)
+int	get_env_parse_len(char *str, t_env *env)
 {
 	int	idx;
 	int	size;
@@ -85,9 +82,9 @@ int	get_env_parse_len(char *str, char **envp)
 		if (str[idx] == '\'' && check_unclosed_quote(str, '\''))
 			size += single_quote_cnt(&str[idx], &size);
 		else if (str[idx] == '\"' && check_unclosed_quote(str, '\"'))
-			size += double_quote_cnt(&str[idx], &size, envp);
+			size += double_quote_cnt(&str[idx], &size, env);
 		else if (str[idx] == '$')
-			size += env_cnt(&str[idx], &size, envp);
+			size += env_cnt(&str[idx], &size, env);
 		else if (str[idx])
 			size++;
 	}

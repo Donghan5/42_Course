@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/21 14:07:28 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:23:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	fd_restore_close(int std_io[2], t_glob_pipe *temp_cmd)
 	return (1);
 }
 
-void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status)
+void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
 {
     t_glob_pipe *temp_cmd;
     pid_t       pid;
@@ -84,13 +84,15 @@ void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status)
                 close_fds(temp_cmd);
                 if (is_builtin)
                 {
-                    builtin_run(env, temp_cmd, status);
-                    exit(*status);
+                    builtin_run(env, temp_cmd);
+					// free_doub_array((void **)env->environ);
+                    exit(*env->status);
                 }
                 else
                 {
                     search_path_and_run(temp_cmd, env);
-					*status = 1;
+					// free_doub_array((void **)env->environ);
+					*env->status = 1;
                     exit(1);
                 }
             }
@@ -108,8 +110,8 @@ void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status)
                 close_fds(temp_cmd);
                 if (temp_cmd->operator != PIPE)
                 {
-                    waitpid(pid, status, 0);
-                    *status = WEXITSTATUS(*status);
+                    waitpid(pid, env->status, 0);
+                    *env->status = WEXITSTATUS(*env->status);
                 }
             }
             else
@@ -118,17 +120,18 @@ void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env, int *status)
                     dup2(temp_cmd->redir_io[0], STDIN_FILENO);
                 if (temp_cmd->redir_io[1] != STDOUT_FILENO)
                     dup2(temp_cmd->redir_io[1], STDOUT_FILENO);
-                builtin_run(env, temp_cmd, status);
+                builtin_run(env, temp_cmd);
                 dup2(std_io[0], STDIN_FILENO);
                 dup2(std_io[1], STDOUT_FILENO);
                 close_fds(temp_cmd);
             }
-            if ((temp_cmd->operator == AND && *status != 0) ||
-                (temp_cmd->operator == OR && *status == 0))
+            if ((temp_cmd->operator == AND && *env->status != 0) ||
+                (temp_cmd->operator == OR && *env->status == 0))
                 break;
         }
         temp_cmd = temp_cmd->next;
     }
     fd_restore_close(std_io, NULL);
+	// free_doub_array((void **)env->environ);
     wait_background_processes();
 }

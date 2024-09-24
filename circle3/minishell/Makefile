@@ -1,4 +1,4 @@
-SRC = main.c srcs/ft_split_tokens.c srcs/ft_whitespace.c srcs/builtins.c srcs/header.c \
+SRC = main.c srcs/ft_whitespace.c srcs/builtins.c srcs/header.c \
 	srcs/execute.c srcs/fill.c srcs/ft_exit.c srcs/ft_get.c srcs/parsing.c \
 	srcs/free.c srcs/utils.c srcs/signal.c srcs/expander/quote.c srcs/expander/expander_utils.c srcs/expander/expander.c \
 	srcs/env/env_utils.c srcs/env/env_utils2.c srcs/env/shlvl.c srcs/prepare_pipeline.c \
@@ -26,10 +26,10 @@ $(LIBFT):
 	$(MAKE) -C Libft bonus
 
 $(NAME): $(LIBFT) $(OBJ)
-	cc $(OBJ) -Iincludes -lreadline -L./Libft -lft -o $(NAME)
+	$(CC) $(OBJ) -Iincludes -lreadline -L./Libft -lft -o $(NAME)
 
 %.o: %.c
-	cc -c -MMD -MP -Iincludes -I./Libft $(CFLAGS) $< -o $@
+	$(CC) -c -MMD -MP -Iincludes -I./Libft $(CFLAGS) $< -o $@
 
 -include $(DEPS)
 

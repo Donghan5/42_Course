@@ -6,11 +6,11 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/21 16:16:30 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:44:06 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	is_still_an_operator(char *s);
 

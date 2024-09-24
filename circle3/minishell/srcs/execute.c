@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   excute.c                                           :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:23:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/17 13:57:32 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:41:25 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	close_fds(t_glob_pipe *glob_pipe)
 {
@@ -43,15 +43,14 @@ void search_path_and_run(t_glob_pipe *cmds, t_env *env)
             full_path = triple_strjoin(splitted[i], "/", cmds->name);
             if (!full_path)
             {
-                free_doub_array((void **)splitted);
-                exit_error("malloc");
+				handle_errors(&cmds, splitted, NULL);
+				exit_error("malloc");
             }
             if (access(full_path, X_OK) == 0)
             {
 				free_doub_array((void **)splitted);
                 execve(full_path, cmds->args, env->environ);
-                free(full_path);
-                break;
+                exit_error("");
             }
             free(full_path);
             i++;
@@ -60,5 +59,7 @@ void search_path_and_run(t_glob_pipe *cmds, t_env *env)
     }
     write(2, cmds->name, ft_strlen(cmds->name));
     write(2, ": command not found\n", 20);
+	free_glob_pipe(&cmds);
+	rl_clear_history();
     exit(127);
 }

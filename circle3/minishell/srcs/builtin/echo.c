@@ -6,19 +6,30 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:30:11 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/22 13:21:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:38:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
+
+// print elememts all cmds
+static void	print_cmds(t_glob_pipe *cmd, int i)
+{
+	while (cmd->args[i])
+	{
+		printf("%s", cmd->args[i]);
+		if (cmd->args[i + 1])
+			printf(" ");
+		i++;
+	}
+}
 
 // have to reduce the line following by the norm rule
 int	echo(t_glob_pipe *cmd, t_env *env)
 {
 	int		i;
-	int		newline;
 	int		j;
-	char	*expanded_arg;
+	int		newline;
 
 	i = 1;
 	newline = 1;
@@ -35,31 +46,15 @@ int	echo(t_glob_pipe *cmd, t_env *env)
 		else
 			break ;
 	}
-	while (cmd->args[i])
-	{
-		expanded_arg = expander(cmd->args[i], env);
-		if (expanded_arg)
-		{
-			printf("%s", expanded_arg);
-			free(expanded_arg);
-		}
-		if (cmd->args[i + 1])
-			printf(" ");
-		i++;
-	}
+	print_cmds(cmd, i);
 	if (newline)
 		printf("\n");
 	return (SUCCESS);
 }
 
-int	echo_check(t_glob_pipe *cmd, t_env *env, int *status)
+void	echo_check(t_glob_pipe *cmd, t_env *env)
 {
-	if (!ft_strncmp(cmd->name, "echo", ft_strlen(cmd->name)))
-	{
-		*status = 0;
-		if (echo(cmd, env) == FAIL)
-			*status = 1;
-		return (RUN);
-	}
-	return (NOT_RUN);
+	*env->status = 0;
+	if (echo(cmd, env) == FAIL)
+		*env->status = 1;
 }

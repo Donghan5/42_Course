@@ -6,11 +6,11 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 14:07:55 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:33:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	smart_print_err(char *msg)
 {

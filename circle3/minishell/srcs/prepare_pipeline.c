@@ -6,11 +6,11 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/21 14:06:57 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:32:46 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	print_pipeline(t_glob_pipe *glob_pipe, int backwards)
 {
