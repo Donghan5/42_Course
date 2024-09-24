@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 16:54:14 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:55:23 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ char	*get_value_for_name(t_name_value *arr, char *name)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*get_username(void)
+{
+	char	*username;
+
+	username = getenv("USER");
+	if (!username)
+		username = "default_user";
+	return (username);
 }
 
 // to put the '~' in front of the cwd
@@ -81,17 +91,19 @@ char	*get_prompt(void)
 	char	*temp;
 	char	*cwd;
 	char	*hostname;
+	char	*username;
 
 	cwd = getcwd(NULL, 0);
+	username = get_username();
 	if (!cwd)
 		return (NULL);
 	cwd = replace_home_tilde(cwd);
 	hostname = get_hostname();
 	if (!hostname)
-		prompt = triple_strjoin(getenv("USER"), "@", "hostname");
+		prompt = triple_strjoin(username, "@", "default_hostname");
 	else
 	{
-		prompt = triple_strjoin(getenv("USER"), "@", hostname);
+		prompt = triple_strjoin(username, "@", hostname);
 		free(hostname);
 	}
 	temp = triple_strjoin(prompt, ":", cwd);

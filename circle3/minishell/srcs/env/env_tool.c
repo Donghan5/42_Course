@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 17:43:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 23:13:51 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	update_environ(t_env *env, char *key_value)
 	ft_memcpy(new_env, env->environ, sizeof(char *) * size_env);
 	new_env[size_env] = ft_strdup(key_value);
 	if (!new_env[size_env])
-		return (free(new_env), FAIL);
+		return (free_doub_array((void **)new_env), FAIL);
 	new_env[size_env + 1] = NULL;
 	if (env->environ)
 		free_doub_array((void **)env->environ);

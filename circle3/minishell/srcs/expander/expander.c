@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:39:16 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:43:26 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// to extract inside of the quote
-// static int	cmd_cnt(char *cmd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (cmd[i] && ft_iswhitespace((int)cmd[i]))
-// 		i++;
-// 	while (cmd[i] && !ft_iswhitespace((int)cmd[i]))
-// 		i++;
-// 	while (cmd[i])
-// 	{
-// 		while (cmd[i] && ft_iswhitespace((int)cmd[i]))
-// 			i++;
-// 		if (cmd[i] == '-')
-// 		{
-// 			i++;
-// 			while (cmd[i] && (ft_isalpha((int)cmd[i]) || \
-// 			cmd[i] == '-' || ft_isdigit((int)cmd[i])))
-// 				i++;
-// 		}
-// 		else
-// 			break ;
-// 	}
-// 	return (i);
-// }
 
 // to treat expander " or ' or $
 // tmp_expanded = expanded string which contain command

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 17:31:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:37:29 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int	get_level(const char *str)
 }
 
 // goal : to increase the level of the shell
-// note : using struct of the libft
 void	increment_shell_level(t_env *env)
 {
 	char	*shlvl_str;
