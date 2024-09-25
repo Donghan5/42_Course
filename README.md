@@ -8,6 +8,8 @@ Circle 2 : push_swap (86/100) / minitalk (125/100) / pipex (not evaluated) / so_
 
 EXAM_RANK_02 (100/100)
 
-Circle 3 : philosophers (100/100) / minishell(doing)
+Circle 3 : philosophers (100/100) / minishell(doing / team project(with pzinurov))
 
 EXAM_RANK03 (100/100)
+
+### Thanks to minishell tester --> https://github.com/LucasKuhn/minishell_tester
