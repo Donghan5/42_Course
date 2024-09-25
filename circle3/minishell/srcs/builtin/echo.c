@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:30:11 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:38:03 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:22:53 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	echo(t_glob_pipe *cmd, t_env *env)
 
 void	echo_check(t_glob_pipe *cmd, t_env *env)
 {
-	*env->status = 0;
+	env->status = 0;
 	if (echo(cmd, env) == FAIL)
-		*env->status = 1;
+		env->status = 1;
 }

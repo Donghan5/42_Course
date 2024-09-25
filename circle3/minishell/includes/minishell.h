@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/24 17:15:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:50:23 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ enum e_operator
 	REDIRECT_OUT,
 	APPEND_OUT,
 	HERE_DOC,
-	REDIRECT_EXPECTED
+	REDIRECT_EXPECTED,
+	REDIR_PIPE
 };
 
 // defines run or not
@@ -72,6 +73,8 @@ enum e_operator
 # define UPDATE_ERROR "Update fail"
 # define EXPORT_NOT_IDENTIFY "export: not a vaild identifier"
 # define UNSET_NOT_IDENTIFY "unset: not a vaild identifier"
+# define EXIT_ERROR "exit: too many arguments"
+# define EXIT_NUM_ERROR "exit: numeric argument required"
 # define FORK_ERROR "fork error"
 
 // define for shlvl.c files
@@ -121,7 +124,7 @@ typedef struct s_env
 {
 	char			**environ;
 	t_name_value	*environ_name_value;
-	int				*status;
+	int				status;
 }				t_env;
 
 // pre_parsing.c
@@ -142,6 +145,7 @@ void			free_glob_pipe(t_glob_pipe **glob_pipe);
 // ft_get.c
 char			*get_value_for_name(t_name_value *arr, char *name);
 char			*replace_home_tilde(char *cwd);
+char			*get_hostname(void);
 char			*get_prompt(void);
 
 // cd.c
@@ -166,6 +170,7 @@ int				fill_operator_token(t_glob_pipe *glob_pipe, char **token);
 // ft_exit.c
 void			normal_exit_check(t_glob_pipe *cmd, t_env *env);
 void			exit_error(char *perror_message);
+int				str_is_alnum(char *str);
 
 // parsing.c
 int				parse(t_glob_pipe **glob_pipe, char ***tokens);
@@ -177,7 +182,7 @@ int 			is_operator(char *token);
 // utils.c
 void			smart_print_err(char *msg);
 void			print_arr(char **arr);
-void			free_doub_array(void **arr);
+void			free_doub_array(char **arr);
 char			*triple_strjoin(char *s1, char *s2, char *s3);
 char			*get_next_line(int fd);
 
@@ -200,9 +205,9 @@ void			set_signal(void);
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);
 int				size_env_key(char *str);
+char			*get_key_from_env(char *env_str);
 int				env_cnt(char *str, int *size, t_env *env);
 int				get_env_parse_len(char *str, t_env *env);
-void			env_add_back(t_name_value **node, t_name_value *new);
 
 // env_utils2.c
 void			create_new_env_var(char *tok_str, t_env *env);
@@ -224,7 +229,7 @@ void			copy_strings(char *input, char *dest, t_env *env);
 char			*expander(char *cmd, t_env *env);
 
 // prepare_pipeline.c
-int				prepare_pipeline(t_glob_pipe *glob_pipe);
+int				prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env);
 
 // export_utils.c
 int				env_list_size(t_name_value *env_node);
@@ -256,7 +261,6 @@ void			echo_check(t_glob_pipe *cmd, t_env *env);
 
 // env_tool.c
 void			add_new_environ(t_env *env, char *name, char *value);
-void			init_env(t_env *env);
 t_name_value	*new_node_value(void);
 char			*ft_getenv(const char *name, t_env *env);
 int 			update_environ(t_env *env, char *key_value);

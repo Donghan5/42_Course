@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:26:42 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:18:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static int	check_identify_key(char *key)
 	int	i;
 
 	i = 0;
+	if (!ft_isalpha((int)key[i]) && key[i] != '_')
+		return (ft_putstr_fd(EXPORT_NOT_IDENTIFY, STDOUT), FAIL);
+	i++;
 	while (key[i])
 	{
 		if (!ft_isalnum((int)key[i]) && key[i] != '_')
@@ -94,7 +97,7 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 	char			*key_value;
 
 	i = 0;
-	if (!cmd->args[1] || !(ft_strrchr(cmd->args[1], (int) '=')))
+	if (!cmd->args[1])
 		return (1);
 	while (cmd->args[1][i] && cmd->args[1][i] != '=')
 		i++;

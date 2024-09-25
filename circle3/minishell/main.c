@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/24 17:27:40 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:07 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ char	*get_line(t_env *env)
 	if (!line)
 	{
 		rl_clear_history();
-		free_doub_array((void **)env->environ);
+		free_doub_array(env->environ);
 		printf("exit\n");
-		exit(*env->status);
+		exit(env->status);
 	}
 	if (*line)
 		add_history(line);
@@ -45,30 +45,25 @@ void	parse_and_run(char **line, t_env *env)
 	if (!parse(&glob_pipe, tokens))
 	{
 		free_triple_tokens(tokens);
-		*env->status = 1;
+		env->status = 1;
 		return ;
 	}
 	free_triple_tokens(tokens);
-	if (prepare_pipeline(glob_pipe))
+	if (prepare_pipeline(glob_pipe, env))
 		run_global_pipeline(glob_pipe, env);
 	else
-		*env->status = 1;
+		env->status = 1;
 	free_glob_pipe(&glob_pipe);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_env		env;
-	extern char	**environ;
-	int			status;
 
-	status = 0;
-	init_env(&env);
-	parse_env(&env, environ);
-	env.status = &status;
+	parse_env(&env, envp);
 	increment_shell_level(&env);
-	header();
+	// header();
 	using_history();
 	set_signal();
 	while (1)
@@ -77,12 +72,11 @@ int	main(int argc, char **argv)
 		if (!*line)
 		{
 			free(line);
-			free_doub_array((void **)env.environ);
 			continue ;
 		}
 		parse_and_run(&line, &env);
 	}
 	rl_clear_history();
-	free_doub_array((void **)env.environ);
+	free_doub_array(env.environ);
 	return (0);
 }

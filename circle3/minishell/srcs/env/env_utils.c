@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:37:13 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:23:06 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	env_cnt(char *str, int *size, t_env *env)
 	idx = 0;
 	if (str[1] == '?')
 	{
-		status = ft_itoa(*env->status);
+		status = ft_itoa(env->status);
 		*size += ft_strlen(status);
 		free(status);
 		return (1);

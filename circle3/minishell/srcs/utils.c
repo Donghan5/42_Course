@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:33:12 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:27:42 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_arr(char **arr)
 	}
 }
 
-void	free_doub_array(void **arr)
+void	free_doub_array(char **arr)
 {
 	int	i;
 

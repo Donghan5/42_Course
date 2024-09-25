@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/24 13:32:37 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:29:13 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ char	***pre_parsing(char *line, t_env *env)
 		i++;
 	}
 	tokens[i] = NULL;
-	free_doub_array((void **)temp_strs);
+	free_doub_array(temp_strs);
 	return (tokens);
 }

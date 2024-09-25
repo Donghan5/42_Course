@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 21:37:29 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:00:46 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	increment_shell_level(t_env *env)
 		shell_lvl = get_level(shlvl_str);
 	new_shlvl_str = ft_itoa(shell_lvl + 1);
 	if (!new_shlvl_str)
-		exit_error(ALLOC_ERROR);
+		return ;
 	key_value = triple_strjoin("SHLVL", "=", new_shlvl_str);
 	if (!key_value || update_environ(env, key_value) == FAIL)
 	{

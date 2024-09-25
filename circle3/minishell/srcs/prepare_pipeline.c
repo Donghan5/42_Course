@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:32:46 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:22:45 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 	return (1);
 }
 
-int	prepare_pipeline(t_glob_pipe *glob_pipe)
+int	prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env)
 {
 	t_glob_pipe	*current;
 	t_glob_pipe	*next;
@@ -120,18 +120,23 @@ int	prepare_pipeline(t_glob_pipe *glob_pipe)
 		current->redir_io[1] = STDOUT_FILENO;
 		current->is_exec_ignore = 0;
 		next = current->next;
-		while ((current->operator == REDIRECT_EXPECTED) && next
+		while ((current->operator == REDIRECT_EXPECTED || current->operator == REDIR_PIPE) && next
 			&& (next->operator == REDIRECT_IN
 				|| next->operator == REDIRECT_OUT
 				|| next->operator == APPEND_OUT
 				|| next->operator == HERE_DOC))
 		{
-			if (!setup_redirect(current, next))
-				return (0);
+			if (!current->is_exec_ignore && !setup_redirect(current, next))
+			{
+				current->is_exec_ignore = 1;
+				env->status = 1;
+			}
+			next->is_exec_ignore = 1;
 			next = next->next;
 		}
-		if (current->operator == PIPE)
+		if (current->operator == PIPE || current->operator == REDIR_PIPE)
 		{
+			current->operator = PIPE;
 			if (pipe(current->pipe_fds) == -1)
 				return (handle_errors(NULL, NULL, "minishell: pipe"));
 		}

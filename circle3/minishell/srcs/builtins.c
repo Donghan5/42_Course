@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 17:14:43 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:31:32 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	builtin_check(t_glob_pipe *cmd)
 
 void	builtin_run(t_env *env, t_glob_pipe *cmd)
 {
-	if (!ft_strncmp(cmd->name, "exit", 5))
+	if (!ft_strncmp(cmd->name, "exit", 5) && cmd->args[1] == NULL)
 		normal_exit_check(cmd, env);
 	if (!ft_strncmp(cmd->name, "pwd", 4))
-		pwd_check(cmd, env->status);
+		pwd_check(cmd, &env->status);
 	if (!ft_strncmp(cmd->name, "cd", 3))
 		cd_check(cmd, env);
 	if (!ft_strncmp(cmd->name, "export", 7))

@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:26:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:41:54 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:19 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,15 @@ int	fill_args(char ***tokens, t_glob_pipe *temp_pipe, int n, int start_index)
 		{
 			temp_pipe->args[i_args++] = ft_strdup(tokens[start_index + i_tokens][0]);
 			if (!temp_pipe->args[i_args - 1])
-				return (free_doub_array((void **)temp_pipe->args), temp_pipe->args = NULL, 0);
+				return (free_doub_array(temp_pipe->args), temp_pipe->args = NULL, 0);
 		}
 		i_tokens++;
 	}
 	temp_pipe->args[i_args] = NULL;
 	temp_pipe->name = temp_pipe->args[0];
-	if (redirects_amount)
+	if (redirects_amount && temp_pipe->operator == PIPE)
+		temp_pipe->operator = REDIR_PIPE;
+	else if (redirects_amount)
 		temp_pipe->operator = REDIRECT_EXPECTED;
 	return (redirects_amount);
 }

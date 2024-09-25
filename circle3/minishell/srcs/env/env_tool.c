@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 23:13:51 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:14 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ void	add_new_environ(t_env *env, char *name, char *value)
 	new_node->value = ft_strdup(value);
 	new_node->next = env->environ_name_value;
 	env->environ_name_value = new_node;
-}
-
-void	init_env(t_env *env)
-{
-	env->environ = NULL;
-	env->environ_name_value = NULL;
 }
 
 // initialize all element in t_name_value
@@ -72,7 +66,6 @@ int	update_environ(t_env *env, char *key_value)
 	int		size_env;
 	int		var_i;
 	char	*key;
-	char	*tmp;
 
 	key = ft_substr(key_value, 0, ft_strchr(key_value, '=') - key_value);
 	if (!key)
@@ -88,10 +81,10 @@ int	update_environ(t_env *env, char *key_value)
 	ft_memcpy(new_env, env->environ, sizeof(char *) * size_env);
 	new_env[size_env] = ft_strdup(key_value);
 	if (!new_env[size_env])
-		return (free_doub_array((void **)new_env), FAIL);
+		return (free_doub_array(new_env), FAIL);
 	new_env[size_env + 1] = NULL;
 	if (env->environ)
-		free_doub_array((void **)env->environ);
+		free_doub_array(env->environ);
 	return (env->environ = new_env, SUCCESS);
 }
 

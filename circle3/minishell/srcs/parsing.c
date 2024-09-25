@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 16:00:53 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:25 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,8 @@ int	parse(t_glob_pipe **glob_pipe, char ***tokens)
 				redirects_found = fill_args(tokens, temp_glob, token_counter, i - token_counter);
 			if (!temp_glob->args)
 				return (handle_errors(glob_pipe, NULL, "malloc"));
-			if (tokens[i + 1] && is_operator_token(tokens[i + 1]))
-				return (handle_errors(glob_pipe, NULL, "minishell: wrong arguments\n"));
+			// if (tokens[i + 1] && is_operator_token(tokens[i + 1]))
+			// 	return (handle_errors(glob_pipe, NULL, "minishell: wrong arguments\n"));
 			if (redirects_found && !add_redir_as_glob_pipes(tokens, token_counter, i + !tokens[i + 1] - token_counter, &temp_glob))
 				return (handle_errors(glob_pipe, NULL, "malloc"));
 			if (tokens[i + 1])
@@ -160,7 +160,9 @@ void	parse_env(t_env *env, char **envs)
 	char	**temp;
 
 	i = 0;
+	env->status = 0;
 	env->environ = NULL;
+	env->environ_name_value = NULL;
 	while (envs && envs[i])
 		i++;
 	if (!i)
@@ -179,7 +181,7 @@ void	parse_env(t_env *env, char **envs)
 	{
 		env->environ[i] = ft_strdup(envs[i]);
 		if (!env->environ)
-			return (free_doub_array((void **) env->environ), exit_error("malloc"));
+			return (free_doub_array( env->environ), exit_error("malloc"));
 		i++;
 	}
 	env->environ[i] = NULL;

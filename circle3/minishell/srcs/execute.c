@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:23:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:41:25 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:17 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,25 @@ void search_path_and_run(t_glob_pipe *cmds, t_env *env)
             if (!full_path)
             {
 				handle_errors(&cmds, splitted, NULL);
+				free_doub_array(env->environ);
 				exit_error("malloc");
             }
             if (access(full_path, X_OK) == 0)
             {
-				free_doub_array((void **)splitted);
+				free_doub_array(splitted);
                 execve(full_path, cmds->args, env->environ);
+				free_doub_array(env->environ);
                 exit_error("");
             }
             free(full_path);
             i++;
         }
-        free_doub_array((void **)splitted);
+        free_doub_array(splitted);
     }
     write(2, cmds->name, ft_strlen(cmds->name));
     write(2, ": command not found\n", 20);
 	free_glob_pipe(&cmds);
+	free_doub_array(env->environ);
 	rl_clear_history();
     exit(127);
 }

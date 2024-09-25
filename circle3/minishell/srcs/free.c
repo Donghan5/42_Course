@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:01:50 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/24 13:42:21 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:21 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_triple_tokens(char ***arr)
 int		handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg)
 {
 	if (doub_arr)
-		free_doub_array((void **) doub_arr);
+		free_doub_array( doub_arr);
 	if (triple_tokens)
 		free_triple_tokens(triple_tokens);
 	if (err_msg)
@@ -56,7 +56,7 @@ int		handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg)
 	if (glob_pipe)
 		free_glob_pipe(glob_pipe);
 	if (doub_arr)
-		free_doub_array((void **) doub_arr);
+		free_doub_array( doub_arr);
 	if (err_msg)
 		smart_print_err(err_msg);
 	return (err_msg == NULL);
@@ -75,7 +75,7 @@ void	free_glob_pipe(t_glob_pipe **glob_pipe)
 	while (temp)
 	{
 		next = temp->next;
-		free_doub_array((void **) temp->args);
+		free_doub_array( temp->args);
 		free(temp);
 		temp = next;
 	}

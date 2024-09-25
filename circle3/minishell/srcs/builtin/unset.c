@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:30:44 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:25:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	check_identify_key(char *key)
 	while (key[i])
 	{
 		if (!ft_isalnum((int)key[i]) && key[i] != '_')
-			return (ft_putstr_fd(UNSET_NOT_IDENTIFY, STDOUT), FAIL);
+			return (printf(UNSET_NOT_IDENTIFY), FAIL);
 		i++;
 	}
 	return (SUCCESS);
@@ -61,9 +61,9 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 	char	*key;
 	int		i;
 
-	key = key_duplicate(cmd);
-	if (check_identify_key(key) == FAIL)
-		return (free(key), FAIL);
+	key = get_key_from_env(cmd->args[1]);
+	// if (check_identify_key(key) == FAIL)
+	// 	return (free(key), FAIL);
 	if (remove_env_var(cmd, env) == FAIL)
 		return (free(key), FAIL);
 	free(key);
@@ -73,7 +73,7 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 // to check run cond and run func
 void	unset_check(t_glob_pipe *cmd, t_env *env)
 {
-	*env->status = 0;
+	env->status = 0;
 	if (unset(cmd, env) == FAIL)
-		*env->status = 1;
+		env->status = 1;
 }

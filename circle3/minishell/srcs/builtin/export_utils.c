@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:26:44 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:28:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**env_lst_to_array(t_name_value *env)
 	{
 		env_arr[i] = ft_strdup(env->value);
 		if (!env_arr[i])
-			return (free_doub_array((void **)env_arr), NULL);
+			return (free_doub_array(env_arr), NULL);
 		env = env->next;
 		i++;
 	}
