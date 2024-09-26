@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/25 23:07:27 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:11:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ enum e_operator
 // error msgs
 # define ALLOC_ERROR "Allocate fail"
 # define UPDATE_ERROR "Update fail"
-# define EXPORT_NOT_IDENTIFY "export: not a vaild identifier"
-# define UNSET_NOT_IDENTIFY "unset: not a vaild identifier"
-# define EXIT_ERROR "minishell: exit: too many arguments"
+# define UNSET_NOT_IDENTIFY "unset: not a valid identifier"
 # define FORK_ERROR "fork error"
 
 // define for shlvl.c files

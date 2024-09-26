@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 23:09:36 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:07:41 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
-		env->status = 255;
+		env->status = 2;
 		rl_clear_history();
 		free_glob_pipe(&cmd);
 		free_doub_array(env->environ);
@@ -56,7 +56,7 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 // avoid to exit error form
 static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 {
-	ft_putendl_fd(EXIT_ERROR, STDOUT);
+	ft_putendl_fd("minishell: exit: too many arguments", 2);
 	env->status = 1;
 	rl_clear_history();
 	free_glob_pipe(&cmd);

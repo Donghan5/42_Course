@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 17:25:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:23:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ static int	check_identify_key(char *key)
 	return (SUCCESS);
 }
 
-// to delete key in the envp
-static int	remove_env_var(t_glob_pipe *cmd, t_env *env)
+// to delete key in the environ value
+// please sure of the double free
+static void	remove_env_var(t_glob_pipe *cmd, t_env *env)
 {
 	int		key_size;
 	char	*key;
 	int		i;
+	int		j;
 
 	key = cmd->args[1];
 	key_size = ft_strlen(key);
@@ -43,16 +45,18 @@ static int	remove_env_var(t_glob_pipe *cmd, t_env *env)
 		(env->environ[i][key_size] == '=' || env->environ[i][key_size] == '\0'))
 		{
 			free(env->environ[i]);
-			while (env->environ[i])
+			env->environ[i] = NULL;
+			j = 1;
+			while (env->environ[j])
 			{
-				env->environ[i] = env->environ[i + 1];
-				i++;
+				env->environ[j] = env->environ[j + 1];
+				j++;
 			}
-			return (SUCCESS);
+			env->environ[j] = NULL;
+			break ;
 		}
 		i++;
 	}
-	return (FAIL);
 }
 
 // goal --> delete value
@@ -61,12 +65,21 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 	char	*key;
 	int		i;
 
-	key = get_key_from_env(cmd->args[1]);
-	// if (check_identify_key(key) == FAIL)
-	// 	return (free(key), FAIL);
-	if (remove_env_var(cmd, env) == FAIL)
-		return (free(key), FAIL);
-	free(key);
+	i = 1;
+	while (cmd->args[i])
+	{
+		key = get_key_from_env(cmd->args[i]);
+		if (check_identify_key(key) == FAIL)
+		{
+			free(key);
+			env->status = 1;
+			i++;
+			return (FAIL);
+		}
+		remove_env_var(cmd, env);
+		free(key);
+		i++;
+	}
 	return (SUCCESS);
 }
 

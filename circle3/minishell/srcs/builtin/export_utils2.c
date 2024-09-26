@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 17:18:35 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:01:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@ static int	check_identify_key(char *key)
 
 	i = 0;
 	if (!ft_isalpha((int)key[i]) && key[i] != '_')
-		return (ft_putstr_fd(EXPORT_NOT_IDENTIFY, STDOUT), FAIL);
+	{
+		ft_putstr_fd("minishell: export: '%s': not a valid identifier", 2);
+		return (FAIL);
+	}
 	i++;
 	while (key[i])
 	{
 		if (!ft_isalnum((int)key[i]) && key[i] != '_')
-			return (ft_putstr_fd(EXPORT_NOT_IDENTIFY, STDOUT), FAIL);
+		{
+			ft_putstr_fd("minishell: export: '%s': not a valid identifier", 2);
+			return (FAIL);
+		}
 		i++;
 	}
 	return (SUCCESS);
