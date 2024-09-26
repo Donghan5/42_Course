@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 13:01:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:30:18 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ static int	check_identify_key(char *key)
 	i = 0;
 	if (!ft_isalpha((int)key[i]) && key[i] != '_')
 	{
-		ft_putstr_fd("minishell: export: '%s': not a valid identifier", 2);
+		ft_putstr_fd("minishell: export: ", 2);
+		ft_putstr_fd(key, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
 		return (FAIL);
 	}
 	i++;
@@ -28,7 +30,9 @@ static int	check_identify_key(char *key)
 	{
 		if (!ft_isalnum((int)key[i]) && key[i] != '_')
 		{
-			ft_putstr_fd("minishell: export: '%s': not a valid identifier", 2);
+			ft_putstr_fd("minishell: export: ", 2);
+			ft_putstr_fd(key, 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
 			return (FAIL);
 		}
 		i++;
@@ -108,7 +112,7 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 	while (cmd->args[1][i] && cmd->args[1][i] != '=')
 		i++;
 	key = ft_substr(cmd->args[1], 0, i);
-	if (check_identify_key(key))
+	if (check_identify_key(key) == FAIL)
 		return (free(key), FAIL);
 	i++;
 	value = ft_strdup(&cmd->args[1][i]);

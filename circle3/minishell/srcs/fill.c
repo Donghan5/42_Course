@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:26:46 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:19 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:03:20 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	fill_args(char ***tokens, t_glob_pipe *temp_pipe, int n, int start_index)
 			i_tokens++;
 			redirects_amount++;
 		}
-		else
+		else if (tokens[start_index + i_tokens][0][0])
 		{
 			temp_pipe->args[i_args++] = ft_strdup(tokens[start_index + i_tokens][0]);
 			if (!temp_pipe->args[i_args - 1])

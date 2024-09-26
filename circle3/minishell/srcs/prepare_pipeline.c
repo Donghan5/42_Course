@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:22:45 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:41:10 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ int	prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env)
 		if (current->operator == PIPE || current->operator == REDIR_PIPE)
 		{
 			current->operator = PIPE;
+			if (current->is_exec_ignore)
+				current->operator = NO_EXEC_PIPE;
 			if (pipe(current->pipe_fds) == -1)
 				return (handle_errors(NULL, NULL, "minishell: pipe"));
 		}

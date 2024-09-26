@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:07 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:27:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ char	*get_line(t_env *env)
 	return (line);
 }
 
+int	is_lex_error(char ***tokens)
+{
+	int	i;
+
+	i = 0;
+	if (!tokens)
+		return (1);
+	while (tokens[i])
+	{
+		if (is_tokens_error(tokens[i], tokens[i + 1], i))
+			return (compound_token_error(tokens[i], tokens[i + 1], i, NULL), 1);
+		i++;
+	}
+	return (0);
+}
+
 void	parse_and_run(char **line, t_env *env)
 {
 	char		***tokens;
@@ -42,10 +58,10 @@ void	parse_and_run(char **line, t_env *env)
 	free(*line);
 	if (!tokens)
 		return ;
-	if (!parse(&glob_pipe, tokens))
+	if (is_lex_error(tokens) || !parse(&glob_pipe, tokens))
 	{
 		free_triple_tokens(tokens);
-		env->status = 1;
+		env->status = 2;
 		return ;
 	}
 	free_triple_tokens(tokens);

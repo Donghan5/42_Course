@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/26 13:11:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:22:40 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <errno.h>
+# include <dirent.h>
+# include <sys/stat.h>
 
 // custom header files
 # include "../Libft/libft.h"
@@ -42,7 +44,8 @@ enum e_operator
 	APPEND_OUT,
 	HERE_DOC,
 	REDIRECT_EXPECTED,
-	REDIR_PIPE
+	REDIR_PIPE,
+	NO_EXEC_PIPE
 };
 
 // defines run or not
@@ -175,6 +178,8 @@ void			parse_env(t_env *env, char **environ);
 int 			is_operator_token(char **token);
 int 			is_redirect(char **token);
 int 			is_operator(char *token);
+int				is_tokens_error(char **current_token, char **next_token, int i);
+int				compound_token_error(char **token, char **next_token, int i, t_glob_pipe **glob_pipe);
 
 // utils.c
 void			smart_print_err(char *msg);

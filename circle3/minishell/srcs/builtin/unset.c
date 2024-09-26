@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:47:06 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 12:23:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:05:03 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,6 @@ int	unset(t_glob_pipe *cmd, t_env *env)
 	while (cmd->args[i])
 	{
 		key = get_key_from_env(cmd->args[i]);
-		if (check_identify_key(key) == FAIL)
-		{
-			free(key);
-			env->status = 1;
-			i++;
-			return (FAIL);
-		}
 		remove_env_var(cmd, env);
 		free(key);
 		i++;

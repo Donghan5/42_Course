@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:28 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:33:55 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
     temp_cmd = cmds_start;
     while (temp_cmd)
     {
+		if (temp_cmd->is_exec_ignore && (temp_cmd->operator == NO_EXEC_PIPE))
+		{
+			if (prev_pipe_read != -1)
+				close(prev_pipe_read);
+			close(temp_cmd->pipe_fds[1]);
+			prev_pipe_read = temp_cmd->pipe_fds[0];
+		}
         if (!temp_cmd->is_exec_ignore && temp_cmd->name)
         {
             is_builtin = builtin_check(temp_cmd);

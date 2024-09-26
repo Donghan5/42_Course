@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:12 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:03:24 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 int	print_export(t_env *env)
 {
 	char			**env_arr;
+	char			*key;
+	char			*value;
 	int				i;
 	int				j;
 
@@ -26,7 +28,9 @@ int	print_export(t_env *env)
 	i = 0;
 	while (env_arr[i])
 	{
-		printf("declare -x %s\n", env_arr[i]);
+		key = get_key_from_env(env_arr[i]);
+		value = getenv_value(key, env_arr);
+		printf("declare -x %s=\"%s\"\n", key, value);
 		i++;
 	}
 	return (1);

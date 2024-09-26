@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/24 13:44:06 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:16:38 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	get_strs_amount(char const *s)
 {
 	int	amount;
 	int quoted;
-	int	after_separator;
+	int	operator_length;
 
-	after_separator = 1;
+	operator_length = 0;
 	amount = 0;
 	quoted = 0;
 	while (*s)
@@ -52,7 +52,8 @@ static int	get_strs_amount(char const *s)
 			s++;
 		if (!quoted && is_operator((char *)s))
 		{
-			while (*s && is_still_an_operator((char *)s))
+			operator_length = is_operator((char *)s);
+			while (*s && operator_length--)
 				s++;
 			continue ;
 		}
@@ -125,7 +126,7 @@ char	**tokenizer(char const *s)
 	int		j;
 	int		tokens;
 	int		quoted;
-	int		after_separator;
+	int		operator_length;
 
 	if (!s)
 		return (NULL);
@@ -173,7 +174,8 @@ char	**tokenizer(char const *s)
 			splitted[i][j++] = *(s++);
 		if (!quoted && is_operator((char *)s))
 		{
-			while (*s && is_still_an_operator((char *)s))
+			operator_length = is_operator((char *)s);
+			while (*s && operator_length--)
 				splitted[i][j++] = *(s++);
 			splitted[i++][j] = '\0';
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:25 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:27:51 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,40 @@ t_glob_pipe	*new_glob_pipe(t_glob_pipe	*prev)
 	return (new_elem);
 }
 
+int	compound_token_error(char **token, char **next_token, int i, t_glob_pipe **glob_pipe)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	if (is_redirect(token) && next_token)
+		ft_putstr_fd(next_token[0], 2);
+	else if (is_redirect(token))
+		ft_putstr_fd("newline", 2);
+	else
+		ft_putstr_fd(token[0], 2);
+	ft_putstr_fd("\'\n", 2);
+	if (glob_pipe)
+		free_glob_pipe(glob_pipe);
+	return (0);
+}
+
+int	is_tokens_error(char **current_token, char **next_token, int i)
+{
+	if (!current_token)
+		return (0);
+	if ((i == 0) && !ft_strncmp(current_token[0], "|", 2))
+		return (1);
+	if (is_operator_token(current_token) && (!next_token))
+		return (1);
+	if (!next_token)
+		return (0);
+	if (!ft_strncmp(current_token[0], "|", 2) && !ft_strncmp(next_token[0], "<", 2))
+		return (0);
+	if (is_redirect(current_token) && is_operator_token(next_token))
+		return (1);
+	if (is_redirect(current_token) && (next_token[0][0] == '$'))
+		return (1);
+	return (0);
+}
+
 int	parse(t_glob_pipe **glob_pipe, char ***tokens)
 {
 	int			i;
@@ -127,8 +161,6 @@ int	parse(t_glob_pipe **glob_pipe, char ***tokens)
 				break ;
 			i++;
 		}
-		if (tokens[i] && is_operator_token(tokens[i]) && !tokens[i + 1])
-			return (handle_errors(glob_pipe, NULL, "minishell: parse error near `newline\'\n"));
 		if (tokens[i] && (is_operator_token(tokens[i]) && !is_redirect(tokens[i]) || !tokens[i + 1]))
 		{
 			fill_operator_token(temp_glob, tokens[i]);
@@ -138,8 +170,6 @@ int	parse(t_glob_pipe **glob_pipe, char ***tokens)
 				redirects_found = fill_args(tokens, temp_glob, token_counter, i - token_counter);
 			if (!temp_glob->args)
 				return (handle_errors(glob_pipe, NULL, "malloc"));
-			// if (tokens[i + 1] && is_operator_token(tokens[i + 1]))
-			// 	return (handle_errors(glob_pipe, NULL, "minishell: wrong arguments\n"));
 			if (redirects_found && !add_redir_as_glob_pipes(tokens, token_counter, i + !tokens[i + 1] - token_counter, &temp_glob))
 				return (handle_errors(glob_pipe, NULL, "malloc"));
 			if (tokens[i + 1])
