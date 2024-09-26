@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 16:30:18 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/26 21:00:22 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,24 +102,31 @@ int	update_env_array(t_env *env, char *key_value)
 int	ft_export(t_glob_pipe *cmd, t_env *env)
 {
 	int				i;
+	int				j;
 	char			*key;
 	char			*value;
 	char			*key_value;
 
-	i = 0;
 	if (!cmd->args[1])
-		return (1);
-	while (cmd->args[1][i] && cmd->args[1][i] != '=')
-		i++;
-	key = ft_substr(cmd->args[1], 0, i);
-	if (check_identify_key(key) == FAIL)
-		return (free(key), FAIL);
-	i++;
-	value = ft_strdup(&cmd->args[1][i]);
-	key_value = triple_strjoin(key, "=", value);
-	update_env_array(env, key_value);
-	free(key);
-	free(value);
-	free(key_value);
+		return (FAIL);
+	j = 1;
+	while (cmd->args[j])
+	{
+		i = 0;
+		while (cmd->args[j][i] && cmd->args[j][i] != '=')
+			i++;
+		key = ft_substr(cmd->args[j], 0, i);
+		if (check_identify_key(key) == FAIL)
+			return (free(key), FAIL);
+		if (cmd->args[j][i] == '=')
+			i++;
+		value = ft_strdup(&cmd->args[j][i]);
+		key_value = triple_strjoin(key, "=", value);
+		update_env_array(env, key_value);
+		free(key);
+		free(value);
+		free(key_value);
+		j++;
+	}
 	return (SUCCESS);
 }
