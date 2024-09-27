@@ -6,16 +6,17 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 22:51:18 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/27 22:42:50 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static long int	ft_atol(const char *str)
+// to convert to long long type
+static long long int	ft_atoll(char *str)
 {
-	int				sign;
-	long int		res;
+	int					sign;
+	long long int		res;
 
 	sign = 1;
 	res = 0;
@@ -32,11 +33,10 @@ static long int	ft_atol(const char *str)
 		res = res * 10 + (*str - '0');
 		str++;
 	}
-	if ((sign == 1 && res > 9223372036854775807L) || (sign == -1 && res > 9223372036854775808U))
+	if ((sign == 1 && res > LONG_MAX) || (sign == -1 && res > LONG_MAX + 1))
 		return (0);
 	return (sign * res);
 }
-
 
 // implement strcmp to compare digit
 static int	exit_compare_tool(char *s1, char *s2)
@@ -54,24 +54,19 @@ static int	exit_compare_tool(char *s1, char *s2)
 // show the exit_code input(this is alphabetic)
 static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 {
-	int	exit_code;
+	long long int	exit_code;
 
-	exit_code = ft_atol(cmd->args[1]);
-	printf("cmd.args: %s\n", cmd->args[1]);
-	printf("exit code return value is: %d\n", exit_code);
-	if (exit_code == 0)
+	exit_code = ft_atoll(cmd->args[1]);
+	if (exit_code == 0 && exit_compare_tool(cmd->args[1], "0") != 0)
 	{
-		if (exit_compare_tool(cmd->args[1], "0") != 0)
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd->args[1], 2);
-			ft_putendl_fd(": numeric argument required", 2);
-			env->status = 2;
-			rl_clear_history();
-			free_glob_pipe(&cmd);
-			free_doub_array(env->environ);
-			exit(env->status);
-		}
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(cmd->args[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		env->status = 2;
+		rl_clear_history();
+		free_glob_pipe(&cmd);
+		free_doub_array(env->environ);
+		exit(env->status);
 	}
 	else
 	{
