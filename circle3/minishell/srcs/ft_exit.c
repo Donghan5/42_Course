@@ -6,7 +6,7 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/27 22:42:50 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/28 15:35:09 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static long long int	ft_atoll(char *str)
 		res = res * 10 + (*str - '0');
 		str++;
 	}
-	if ((sign == 1 && res > LONG_MAX) || (sign == -1 && res > LONG_MAX + 1))
+	if ((sign == 1 && res > LONG_MAX) || \
+	(sign == -1 && res > 9223372036854775808U))
 		return (0);
 	return (sign * res);
 }
