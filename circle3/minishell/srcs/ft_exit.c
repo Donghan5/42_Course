@@ -6,7 +6,7 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/28 15:35:09 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/28 16:36:34 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static long long int	ft_atoll(char *str)
 {
 	int					sign;
 	long long int		res;
+	long long int		prev_res;
 
 	sign = 1;
 	res = 0;
@@ -30,12 +31,11 @@ static long long int	ft_atoll(char *str)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
-		res = res * 10 + (*str - '0');
-		str++;
+		prev_res = res;
+		res = res * 10 + (*str++ - '0');
+		if ((sign == 1 && res < prev_res) || (sign == -1 && res > prev_res))
+			return (0);
 	}
-	if ((sign == 1 && res > LONG_MAX) || \
-	(sign == -1 && res > 9223372036854775808U))
-		return (0);
 	return (sign * res);
 }
 
@@ -60,6 +60,7 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 	exit_code = ft_atoll(cmd->args[1]);
 	if (exit_code == 0 && exit_compare_tool(cmd->args[1], "0") != 0)
 	{
+		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);

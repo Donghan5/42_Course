@@ -6,7 +6,7 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 21:00:22 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/28 17:05:32 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 	if (!cmd->args[1])
 		return (FAIL);
 	j = 1;
-	while (cmd->args[j])
+	while (cmd->args[j++])
 	{
 		i = 0;
 		while (cmd->args[j][i] && cmd->args[j][i] != '=')
@@ -123,10 +123,7 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 		value = ft_strdup(&cmd->args[j][i]);
 		key_value = triple_strjoin(key, "=", value);
 		update_env_array(env, key_value);
-		free(key);
-		free(value);
-		free(key_value);
-		j++;
+		three_time_free(key, value, key_value);
 	}
 	return (SUCCESS);
 }

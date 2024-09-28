@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:30:11 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:22:53 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:47:14 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	print_cmds(t_glob_pipe *cmd, int i)
 	}
 }
 
-// have to reduce the line following by the norm rule
+// Doing role of the echo
+// treat multiple newline options
 int	echo(t_glob_pipe *cmd, t_env *env)
 {
 	int		i;

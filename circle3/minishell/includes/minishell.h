@@ -6,7 +6,7 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/26 21:42:19 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/28 17:03:01 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void			print_arr(char **arr);
 void			free_doub_array(char **arr);
 char			*triple_strjoin(char *s1, char *s2, char *s3);
 char			*get_next_line(int fd);
+void			three_time_free(char *s1, char *s2, char *s3);
 
 // header.c
 void			header(void);

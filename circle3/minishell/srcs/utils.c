@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:27:42 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:02:39 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,11 @@ char	*get_next_line(int fd)
 	if (i == 0)
 		return (NULL);
 	return (ft_strdup(line));
+}
+
+void	three_time_free(char *s1, char *s2, char *s3)
+{
+	free(s1);
+	free(s2);
+	free(s3);
 }
