@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:14 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/29 15:38:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	update_environ(t_env *env, char *key_value)
 	var_i = find_key_index(env->environ, key);
 	free(key);
 	if (var_i != NOT_FOUND)
-		return (free(env->environ[var_i]), env->environ[var_i] = ft_strdup(key_value), SUCCESS);
+		return (free(env->environ[var_i]), \
+		env->environ[var_i] = ft_strdup(key_value), SUCCESS);
 	size_env = size_environ(env);
 	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
 	if (!new_env)

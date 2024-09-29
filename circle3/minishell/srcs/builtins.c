@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 22:51:22 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/29 15:45:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	builtin_check(t_glob_pipe *cmd)
 		|| (!ft_strncmp(cmd->name, "cd", 3)) \
 		|| (!ft_strncmp(cmd->name, "export", 7)) \
 		|| (!ft_strncmp(cmd->name, "unset", 6)) \
-		|| (!ft_strncmp(cmd->name, "echo", 5)))
+		|| (!ft_strncmp(cmd->name, "echo", 5)) \
+		|| (!ft_strncmp(cmd->name, "env", 4)))
 		return (RUN);
 	return (NOT_RUN);
 }
@@ -38,4 +39,6 @@ void	builtin_run(t_env *env, t_glob_pipe *cmd)
 		unset_check(cmd, env);
 	if (!ft_strncmp(cmd->name, "echo", 5))
 		echo_check(cmd, env);
+	if (!ft_strncmp(cmd->name, "env", 4))
+		ft_env(env);
 }

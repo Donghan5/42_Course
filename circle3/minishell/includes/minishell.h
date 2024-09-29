@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/28 17:03:01 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:02:53 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void			print_arr(char **arr);
 void			free_doub_array(char **arr);
 char			*triple_strjoin(char *s1, char *s2, char *s3);
 char			*get_next_line(int fd);
-void			three_time_free(char *s1, char *s2, char *s3);
+void			two_time_free(char *s1, char *s2);
 
 // header.c
 void			header(void);
@@ -243,11 +243,11 @@ int				print_export(t_env *env);
 
 // export_utils2.c
 int				update_env_array(t_env *env, char *key_value);
-int				ft_export(t_glob_pipe *cmd, t_env *env);
 int				find_key_index(char **env_arr, char *key);
 int				size_environ(t_env	*env);
 
 // export.c
+int				ft_export(t_glob_pipe *cmd, t_env *env);
 void			export(t_glob_pipe *cmd, t_env *env);
 
 // unset.c
@@ -267,6 +267,9 @@ void			echo_check(t_glob_pipe *cmd, t_env *env);
 void			add_new_environ(t_env *env, char *name, char *value);
 t_name_value	*new_node_value(void);
 char			*ft_getenv(const char *name, t_env *env);
-int 			update_environ(t_env *env, char *key_value);
+int				update_environ(t_env *env, char *key_value);
+
+// env.c
+void			ft_env(t_env *env);
 
 #endif

@@ -6,12 +6,13 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 15:33:13 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/29 15:38:04 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// converting the type of long int
 static long int	ft_atoll(char *str, int *err)
 {
 	int							sign;

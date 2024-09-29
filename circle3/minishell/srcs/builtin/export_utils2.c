@@ -6,39 +6,11 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 14:10:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/29 16:08:50 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// check identify (good characters in the key)
-static int	check_identify_key(char *key)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_isalpha((int)key[i]) && key[i] != '_')
-	{
-		ft_putstr_fd("minishell: export: ", 2);
-		ft_putstr_fd(key, 2);
-		ft_putstr_fd(": not a valid identifier\n", 2);
-		return (FAIL);
-	}
-	i++;
-	while (key[i])
-	{
-		if (!ft_isalnum((int)key[i]) && key[i] != '_')
-		{
-			ft_putstr_fd("minishell: export: ", 2);
-			ft_putstr_fd(key, 2);
-			ft_putstr_fd(": not a valid identifier\n", 2);
-			return (FAIL);
-		}
-		i++;
-	}
-	return (SUCCESS);
-}
 
 // to find key(specify) index
 int	find_key_index(char **env_arr, char *key)
@@ -93,46 +65,4 @@ int	update_env_array(t_env *env, char *key_value)
 	new_env[i + 1] = NULL;
 	env->environ = new_env;
 	return (SUCCESS);
-}
-
-// args --> associate with t_command->name
-// in this function to facility, put the parameter to args(double pointer)
-// in using term, with t_command->args
-// parameters key=value, and index
-// reduce parameters and line
-int	ft_export(t_glob_pipe *cmd, t_env *env)
-{
-	int				i;
-	int				j;
-	int				exit_status;
-	char			*key;
-	char			*value;
-	char			*key_value;
-
-	if (!cmd->args[1])
-		return (SUCCESS);
-	exit_status = SUCCESS;
-	j = 1;
-	while (cmd->args[j])
-	{
-		i = 0;
-		while (cmd->args[j][i] && cmd->args[j][i] != '=')
-			i++;
-		key = ft_substr(cmd->args[j], 0, i);
-		if (check_identify_key(key) == FAIL)
-		{
-			exit_status = FAIL;
-			free(key);
-			j++;
-			continue ;
-		}
-		if (cmd->args[j][i] == '=')
-			i++;
-		value = ft_strdup(&cmd->args[j][i]);
-		key_value = triple_strjoin(key, "=", value);
-		update_env_array(env, key_value);
-		three_time_free(key, value, key_value);
-		j++;
-	}
-	return (exit_status);
 }

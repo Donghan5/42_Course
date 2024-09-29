@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/28 17:02:39 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:14:38 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 	i = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (1)
+	while (line[i - 1] != '\n')
 	{
 		if (buffer_pos >= buffer_readed)
 		{
@@ -88,18 +88,9 @@ char	*get_next_line(int fd)
 				break ;
 		}
 		line[i++] = buffer[buffer_pos++];
-		if (line[i - 1] == '\n')
-			break ;
 	}
 	line[i] = '\0';
 	if (i == 0)
 		return (NULL);
 	return (ft_strdup(line));
-}
-
-void	three_time_free(char *s1, char *s2, char *s3)
-{
-	free(s1);
-	free(s2);
-	free(s3);
 }
