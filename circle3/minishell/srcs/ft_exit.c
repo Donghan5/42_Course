@@ -3,34 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 11:55:18 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/29 15:33:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// to convert to long long type
-static long int	ft_atoll(char *str)
+static long int	ft_atoll(char *str, int *err)
 {
-	int					sign;
-	long int			res;
+	int							sign;
+	int							i;
+	int							j;
+	unsigned long long int		res;
 
 	sign = 1;
-	res = 0;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		if (str[i++] == '-')
 			sign = -1;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-		res = res * 10 + (*str++ - '0');
-	return (sign * res);
+	j = i;
+	res = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+		res = res * 10 + (str[i++] - '0');
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] || i - j > 20 || ((sign == -1 && (res - 1) > LONG_MAX) || \
+	(sign == 1 && (res > LONG_MAX))))
+		*err = 1;
+	return ((int)(sign * res) % 256);
 }
 
 // implement strcmp to compare digit
@@ -49,14 +54,13 @@ static int	exit_compare_tool(char *s1, char *s2)
 // show the exit_code input(this is alphabetic)
 static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 {
-	long int	exit_code;
+	int	exit_code;
+	int	err;
 
-	printf("cmd->args[1]: %s\n", cmd->args[1]);
-	exit_code = ft_atoll(cmd->args[1]);
-	printf("exit code is: %ld\n", exit_code);
-	if (exit_code == 0 && exit_compare_tool(cmd->args[1], "0") != 0)
+	err = 0;
+	exit_code = ft_atoll(cmd->args[1], &err);
+	if (err == 1)
 	{
-		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
@@ -68,7 +72,7 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 	}
 	else
 	{
-		env->status = exit_code % 256;
+		env->status = exit_code;
 		rl_clear_history();
 		free_glob_pipe(&cmd);
 		free_doub_array(env->environ);
