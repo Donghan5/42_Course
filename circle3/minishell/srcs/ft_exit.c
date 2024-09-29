@@ -6,18 +6,17 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/28 16:36:34 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/29 11:55:18 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // to convert to long long type
-static long long int	ft_atoll(char *str)
+static long int	ft_atoll(char *str)
 {
 	int					sign;
-	long long int		res;
-	long long int		prev_res;
+	long int			res;
 
 	sign = 1;
 	res = 0;
@@ -30,12 +29,7 @@ static long long int	ft_atoll(char *str)
 		str++;
 	}
 	while (*str >= '0' && *str <= '9')
-	{
-		prev_res = res;
 		res = res * 10 + (*str++ - '0');
-		if ((sign == 1 && res < prev_res) || (sign == -1 && res > prev_res))
-			return (0);
-	}
 	return (sign * res);
 }
 
@@ -55,9 +49,11 @@ static int	exit_compare_tool(char *s1, char *s2)
 // show the exit_code input(this is alphabetic)
 static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 {
-	long long int	exit_code;
+	long int	exit_code;
 
+	printf("cmd->args[1]: %s\n", cmd->args[1]);
 	exit_code = ft_atoll(cmd->args[1]);
+	printf("exit code is: %ld\n", exit_code);
 	if (exit_code == 0 && exit_compare_tool(cmd->args[1], "0") != 0)
 	{
 		ft_putstr_fd("exit\n", 2);
