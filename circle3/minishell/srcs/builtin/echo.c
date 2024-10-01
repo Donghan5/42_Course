@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:30:11 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/28 16:47:14 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:18:38 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	print_cmds(t_glob_pipe *cmd, int i)
 
 // Doing role of the echo
 // treat multiple newline options
-int	echo(t_glob_pipe *cmd, t_env *env)
+int	echo(t_glob_pipe *cmd)
 {
 	int		i;
 	int		j;
@@ -55,7 +55,7 @@ int	echo(t_glob_pipe *cmd, t_env *env)
 
 void	echo_check(t_glob_pipe *cmd, t_env *env)
 {
-	env->status = 0;
-	if (echo(cmd, env) == FAIL)
-		env->status = 1;
+	env->sts = 0;
+	if (echo(cmd) == FAIL)
+		env->sts = 1;
 }

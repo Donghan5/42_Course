@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:29:47 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:23:06 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:05:08 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	env_cnt(char *str, int *size, t_env *env)
 	idx = 0;
 	if (str[1] == '?')
 	{
-		status = ft_itoa(env->status);
+		status = ft_itoa(env->sts);
 		*size += ft_strlen(status);
 		free(status);
 		return (1);
@@ -100,9 +100,6 @@ char	*get_key_from_env(char *env_str)
 	key_size = 0;
 	while (env_str[key_size] && env_str[key_size] != '=')
 		key_size++;
-	key = (char *)malloc(sizeof(char) * (key_size + 1));
-	if (!key)
-		return (NULL);
 	key = ft_substr(env_str, 0, key_size);
 	return (key);
 }

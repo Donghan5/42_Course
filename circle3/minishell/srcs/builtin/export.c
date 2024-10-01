@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:46:51 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 16:15:00 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:02:18 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ int	ft_export(t_glob_pipe *cmd, t_env *env)
 // export function (! if theres not a key, just print)
 void	export(t_glob_pipe *cmd, t_env *env)
 {
-	env->status = 0;
+	env->sts = 0;
 	if (!cmd->args[1])
 	{
-		env->status = !print_export(env);
+		env->sts = !print_export(env);
 		return ;
 	}
 	if (ft_export(cmd, env) == FAIL)
-		env->status = 1;
+		env->sts = 1;
 }

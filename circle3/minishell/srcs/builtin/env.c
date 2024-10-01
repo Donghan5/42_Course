@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:39:51 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 15:46:07 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:34:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_env(t_env *env)
 	char			*key;
 	char			*value;
 	int				i;
-	int				j;
 
 	env_arr = env->environ;
 	if (!env_arr)
@@ -29,7 +28,9 @@ void	ft_env(t_env *env)
 	{
 		key = get_key_from_env(env_arr[i]);
 		value = getenv_value(key, env_arr);
-		printf("%s=%s\n", key, value);
+		if (value && value[0] != '\0')
+			printf("%s=%s\n", key, value);
 		i++;
+		free(key);
 	}
 }

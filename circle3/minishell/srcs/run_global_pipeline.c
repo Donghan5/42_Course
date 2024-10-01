@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/26 14:33:55 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:34:31 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,111 +27,56 @@ int	fd_restore_close(int std_io[2], t_glob_pipe *temp_cmd)
 {
 	if (temp_cmd)
 		close_fds(temp_cmd);
-	dup2(std_io[0], STDIN_FILENO);
-    dup2(std_io[1], STDOUT_FILENO);
-    close(std_io[0]);
-    close(std_io[1]);
+	if (std_io)
+	{
+		dup2(std_io[0], STDIN_FILENO);
+		dup2(std_io[1], STDOUT_FILENO);
+		close(std_io[0]);
+		close(std_io[1]);
+	}
 	return (1);
 }
 
-void    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
+void	pipeline_cycle(t_glob_pipe *t, int *std_io, int *prev, t_env *e)
 {
-    t_glob_pipe *temp_cmd;
-    pid_t       pid;
-    int         prev_pipe_read;
-    int         is_builtin;
+	int		built;
+	pid_t	pid;
+
+	while (t)
+	{
+		process_no_exec_pipe(t, prev);
+		if (!t->is_exec_ignore && t->name)
+		{
+			built = builtin_check(t);
+			pid = -1;
+			if (t->op == PIPE || *prev != -1 || !built)
+				pid = fork();
+			if ((t->op == PIPE || *prev != -1 || !built) && (pid == -1))
+				return (fd_restore_close(NULL, t), perror("fork"));
+			if (pid == 0)
+				child_process(prev, t, built, e);
+			else if (pid > 0)
+				parent_process(t, prev, e, pid);
+			else
+				builtin_no_process(t, std_io, e);
+			if ((t->op == AND && e->sts != 0) || (t->op == OR && e->sts == 0))
+				break ;
+		}
+		t = t->next;
+	}
+}
+
+void	run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
+{
+	t_glob_pipe	*temp_cmd;
+	int			prev_pipe;
 	int			std_io[2];
 
-    prev_pipe_read = -1;
-    std_io[0] = dup(STDIN_FILENO);
-    std_io[1] = dup(STDOUT_FILENO);
-    temp_cmd = cmds_start;
-    while (temp_cmd)
-    {
-		if (temp_cmd->is_exec_ignore && (temp_cmd->operator == NO_EXEC_PIPE))
-		{
-			if (prev_pipe_read != -1)
-				close(prev_pipe_read);
-			close(temp_cmd->pipe_fds[1]);
-			prev_pipe_read = temp_cmd->pipe_fds[0];
-		}
-        if (!temp_cmd->is_exec_ignore && temp_cmd->name)
-        {
-            is_builtin = builtin_check(temp_cmd);
-            if (temp_cmd->operator == PIPE || prev_pipe_read != -1 || !is_builtin)
-            {
-                pid = fork();
-                if (pid == -1)
-                    return (fd_restore_close(std_io, temp_cmd), perror("fork"));
-            }
-            else if (is_builtin)
-                pid = -1;
-            if (pid == 0)
-            {
-                if (prev_pipe_read != -1)
-                {
-                    dup2(prev_pipe_read, STDIN_FILENO);
-                    close(prev_pipe_read);
-                }
-                if (temp_cmd->operator == PIPE)
-                {
-                    close(temp_cmd->pipe_fds[0]);
-                    dup2(temp_cmd->pipe_fds[1], STDOUT_FILENO);
-					close(temp_cmd->pipe_fds[1]);
-                }
-                if (temp_cmd->redir_io[0] != STDIN_FILENO)
-                    dup2(temp_cmd->redir_io[0], STDIN_FILENO);
-                if (temp_cmd->redir_io[1] != STDOUT_FILENO)
-                    dup2(temp_cmd->redir_io[1], STDOUT_FILENO);
-                close_fds(temp_cmd);
-                if (is_builtin)
-                {
-                    builtin_run(env, temp_cmd);
-                    exit(env->status);
-                }
-                else
-                {
-                    search_path_and_run(temp_cmd, env);
-					env->status = 1;
-					free_doub_array(env->environ);
-                    exit(1);
-                }
-            }
-            else if (pid > 0)
-            {
-                if (prev_pipe_read != -1)
-                    close(prev_pipe_read);
-                if (temp_cmd->operator == PIPE)
-                {
-                    close(temp_cmd->pipe_fds[1]);
-                    prev_pipe_read = temp_cmd->pipe_fds[0];
-                }
-                else
-                    prev_pipe_read = -1;
-                close_fds(temp_cmd);
-                if (temp_cmd->operator != PIPE)
-                {
-                    waitpid(pid, &env->status, 0);
-                    env->status = WEXITSTATUS(env->status);
-                }
-            }
-            else
-            {
-                if (temp_cmd->redir_io[0] != STDIN_FILENO)
-                    dup2(temp_cmd->redir_io[0], STDIN_FILENO);
-                if (temp_cmd->redir_io[1] != STDOUT_FILENO)
-                    dup2(temp_cmd->redir_io[1], STDOUT_FILENO);
-                builtin_run(env, temp_cmd);
-                dup2(std_io[0], STDIN_FILENO);
-                dup2(std_io[1], STDOUT_FILENO);
-                close_fds(temp_cmd);
-            }
-            if ((temp_cmd->operator == AND && env->status != 0) ||
-                (temp_cmd->operator == OR && env->status == 0))
-                break;
-        }
-        temp_cmd = temp_cmd->next;
-    }
-    fd_restore_close(std_io, NULL);
-    wait_background_processes();
+	prev_pipe = -1;
+	std_io[0] = dup(STDIN_FILENO);
+	std_io[1] = dup(STDOUT_FILENO);
+	temp_cmd = cmds_start;
+	pipeline_cycle(temp_cmd, std_io, &prev_pipe, env);
+	fd_restore_close(std_io, NULL);
+	wait_background_processes();
 }

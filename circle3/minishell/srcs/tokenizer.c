@@ -6,192 +6,103 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/26 16:16:38 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:19:06 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	is_still_an_operator(char *s);
-
-static int	get_strs_amount(char const *s)
+static int	copy_quoted(char **splitted, char const **s, int *quoted, int *i_j)
 {
-	int	amount;
-	int quoted;
+	if (!*quoted)
+		return (1);
+	splitted[i_j[0]][i_j[1]++] = *(*s);
+	(*s)++;
+	while (**s && (**s != *quoted))
+	{
+		splitted[i_j[0]][i_j[1]++] = *(*s);
+		(*s)++;
+	}
+	if (**s != *quoted)
+		return (handle_errors_tokens(splitted, NULL, "quote is not closed\n"));
+	else
+	{
+		splitted[i_j[0]][i_j[1]++] = *(*s);
+		(*s)++;
+	}
+	if (!**s || ft_iswhitespace(**s) || is_operator((char *)*s))
+	{
+		*quoted = 0;
+		splitted[i_j[0]++][i_j[1]] = '\0';
+		return (2);
+	}
+	return (1);
+}
+
+static int	copy_the_rest(char **splttd, char const **s, int *quoted, int *i_j)
+{
 	int	operator_length;
 
-	operator_length = 0;
-	amount = 0;
+	while (!*quoted && ft_iswhitespace(**s))
+		(*s)++;
+	if (!*quoted && is_operator((char *)*s))
+	{
+		operator_length = is_operator((char *)*s);
+		while (**s && operator_length--)
+			splttd[i_j[0]][i_j[1]++] = *(*s)++;
+		splttd[i_j[0]++][i_j[1]] = '\0';
+		return (2);
+	}
+	while (**s && !is_quote(**s)
+		&& !is_operator((char *)*s) && !ft_iswhitespace(**s))
+	{
+		splttd[i_j[0]][i_j[1]++] = *(*s)++;
+		*quoted = is_quote(**s);
+	}
+	if (!*quoted && !is_quote(**s))
+		splttd[i_j[0]++][i_j[1]] = '\0';
+	while (!*quoted && ft_iswhitespace(**s))
+		(*s)++;
+	return (1);
+}
+
+static int	tokenizing(char **splitted, int tokens, char const *s)
+{
+	int		i_j[2];
+	int		quoted;
+	int		copy_status;
+
 	quoted = 0;
-	while (*s)
+	i_j[0] = 0;
+	while (i_j[0] < tokens)
 	{
-		if (!quoted)
-		{
-			while (*s && ft_iswhitespace(*s))
-				s++;
-			amount++;
-		}
+		if (!quoted && !create_new_token(splitted, &s, i_j))
+			return (0);
 		quoted = is_quote(*s);
-		if (quoted)
-			s++;
-		while (quoted && *s && (*s != quoted))
-			s++;
-		if (quoted && (*s != quoted))
-			return (-1);
-		else if (quoted)
-			s++;
-		if (quoted)
-		{
-			if (!*s || ft_iswhitespace(*s) || is_operator((char *)s))
-			{
-				quoted = 0;
-				continue ;
-			}
-		}
-		while (ft_iswhitespace(*s))
-			s++;
-		if (!quoted && is_operator((char *)s))
-		{
-			operator_length = is_operator((char *)s);
-			while (*s && operator_length--)
-				s++;
+		copy_status = copy_quoted(splitted, &s, &quoted, i_j);
+		if (!copy_status)
+			return (0);
+		if (copy_status == 2)
 			continue ;
-		}
-		while (*s && !is_quote(*s) && !is_operator((char *)s) && !ft_iswhitespace(*s))
-		{
-			s++;
-			if (!quoted)
-				quoted = is_quote(*s);
-		}
-		while (ft_iswhitespace(*s))
-			s++;
+		copy_status = copy_the_rest(splitted, &s, &quoted, i_j);
 	}
-	return (amount);
-}
-
-static int	length_of_token(char const *s)
-{
-	int	i;
-
-	i = 0;
-	if (is_quote(s[i]))
-	{
-		i++;
-		while (!is_quote(s[i]))
-			i++;
-	}
-	else
-	{	
-		if (is_operator((char *)s))
-			return (is_operator((char *)s));
-		while (s[i] && !ft_iswhitespace(s[i]) && !is_operator((char *)s))
-			i++;
-	}
-	return (i);
-}
-
-static void	*error_free(char **arr, int amount, char *msg)
-{
-	int	i;
-
-	i = 0;
-	if (arr)
-	{
-		while (i < amount)
-		{
-			if (arr[i])
-				free (arr[i]);
-			i++;
-		}
-		free (arr);
-	}
-	smart_print_err(msg);
-	return (NULL);
-}
-
-static int	is_still_an_operator(char *s)
-{
-	int	next_interaction;
-
-	next_interaction = fill_operator(NULL, s);
-	if ((next_interaction >= 1) && (next_interaction <= 7) || (*s == '&'))
-		return (1);
-	return (0);
+	return (splitted[i_j[0]] = NULL, 1);
 }
 
 char	**tokenizer(char const *s)
 {
 	char	**splitted;
-	int		i;
-	int		j;
 	int		tokens;
-	int		quoted;
-	int		operator_length;
 
 	if (!s)
 		return (NULL);
-	quoted = 0;
-	i = 0;
-	tokens = get_strs_amount(s);
+	tokens = calc_tokens(s);
 	if (tokens == -1)
-		return (error_free(NULL, 0, "quote is not closed\n"));
-	// printf("amount of tokens: %d\n", tokens);
+		return (smart_print_err("quote is not closed\n"), NULL);
 	splitted = malloc(sizeof(char *) * (tokens + 1));
 	if (!splitted)
 		return (NULL);
-	while (i < tokens)
-	{
-		if (!quoted)
-		{
-			while (*s && ft_iswhitespace(*s))
-				s++;
-			j = 0;
-			splitted[i] = malloc(1000);
-			if (!splitted[i])
-				return (error_free(splitted, i, "malloc"));
-		}
-		quoted = is_quote(*s);
-		if (quoted)
-			splitted[i][j++] = *(s++);
-		while (quoted && *s && (*s != quoted))
-			splitted[i][j++] = *(s++);
-		if (quoted && (*s != quoted))
-			return (error_free(splitted, i, "quote is not closed\n"));
-		else if (quoted)
-			splitted[i][j++] = *(s++);
-		if (quoted)
-		{
-			if (!*s || ft_iswhitespace(*s) || is_operator((char *)s))
-			{
-				quoted = 0;
-				splitted[i++][j] = '\0';
-				continue ;
-			}
-		}
-		while (!quoted && ft_iswhitespace(*s))
-			s++;
-		while (quoted && ft_iswhitespace(*s))
-			splitted[i][j++] = *(s++);
-		if (!quoted && is_operator((char *)s))
-		{
-			operator_length = is_operator((char *)s);
-			while (*s && operator_length--)
-				splitted[i][j++] = *(s++);
-			splitted[i++][j] = '\0';
-			continue ;
-		}
-		while (*s && !is_quote(*s) && !is_operator((char *)s) && !ft_iswhitespace(*s))
-		{
-			splitted[i][j++] = *(s++);
-			if (!quoted)
-				quoted = is_quote(*s);
-		}
-		if (!quoted && !is_quote(*s))
-			splitted[i++][j] = '\0';
-		while (!quoted && ft_iswhitespace(*s))
-			s++;
-		while (quoted && ft_iswhitespace(*s))
-			splitted[i][j++] = *(s++);
-	}
-	return (splitted[i] = NULL, splitted);
+	if (tokenizing(splitted, tokens, s))
+		return (splitted);
+	return (NULL);
 }

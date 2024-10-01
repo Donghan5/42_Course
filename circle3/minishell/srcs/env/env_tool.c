@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 15:38:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:03:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ int	update_environ(t_env *env, char *key_value)
 		free_doub_array(env->environ);
 	return (env->environ = new_env, SUCCESS);
 }
-

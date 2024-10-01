@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 17:03:24 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:49:21 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	print_export(t_env *env)
 	char			*key;
 	char			*value;
 	int				i;
-	int				j;
 
 	env_arr = env->environ;
 	if (!env_arr)
@@ -30,8 +29,12 @@ int	print_export(t_env *env)
 	{
 		key = get_key_from_env(env_arr[i]);
 		value = getenv_value(key, env_arr);
-		printf("declare -x %s=\"%s\"\n", key, value);
+		if (value && value[0] != '\0')
+			printf("declare -x %s=\"%s\"\n", key, value);
+		else
+			printf("declare -x %s\n", key);
 		i++;
+		free(key);
 	}
 	return (1);
 }

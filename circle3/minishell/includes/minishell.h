@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/29 16:02:53 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:18:58 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ enum e_operator
 # define NOT_FOUND -1
 
 // struct of global pipe lines
-typedef struct	s_glob_pipe
+typedef struct s_glob_pipe
 {
 	int					redir_io[2];
 	int					pipe_fds[2];
@@ -95,12 +95,12 @@ typedef struct	s_glob_pipe
 	int					is_exec_ignore;
 	char				*name;
 	char				**args;
-	int					operator;
+	int					op;
 	struct s_glob_pipe	*next;
 	struct s_glob_pipe	*previous;
 }				t_glob_pipe;
 
-typedef struct	s_free_exit
+typedef struct s_free_exit
 {
 	t_glob_pipe	*glob_pipe;
 	char		**doub;
@@ -125,22 +125,42 @@ typedef struct s_env
 {
 	char			**environ;
 	t_name_value	*environ_name_value;
-	int				status;
+	int				sts;
 }				t_env;
+
+// access_checks.c
+int				can_access(char *path);
+int				does_exist(char *path);
+int				is_directory(char *path);
 
 // pre_parsing.c
 char			***pre_parsing(char *line, t_env *env);
 
+// calc_tokens.c
+int				calc_tokens(char const *s);
+
+// create_new_token.c
+int				create_new_token(char **splitted, char const **s, int *i_j);
+
 // tokenizer.c
 char			**tokenizer(char const *s);
 
+// run_processes.c
+void			child_process(int *prev_pipe, t_glob_pipe *tmp,
+					int builtin, t_env *env);
+void			parent_process(t_glob_pipe *tmp, int *prev_pipe,
+					t_env *env, int pid);
+void			builtin_no_process(t_glob_pipe *tmp, int *std_io, t_env *env);
+void			process_no_exec_pipe(t_glob_pipe *temp_cmd, int *prev_pipe);
+
 // run_global_pipeline.c
-void		    run_global_pipeline(t_glob_pipe *cmds_start, t_env *env);
+void			run_global_pipeline(t_glob_pipe *cmds_start, t_env *env);
 
 // free.c
+int				print_file_err(char *filename);
 void			free_triple_tokens(char ***arr);
-int				handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg);
-int				handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg);
+int				handle_errors(t_glob_pipe **pipe, char **doub_arr, char *msg);
+int				handle_errors_tokens(char **d_arr, char ***tokens, char *msg);
 void			free_glob_pipe(t_glob_pipe **glob_pipe);
 
 // ft_get.c
@@ -164,23 +184,30 @@ void			search_path_and_run(t_glob_pipe *glob_pipe, t_env *env);
 void			close_fds(t_glob_pipe *glob_pipe);
 
 // fill.c
-int				fill_args(char ***tokens, t_glob_pipe *glob_pipe, int n, int start_index);
 int				fill_operator(t_glob_pipe *glob_pipe, char *word);
 int				fill_operator_token(t_glob_pipe *glob_pipe, char **token);
+
+// ft_atoll.c
+long int		ft_atoll(char *str, int *err);
 
 // ft_exit.c
 void			normal_exit_check(t_glob_pipe *cmd, t_env *env);
 void			exit_error(char *perror_message);
 int				str_is_alnum(char *str);
 
+// is_lex_error.c
+int				is_lex_error(char ***tokens);
+
+// operator_checks.c
+int				is_operator_token(char **token);
+int				is_redirect(char **token);
+int				is_operator(char *token);
+
+// parsing_fill_args.c
+int				fill_args(char ***toks, t_glob_pipe **tmp, int n, int start_i);
+
 // parsing.c
 int				parse(t_glob_pipe **glob_pipe, char ***tokens);
-void			parse_env(t_env *env, char **environ);
-int 			is_operator_token(char **token);
-int 			is_redirect(char **token);
-int 			is_operator(char *token);
-int				is_tokens_error(char **current_token, char **next_token, int i);
-int				compound_token_error(char **token, char **next_token, int i, t_glob_pipe **glob_pipe);
 
 // utils.c
 void			smart_print_err(char *msg);
@@ -260,7 +287,7 @@ int				getenv_key(char *src, char **key);
 char			*getenv_value(char *key, char **envp);
 
 // echo.c
-int				echo(t_glob_pipe *cmd, t_env *env);
+int				echo(t_glob_pipe *cmd);
 void			echo_check(t_glob_pipe *cmd, t_env *env);
 
 // env_tool.c

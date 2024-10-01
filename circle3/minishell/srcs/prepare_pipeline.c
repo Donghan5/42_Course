@@ -3,46 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/26 15:41:10 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:59:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	print_pipeline(t_glob_pipe *glob_pipe, int backwards)
-{
-	while (glob_pipe && !backwards)
-	{
-		printf("Name: %s\n", glob_pipe->name);
-		printf("Operation: %d\n", glob_pipe->operator);
-		printf("Args: ");
-		printf("STD: %d %d\n", glob_pipe->redir_io[0], glob_pipe->redir_io[1]);
-		printf("Pipes: %d %d\n", glob_pipe->pipe_fds[0], glob_pipe->pipe_fds[1]);
-		print_arr(glob_pipe->args);
-		printf("\n");
-		glob_pipe = glob_pipe->next;
-	}
-	while (glob_pipe && backwards)
-	{
-		printf("Name: %s\n", glob_pipe->name);
-		printf("Operation: %d\n", glob_pipe->operator);
-		printf("Args: ");
-		print_arr(glob_pipe->args);
-		printf("\n");
-		glob_pipe = glob_pipe->previous;
-	}
-}
 
 void	ft_heredoc(char *stop_word, int fd)
 {
 	char	*line;
 
 	line = readline("> ");
-	while (line)
+	while (1)
 	{
+		if (!line)
+		{
+			printf("minishell: warning: here-document \
+delimited by end-of-file (wanted `%s')\n", stop_word);
+			break ;
+		}
 		if (!ft_strncmp(stop_word, line, ft_strlen(stop_word) + 1))
 			break ;
 		ft_putstr_fd(line, fd);
@@ -54,57 +36,76 @@ void	ft_heredoc(char *stop_word, int fd)
 		free (line);
 }
 
-int	print_file_err(char *filename)
+int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(filename, 2);
-	ft_putstr_fd(": ", 2);
-	return (handle_errors(NULL, NULL, ""));
+	*fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (*fd < 0)
+		return (print_file_err(".heredoc"));
+	ft_heredoc(next->name, *fd);
+	close(*fd);
+	*fd = open(".heredoc", O_RDONLY);
+	if (*fd < 0)
+		return (print_file_err(".heredoc"));
+	unlink(".heredoc");
+	current->redir_io[0] = *fd;
+	return (1);
 }
 
 int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 {
 	int	fd;
 
-	if (!next)
-		return (1);
-	if (next->operator == REDIRECT_IN)
+	fd = 0;
+	if (next->op == REDIRECT_IN)
 	{
 		fd = open(next->name, O_RDONLY);
-		if (fd != -1)
-			current->redir_io[0] = fd;
-	}
-	else if (next->operator == REDIRECT_OUT)
-	{
-		fd = open(next->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd != -1)
-			current->redir_io[1] = fd;
-	}
-	else if (next->operator == APPEND_OUT)
-	{
-		fd = open(next->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd != -1)
-			current->redir_io[1] = fd;
-	}
-	else if (next->operator == HERE_DOC)
-	{
-		fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		if (fd < 0)
-			return (print_file_err(".heredoc"));
-		ft_heredoc(next->name, fd);
-		close(fd);
-		fd = open(".heredoc", O_RDONLY);
-		if (fd < 0)
-			return (print_file_err(".heredoc"));
-		unlink(".heredoc");
 		current->redir_io[0] = fd;
 	}
-	else
-		return (1);
+	else if (next->op == REDIRECT_OUT)
+	{
+		fd = open(next->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		current->redir_io[1] = fd;
+	}
+	else if (next->op == APPEND_OUT)
+	{
+		fd = open(next->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		current->redir_io[1] = fd;
+	}
+	else if ((next->op == HERE_DOC) && !setup_heredoc(current, next, &fd))
+		return (0);
 	if (fd == -1)
 		return (print_file_err(next->name));
 	current->files_to_close[current->close_count++] = fd;
 	next->is_exec_ignore = 1;
+	return (1);
+}
+
+int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
+{
+	while ((current->op == REDIRECT_EXPECTED
+			|| current->op == REDIR_PIPE)
+		&& (*next) && ((*next)->op == REDIRECT_IN
+			|| (*next)->op == REDIRECT_OUT
+			|| (*next)->op == APPEND_OUT
+			|| (*next)->op == HERE_DOC))
+	{
+		if ((!current->is_exec_ignore || (*next)->op == HERE_DOC)
+			&& !setup_redirect(current, (*next)))
+		{
+			current->is_exec_ignore = 1;
+			env->sts = 1;
+		}
+		(*next)->is_exec_ignore = 1;
+		(*next) = (*next)->next;
+	}
+	if (current->op == PIPE || current->op == REDIR_PIPE)
+	{
+		current->op = PIPE;
+		if (current->is_exec_ignore)
+			current->op = NO_EXEC_PIPE;
+		if (pipe(current->pipe_fds) == -1)
+			return (handle_errors(NULL, NULL, "minishell: pipe"));
+	}
 	return (1);
 }
 
@@ -120,28 +121,8 @@ int	prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env)
 		current->redir_io[1] = STDOUT_FILENO;
 		current->is_exec_ignore = 0;
 		next = current->next;
-		while ((current->operator == REDIRECT_EXPECTED || current->operator == REDIR_PIPE) && next
-			&& (next->operator == REDIRECT_IN
-				|| next->operator == REDIRECT_OUT
-				|| next->operator == APPEND_OUT
-				|| next->operator == HERE_DOC))
-		{
-			if (!current->is_exec_ignore && !setup_redirect(current, next))
-			{
-				current->is_exec_ignore = 1;
-				env->status = 1;
-			}
-			next->is_exec_ignore = 1;
-			next = next->next;
-		}
-		if (current->operator == PIPE || current->operator == REDIR_PIPE)
-		{
-			current->operator = PIPE;
-			if (current->is_exec_ignore)
-				current->operator = NO_EXEC_PIPE;
-			if (pipe(current->pipe_fds) == -1)
-				return (handle_errors(NULL, NULL, "minishell: pipe"));
-		}
+		if (!setup_operator(current, &next, env))
+			return (0);
 		current = next;
 	}
 	return (1);

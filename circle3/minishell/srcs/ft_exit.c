@@ -3,43 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 15:38:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:30:58 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// converting the type of long int
-static long int	ft_atoll(char *str, int *err)
-{
-	int							sign;
-	int							i;
-	int							j;
-	unsigned long long int		res;
-
-	sign = 1;
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		if (str[i++] == '-')
-			sign = -1;
-	j = i;
-	res = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-		res = res * 10 + (str[i++] - '0');
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] || i - j > 20 || ((sign == -1 && (res - 1) > LONG_MAX) || \
-	(sign == 1 && (res > LONG_MAX))))
-		*err = 1;
-	return ((int)(sign * res) % 256);
-}
-
 // implement strcmp to compare digit
+/*
 static int	exit_compare_tool(char *s1, char *s2)
 {
 	int	i;
@@ -49,6 +23,7 @@ static int	exit_compare_tool(char *s1, char *s2)
 		i++;
 	return (s1[i] - s2[i]);
 }
+*/
 
 // exit action with exit_code num
 // if theres not number in exit_code --> exit with stderr
@@ -65,20 +40,20 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
-		env->status = 2;
+		env->sts = 2;
 		rl_clear_history();
 		free_glob_pipe(&cmd);
 		free_doub_array(env->environ);
-		exit(env->status);
+		exit(env->sts);
 	}
 	else
 	{
-		env->status = exit_code;
+		env->sts = exit_code;
 		rl_clear_history();
 		free_glob_pipe(&cmd);
 		free_doub_array(env->environ);
 		printf("exit\n");
-		exit(env->status);
+		exit(env->sts);
 	}
 }
 
@@ -86,11 +61,11 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 {
 	ft_putendl_fd("minishell: exit: too many arguments", 2);
-	env->status = 1;
+	env->sts = 1;
 	rl_clear_history();
 	free_glob_pipe(&cmd);
 	free_doub_array(env->environ);
-	exit(env->status);
+	exit(env->sts);
 }
 
 void	normal_exit_check(t_glob_pipe *cmd, t_env *env)
@@ -105,7 +80,7 @@ void	normal_exit_check(t_glob_pipe *cmd, t_env *env)
 		free_glob_pipe(&cmd);
 		free_doub_array(env->environ);
 		printf("exit\n");
-		exit(env->status);
+		exit(env->sts);
 	}
 }
 

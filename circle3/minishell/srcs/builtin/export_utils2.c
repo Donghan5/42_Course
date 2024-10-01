@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:23:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 16:08:50 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:27:26 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,13 @@ int	update_env_array(t_env *env, char *key_value)
 	int		i;
 	int		size_env;
 	int		var_index;
+	char	*key;
 
-	var_index = find_key_index(env->environ, key_value);
+	key = get_key_from_env(key_value);
+	if (!key)
+		return (FAIL);
+	var_index = find_key_index(env->environ, key);
+	free(key);
 	if (var_index != -1)
 		return (free(env->environ[var_index]), \
 		env->environ[var_index] = ft_strdup(key_value), SUCCESS);
@@ -55,14 +60,11 @@ int	update_env_array(t_env *env, char *key_value)
 	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
 	if (!new_env)
 		return (FAIL);
-	i = 0;
-	while (env->environ[i])
-	{
+	i = -1;
+	while (env->environ[++i])
 		new_env[i] = env->environ[i];
-		i++;
-	}
 	new_env[i] = ft_strdup(key_value);
 	new_env[i + 1] = NULL;
-	env->environ = new_env;
-	return (SUCCESS);
+	free(env->environ);
+	return (env->environ = new_env, SUCCESS);
 }

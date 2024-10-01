@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:32:57 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:28:08 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	help_sigint(pid_t pid)
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		ft_putstr_fd(" \n", STDOUT);
+		ft_putstr_fd("^C\n", STDOUT);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -56,4 +56,3 @@ void	set_signal(void)
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, handle_signal);
 }
-

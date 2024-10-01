@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/25 16:23:01 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:16:31 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	env_copy_cnt(char *src, char **dest, t_env *env)
 	src_idx = 0;
 	if (src[1] == '?')
 	{
-		status = ft_itoa(env->status);
+		status = ft_itoa(env->sts);
 		ft_memcpy(*dest, status, ft_strlen(status));
 		*dest += ft_strlen(status);
 		free(status);
@@ -86,7 +86,6 @@ int	single_quote_copy_cnt(char *src, char **dest)
 void	copy_strings(char *input, char *dest, t_env *env)
 {
 	int		idx;
-	int		size;
 	char	*dest_end;
 
 	idx = -1;

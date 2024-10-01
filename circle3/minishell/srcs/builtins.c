@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 15:45:35 by donghank         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:03:26 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	builtin_run(t_env *env, t_glob_pipe *cmd)
 	if (!ft_strncmp(cmd->name, "exit", 5))
 		normal_exit_check(cmd, env);
 	if (!ft_strncmp(cmd->name, "pwd", 4))
-		pwd_check(cmd, &env->status);
+		pwd_check(cmd, &env->sts);
 	if (!ft_strncmp(cmd->name, "cd", 3))
 		cd_check(cmd, env);
 	if (!ft_strncmp(cmd->name, "export", 7))

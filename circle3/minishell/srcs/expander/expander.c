@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 22:43:26 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:16:39 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 char	*expander(char *cmd, t_env *env)
 {
 	int		cmd_len;
-	int		cmd_end;
 	char	*expanded;
 
 	cmd_len = get_env_parse_len(cmd, env);

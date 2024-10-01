@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:25:41 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:29:14 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:18:17 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	pwd_check(t_glob_pipe *cmd, int *status)
 	int		buf;
 	char	*cwd;
 
+	(void)cmd;
+	buf = 0;
 	cwd = getcwd(NULL, buf);
 	if (!cwd)
 	{

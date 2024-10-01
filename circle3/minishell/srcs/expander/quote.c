@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:25:26 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 13:39:40 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/29 15:46:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,3 @@ int	single_quote_cnt(char *str, int *size)
 	}
 	return (idx);
 }
-

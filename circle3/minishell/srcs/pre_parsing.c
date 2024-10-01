@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/25 16:29:13 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/29 19:25:43 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	count_tokens(char **tokens)
 
 	tokens[i]	 - double array of two strings;
 	tokens[i][0] - content of a token (string);
-	tokens[i][1] - string with one character, indicating if string was quoted completely,
+	tokens[i][1] - string with one character, indicating complete quoting,
 		tokens[i][1][0]	== 1	if tokens[i][0] was quoted before expansion,
 		tokens[i][1][0] == 0	otherwise.
 */
@@ -66,16 +66,12 @@ char	***pre_parsing(char *line, t_env *env)
 		if (!tokens[i])
 			return (handle_errors_tokens(temp_strs, tokens, "malloc"), NULL);
 		tokens[i][0] = expander(temp_strs[i], env);
-		if (!tokens[i][0])
-			return (handle_errors_tokens(temp_strs, tokens, "malloc"), NULL);
 		tokens[i][1] = malloc(1);
-		if (!tokens[i][1])
+		if (!tokens[i][0] || !tokens[i][1])
 			return (handle_errors_tokens(temp_strs, tokens, "malloc"), NULL);
 		*tokens[i][1] = is_literal(temp_strs[i]);
-		// printf("tokens[%d][0] = %s; tokens[%d][1] = %d\n", i, tokens[i][0], i, tokens[i][1][0]);
 		i++;
 	}
 	tokens[i] = NULL;
-	free_doub_array(temp_strs);
-	return (tokens);
+	return (free_doub_array(temp_strs), tokens);
 }

@@ -6,11 +6,19 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:01:50 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/25 16:28:21 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:57:24 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	print_file_err(char *filename)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(filename, 2);
+	ft_putstr_fd(": ", 2);
+	return (handle_errors(NULL, NULL, ""));
+}
 
 void	free_triple_tokens(char ***arr)
 {
@@ -35,10 +43,10 @@ void	free_triple_tokens(char ***arr)
 
 	Return value is 0 if err_msg exists, 1 otherwise.
 */
-int		handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg)
+int	handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg)
 {
 	if (doub_arr)
-		free_doub_array( doub_arr);
+		free_doub_array(doub_arr);
 	if (triple_tokens)
 		free_triple_tokens(triple_tokens);
 	if (err_msg)
@@ -51,12 +59,12 @@ int		handle_errors_tokens(char **doub_arr, char ***triple_tokens, char *err_msg)
 
 	Return value is 0 if err_msg exists, 1 otherwise.
 */
-int		handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg)
+int	handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg)
 {
 	if (glob_pipe)
 		free_glob_pipe(glob_pipe);
 	if (doub_arr)
-		free_doub_array( doub_arr);
+		free_doub_array(doub_arr);
 	if (err_msg)
 		smart_print_err(err_msg);
 	return (err_msg == NULL);
@@ -65,7 +73,7 @@ int		handle_errors(t_glob_pipe **glob_pipe, char **doub_arr, char *err_msg)
 void	free_glob_pipe(t_glob_pipe **glob_pipe)
 {
 	t_glob_pipe	*temp;
-	t_glob_pipe *next;
+	t_glob_pipe	*next;
 
 	if (!glob_pipe || !*glob_pipe)
 		return ;
@@ -75,7 +83,7 @@ void	free_glob_pipe(t_glob_pipe **glob_pipe)
 	while (temp)
 	{
 		next = temp->next;
-		free_doub_array( temp->args);
+		free_doub_array(temp->args);
 		free(temp);
 		temp = next;
 	}
