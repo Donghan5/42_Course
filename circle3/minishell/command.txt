@@ -1,5 +1,0 @@
-echo Hello word
-ls
-wc
-export
-export "$SHLVL"

@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:30:58 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:49:59 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// implement strcmp to compare digit
-/*
-static int	exit_compare_tool(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
-*/
 
 // exit action with exit_code num
 // if theres not number in exit_code --> exit with stderr
