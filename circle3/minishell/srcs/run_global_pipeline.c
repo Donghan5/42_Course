@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/01 17:34:31 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:18:56 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ void	pipeline_cycle(t_glob_pipe *t, int *std_io, int *prev, t_env *e)
 				parent_process(t, prev, e, pid);
 			else
 				builtin_no_process(t, std_io, e);
-			if ((t->op == AND && e->sts != 0) || (t->op == OR && e->sts == 0))
+			if (t->op == AND && e->sts != 0)
 				break ;
+			else if (t->op == OR && e->sts == 0)
+				t = t->next;
 		}
 		t = t->next;
 	}
