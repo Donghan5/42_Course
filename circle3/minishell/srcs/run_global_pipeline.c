@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/02 14:18:56 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:39:11 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,18 @@ int	fd_restore_close(int std_io[2], t_glob_pipe *temp_cmd)
 	{
 		dup2(std_io[0], STDIN_FILENO);
 		dup2(std_io[1], STDOUT_FILENO);
-		close(std_io[0]);
-		close(std_io[1]);
+		if (std_io[0] >= 0)
+		{
+			dup2(std_io[0], STDIN_FILENO);
+			close(std_io[0]);
+			std_io[0] = -1;
+		}
+		if (std_io[1] >= 0)
+		{
+			dup2(std_io[1], STDIN_FILENO);
+			close(std_io[1]);
+			std_io[1] = -1;
+		}
 	}
 	return (1);
 }
@@ -52,17 +62,15 @@ void	pipeline_cycle(t_glob_pipe *t, int *std_io, int *prev, t_env *e)
 			if (t->op == PIPE || *prev != -1 || !built)
 				pid = fork();
 			if ((t->op == PIPE || *prev != -1 || !built) && (pid == -1))
-				return (fd_restore_close(NULL, t), perror("fork"));
+				return (fd_restore_close(std_io, t), perror("fork"));
 			if (pid == 0)
 				child_process(prev, t, built, e);
 			else if (pid > 0)
 				parent_process(t, prev, e, pid);
 			else
 				builtin_no_process(t, std_io, e);
-			if (t->op == AND && e->sts != 0)
+			if ((t->op == AND && e->sts != 0) || (t->op == OR && e->sts == 0))
 				break ;
-			else if (t->op == OR && e->sts == 0)
-				t = t->next;
 		}
 		t = t->next;
 	}
@@ -77,8 +85,12 @@ void	run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
 	prev_pipe = -1;
 	std_io[0] = dup(STDIN_FILENO);
 	std_io[1] = dup(STDOUT_FILENO);
+	if (std_io[0] == -1 || std_io[1] == -1)
+		exit_error("dup fail");
 	temp_cmd = cmds_start;
 	pipeline_cycle(temp_cmd, std_io, &prev_pipe, env);
 	fd_restore_close(std_io, NULL);
+	close(std_io[0]);
+	close(std_io[1]);
 	wait_background_processes();
 }
