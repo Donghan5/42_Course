@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:39:51 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/01 14:34:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/04 10:57:30 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// to print environement
 void	ft_env(t_env *env)
 {
 	char			**env_arr;

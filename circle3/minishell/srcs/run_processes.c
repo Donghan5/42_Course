@@ -6,7 +6,7 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:47:56 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/03 14:52:43 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/04 10:28:55 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ void	builtin_no_process(t_glob_pipe *tmp, int *std_io, t_env *env)
 		dup2(tmp->redir_io[1], STDOUT_FILENO);
 	builtin_run(env, tmp);
 	dup2(std_io[0], STDIN_FILENO);
-	close(std_io[0]);
 	dup2(std_io[1], STDOUT_FILENO);
-	close(std_io[1]);
 	close_fds(tmp);
 }
 

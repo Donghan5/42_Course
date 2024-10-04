@@ -6,7 +6,7 @@
 /*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/01 21:49:59 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/04 10:57:05 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 	exit(env->sts);
 }
 
+// general exit cases
 void	normal_exit_check(t_glob_pipe *cmd, t_env *env)
 {
 	if (cmd->args[1] && cmd->args[2])
