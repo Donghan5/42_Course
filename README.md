@@ -1,4 +1,4 @@
-### Donghan's journey of the common course in 42 (Inner circle)!
+### Donghan's journey of the common course in 42 (Inner circle)! ###
 
 Circle 0 : libft (120/100 (due to name of file))
 
@@ -11,5 +11,3 @@ EXAM_RANK_02 (100/100)
 Circle 3 : philosophers (100/100) / minishell(doing / team project(with pzinurov))
 
 EXAM_RANK03 (100/100)
-
-### Thanks to minishell tester --> https://github.com/LucasKuhn/minishell_tester
