@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/02 20:04:34 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/07 14:14:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	handle_signal(int signo)
 	}
 }
 
-// to alert the signal nums by using the signal macor
+// to alert the signal nums by using the signal macro
 void	set_signal(void)
 {
 	signal(SIGINT, handle_signal);
