@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/04 10:56:38 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/29 15:45:45 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_hostname(void)
 {
 	int		fd;
 	char	*hostname;
-	char	*current;
+	char	*newline_pos;
 
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd < 0)
@@ -78,21 +78,13 @@ char	*get_hostname(void)
 	close(fd);
 	if (hostname)
 	{
-		current = hostname;
-		while (*current)
-		{
-			if (*current == '\n' || *current == '.')
-			{
-				*current = '\0';
-				break ;
-			}
-			current++;
-		}
+		newline_pos = ft_strchr(hostname, '.');
+		if (newline_pos)
+			*newline_pos = '\0';
 	}
 	return (hostname);
 }
 
-// in the prompt to print username@hostname (before newline or dot)
 char	*get_prompt(void)
 {
 	char	*prompt;

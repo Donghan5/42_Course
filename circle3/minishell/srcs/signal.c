@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/02 20:04:34 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/07 13:32:32 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void	handle_signal(int signo)
 void	set_signal(void)
 {
 	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_signal);
 }

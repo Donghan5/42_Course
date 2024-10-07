@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/04 11:07:52 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:34:31 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	fd_restore_close(int std_io[2], t_glob_pipe *temp_cmd)
 	if (std_io)
 	{
 		dup2(std_io[0], STDIN_FILENO);
-		dup2(std_io[1], STDIN_FILENO);
+		dup2(std_io[1], STDOUT_FILENO);
 		close(std_io[0]);
 		close(std_io[1]);
 	}

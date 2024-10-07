@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/04 10:57:05 by donghan          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:30:58 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+// implement strcmp to compare digit
+/*
+static int	exit_compare_tool(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] && s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+*/
 
 // exit action with exit_code num
 // if theres not number in exit_code --> exit with stderr
@@ -55,7 +68,6 @@ static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 	exit(env->sts);
 }
 
-// general exit cases
 void	normal_exit_check(t_glob_pipe *cmd, t_env *env)
 {
 	if (cmd->args[1] && cmd->args[2])
