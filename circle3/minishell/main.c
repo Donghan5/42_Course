@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/04 10:25:41 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/08 12:34:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	parse_env(&env, envp);
 	increment_shell_level(&env);
-	// header();
+	header();
 	using_history();
 	set_signal();
 	while (1)
