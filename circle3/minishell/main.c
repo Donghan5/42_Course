@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/08 13:44:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:56:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	parse_env(&env, envp);
 	increment_shell_level(&env);
-	header();
+	// header();
 	using_history();
 	set_signal();
 	while (1)
