@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/08 15:44:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:42:14 by donghan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
 	prev_pipe = -1;
 	std_io[0] = dup(STDIN_FILENO);
 	std_io[1] = dup(STDOUT_FILENO);
-	if (std_io[0] == -1 || std_io[1] == -1)
-		perror("dup");
+	// std_io[0] = 100;
+	// std_io[1] = 101;
 	temp_cmd = cmds_start;
 	pipeline_cycle(temp_cmd, std_io, &prev_pipe, env);
 	fd_restore_close(std_io, NULL);
