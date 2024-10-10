@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/30 21:18:58 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:10:01 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,10 @@ typedef struct s_env
 	t_name_value	*environ_name_value;
 	int				sts;
 }				t_env;
+
+//typedef standard structs
+typedef struct sigaction	t_sigaction;
+typedef struct termios		t_termios;
 
 // access_checks.c
 int				can_access(char *path);

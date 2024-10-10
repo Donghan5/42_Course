@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/08 21:28:38 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/10 15:27:17 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,28 @@ void	parse_env(t_env *env, char **envs)
 	env->environ[i] = NULL;
 }
 
+void	read_from_stdin(t_env *env)
+{
+	char	*line;
+
+	line = get_next_line(0);
+	env->sts = 0;
+	while (line)
+	{
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		if (*line)
+			parse_and_run(&line, env);
+		line = get_next_line(0);
+	}
+	free_doub_array(env->environ);
+	exit(env->sts);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	t_env		env;
+	char	*line;
+	t_env	env;
 
 	(void)argc;
 	(void)argv;
@@ -92,6 +110,8 @@ int	main(int argc, char **argv, char **envp)
 	header();
 	using_history();
 	set_signal();
+	if (!isatty(STDIN_FILENO))
+		read_from_stdin(&env);
 	while (1)
 	{
 		line = get_line(&env);

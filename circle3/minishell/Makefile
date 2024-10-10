@@ -11,7 +11,7 @@ SRC = main.c srcs/ft_whitespace.c srcs/builtins.c srcs/header.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -g3 #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 DEPS = $(SRC:.c=.d)
 
