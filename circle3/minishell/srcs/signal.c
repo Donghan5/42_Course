@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/10 13:10:25 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:17:48 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,38 @@ void	handle_signal(int signo)
 	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 		help_sigint(pid);
-	if (signo == SIGQUIT)
-	{
-		if (pid == -1)
-		{
-			rl_on_new_line();
-			rl_redisplay();
-		}
-	}
+}
+
+void	sigquit_handler(int sig)
+{
+	(void)sig;
 }
 
 // to alert the signal nums by using the signal macor
 void	set_signal(void)
 {
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
+	t_sigaction	sa_quit;
+	t_sigaction	sa_int;
+	t_termios	term;
+
+	sa_quit.sa_handler = sigquit_handler;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sa_int.sa_handler = handle_signal;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = 0;
+	if (sigaction(SIGINT, &sa_int, NULL) == -1)
+	{
+		perror("sigaction");
+		return ;
+	}
+	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
+	{
+		perror("sigaction");
+		return ;
+	}
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	term.c_cc[VQUIT] = _POSIX_VDISABLE;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
