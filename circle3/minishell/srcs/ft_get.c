@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/29 15:45:45 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:26:07 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char	*get_hostname(void)
 {
 	int		fd;
 	char	*hostname;
-	char	*newline_pos;
 	char	*current;
 
 	fd = open("/etc/hostname", O_RDONLY);
