@@ -34,3 +34,13 @@ void	ft_env(t_env *env)
 		free(key);
 	}
 }
+
+void	check_env(t_env *env, char **cmds)
+{
+	if (cmds[1] != NULL)
+	{
+		ft_putendl_fd("minishell: env: don't take option and arguments", 2);
+		return ;
+	}
+	ft_env(env);
+}

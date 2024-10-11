@@ -64,12 +64,12 @@ char	*replace_home_tilde(char *cwd)
 	return (cwd);
 }
 
-// to get hostname in the /usr/hostname
 char	*get_hostname(void)
 {
 	int		fd;
 	char	*hostname;
 	char	*newline_pos;
+	char	*current;
 
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd < 0)
@@ -78,9 +78,16 @@ char	*get_hostname(void)
 	close(fd);
 	if (hostname)
 	{
-		newline_pos = ft_strchr(hostname, '.');
-		if (newline_pos)
-			*newline_pos = '\0';
+		current = hostname;
+		while (*current)
+		{
+			if (*current == '\n' || *current == '.')
+			{
+				*current = '\0';
+				break ;
+			}
+			current++;
+		}
 	}
 	return (hostname);
 }

@@ -40,5 +40,5 @@ void	builtin_run(t_env *env, t_glob_pipe *cmd)
 	if (!ft_strncmp(cmd->name, "echo", 5))
 		echo_check(cmd, env);
 	if (!ft_strncmp(cmd->name, "env", 4))
-		ft_env(env);
+		check_env(env, cmd->args);
 }

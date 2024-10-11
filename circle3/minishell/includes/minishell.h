@@ -302,5 +302,5 @@ int				update_environ(t_env *env, char *key_value);
 
 // env.c
 void			ft_env(t_env *env);
-
+void			check_env(t_env *env, char **cmds);
 #endif

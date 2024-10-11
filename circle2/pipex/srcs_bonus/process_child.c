@@ -16,12 +16,12 @@
 static int	process_assist_one(t_pipex *pipex, char **argv, int cmd_index)
 {
 	if (pipex->heredoc)
-		pipex->infile = open(".heredoc_tmp", O_RDONLY);
+		pipex->infile = open(".heredoc", O_RDONLY);
 	else
 		pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
 		return (handle_error(MSG_INFILE_ERROR), FAIL);
-	close(pipex->tubes[cmd_index - 1][0]);
+	close(pipex->tubes[cmd_index][0]);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 		return (handle_error(MSG_DUP2_ERROR), FAIL);
 	close(pipex->infile);
