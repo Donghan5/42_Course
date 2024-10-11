@@ -77,8 +77,8 @@ void	run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
 	int			std_io[2];
 
 	prev_pipe = -1;
-	std_io[0] = 100;
-	std_io[1] = 101;
+	std_io[0] = dup(STDIN_FILENO);
+	std_io[1] = dup(STDOUT_FILENO);
 	temp_cmd = cmds_start;
 	pipeline_cycle(temp_cmd, std_io, &prev_pipe, env);
 	fd_restore_close(std_io, NULL);

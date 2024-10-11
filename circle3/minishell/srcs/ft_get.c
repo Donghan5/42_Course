@@ -6,12 +6,13 @@
 /*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/11 17:26:07 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/10/11 22:35:01 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// to get the value for the name
 char	*get_value_for_name(t_name_value *arr, char *name)
 {
 	int	i;
@@ -30,6 +31,7 @@ char	*get_value_for_name(t_name_value *arr, char *name)
 	return (NULL);
 }
 
+// to get the username
 char	*get_username(void)
 {
 	char	*username;
@@ -64,6 +66,7 @@ char	*replace_home_tilde(char *cwd)
 	return (cwd);
 }
 
+// to get the hostname and concern . and \n
 char	*get_hostname(void)
 {
 	int		fd;
@@ -91,6 +94,7 @@ char	*get_hostname(void)
 	return (hostname);
 }
 
+// to get the prompt interface showing the username, hostname, cwd
 char	*get_prompt(void)
 {
 	char	*prompt;

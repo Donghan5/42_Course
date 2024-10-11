@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:45:55 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/24 14:38:36 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/11 23:20:40 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// when start the minishell, print the header
 void	header(void)
 {
 	printf("\033[1;36m");

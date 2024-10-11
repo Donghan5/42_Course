@@ -54,6 +54,7 @@ void	parent_process(t_glob_pipe *tmp, int *prev_pipe, t_env *env, int pid)
 	}
 }
 
+// child process checks with valgrind fd leaks and reduces the line of the func
 void	child_process(int *prev_pipe, t_glob_pipe *tmp, int builtin, t_env *env)
 {
 	if (*prev_pipe != -1)
@@ -68,9 +69,15 @@ void	child_process(int *prev_pipe, t_glob_pipe *tmp, int builtin, t_env *env)
 		close(tmp->pipe_fds[1]);
 	}
 	if (tmp->redir_io[0] != STDIN_FILENO)
+	{
 		dup2(tmp->redir_io[0], STDIN_FILENO);
+		close(tmp->redir_io[0]);
+	}
 	if (tmp->redir_io[1] != STDOUT_FILENO)
+	{
 		dup2(tmp->redir_io[1], STDOUT_FILENO);
+		close(tmp->redir_io[1]);
+	}
 	close_fds(tmp);
 	if (builtin)
 	{

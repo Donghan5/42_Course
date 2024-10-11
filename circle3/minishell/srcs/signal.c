@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/10 15:17:48 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/11 23:20:26 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ void	handle_signal(int signo)
 		help_sigint(pid);
 }
 
+// signal handler for SIGQUIT
+// to avoid the signal nums by using the signal macro
 void	sigquit_handler(int sig)
 {
 	(void)sig;
 }
 
-// to alert the signal nums by using the signal macor
+// to alert the signal nums by using the signal macro
 void	set_signal(void)
 {
 	t_sigaction	sa_quit;

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:03:26 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/11 23:19:36 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// to check the builtins (check the name of the command) and run the builtins
 int	builtin_check(t_glob_pipe *cmd)
 {
 	if ((!ft_strncmp(cmd->name, "exit", 5)) \
@@ -25,6 +26,7 @@ int	builtin_check(t_glob_pipe *cmd)
 	return (NOT_RUN);
 }
 
+// to run the builtins (check the name of the command)
 void	builtin_run(t_env *env, t_glob_pipe *cmd)
 {
 	if (!ft_strncmp(cmd->name, "exit", 5))
