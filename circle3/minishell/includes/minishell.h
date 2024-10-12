@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/10 14:10:01 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:09:02 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_glob_pipe
 	int					op;
 	struct s_glob_pipe	*next;
 	struct s_glob_pipe	*previous;
+	int					pid;
 }				t_glob_pipe;
 
 typedef struct s_free_exit
@@ -154,11 +155,11 @@ void			child_process(int *prev_pipe, t_glob_pipe *tmp,
 					int builtin, t_env *env);
 void			parent_process(t_glob_pipe *tmp, int *prev_pipe,
 					t_env *env, int pid);
-void			builtin_no_process(t_glob_pipe *tmp, int *std_io, t_env *env);
+void			builtin_no_process(t_glob_pipe *tmp, t_env *env);
 void			process_no_exec_pipe(t_glob_pipe *temp_cmd, int *prev_pipe);
 
 // run_global_pipeline.c
-void			run_global_pipeline(t_glob_pipe *cmds_start, t_env *env);
+void			run_global_pipeline(t_glob_pipe **cmds_start, t_env *env);
 
 // free.c
 int				print_file_err(char *filename);
@@ -303,4 +304,5 @@ int				update_environ(t_env *env, char *key_value);
 // env.c
 void			ft_env(t_env *env);
 void			check_env(t_env *env, char **cmds);
+
 #endif

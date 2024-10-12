@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghan <donghan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/09 21:33:34 by donghan          ###   ########.fr       */
+/*   Updated: 2024/10/12 15:58:48 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,8 @@ void	wait_background_processes(void)
 	}
 }
 
-// to restore std fds by using dup2
-int	fd_restore_close(int std_io[2], t_glob_pipe *temp_cmd)
-{
-	if (temp_cmd)
-		close_fds(temp_cmd);
-	if (std_io)
-	{
-		dup2(std_io[0], STDIN_FILENO);
-		close(std_io[0]);
-		dup2(std_io[1], STDOUT_FILENO);
-		close(std_io[1]);
-	}
-	return (1);
-}
-
 // cycle of the pipeline (when pipe input)
-void	pipeline_cycle(t_glob_pipe *t, int *std_io, int *prev, t_env *e)
+void	pipeline_cycle(t_glob_pipe *t, int *prev, t_env *e)
 {
 	int		built;
 	pid_t	pid;
@@ -55,13 +40,13 @@ void	pipeline_cycle(t_glob_pipe *t, int *std_io, int *prev, t_env *e)
 			if (t->op == PIPE || *prev != -1 || !built)
 				pid = fork();
 			if ((t->op == PIPE || *prev != -1 || !built) && (pid == -1))
-				return (fd_restore_close(std_io, t), perror("fork"));
+				return (close_fds(t), perror("fork"));
 			if (pid == 0)
 				child_process(prev, t, built, e);
 			else if (pid > 0)
 				parent_process(t, prev, e, pid);
 			else
-				builtin_no_process(t, std_io, e);
+				builtin_no_process(t, e);
 			if ((t->op == AND && e->sts != 0) || (t->op == OR && e->sts == 0))
 				break ;
 		}
@@ -70,17 +55,26 @@ void	pipeline_cycle(t_glob_pipe *t, int *std_io, int *prev, t_env *e)
 }
 
 // run pipe-line entire
-void	run_global_pipeline(t_glob_pipe *cmds_start, t_env *env)
+void	run_global_pipeline(t_glob_pipe **cmds_start, t_env *env)
 {
 	t_glob_pipe	*temp_cmd;
 	int			prev_pipe;
-	int			std_io[2];
 
 	prev_pipe = -1;
-	std_io[0] = dup(STDIN_FILENO);
-	std_io[1] = dup(STDOUT_FILENO);
-	temp_cmd = cmds_start;
-	pipeline_cycle(temp_cmd, std_io, &prev_pipe, env);
-	fd_restore_close(std_io, NULL);
+	temp_cmd = *cmds_start;
+	pipeline_cycle(temp_cmd, &prev_pipe, env);
+
+	temp_cmd = *cmds_start;
+	while (temp_cmd)
+	{
+		// close(temp_cmd->pipe_fds[0]);
+		// close(temp_cmd->pipe_fds[1]);
+		// close(temp_cmd->redir_io[0]);
+		// close(temp_cmd->redir_io[1]);
+		close_fds(temp_cmd);
+		// waitpid(temp_cmd->pid, &env->sts, 0);
+		// env->sts = WEXITSTATUS(env->sts);
+		temp_cmd = temp_cmd->next;
+	}
 	wait_background_processes();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/10 15:27:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:52:03 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	parse_and_run(char **line, t_env *env)
 	}
 	free_triple_tokens(tokens);
 	if (prepare_pipeline(glob_pipe, env))
-		run_global_pipeline(glob_pipe, env);
+		run_global_pipeline(&glob_pipe, env);
 	else
 		env->sts = 1;
 	free_glob_pipe(&glob_pipe);
@@ -107,11 +107,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	parse_env(&env, envp);
 	increment_shell_level(&env);
-	header();
+	// header();
 	using_history();
 	set_signal();
-	if (!isatty(STDIN_FILENO))
-		read_from_stdin(&env);
+	// if (!isatty(STDIN_FILENO))
+	// 	read_from_stdin(&env);
 	while (1)
 	{
 		line = get_line(&env);
