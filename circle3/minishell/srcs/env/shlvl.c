@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/11 23:18:39 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/10/13 00:37:57 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// to check the shlvl is adapatble cases
+// to check the shlvl is adaptable cases
 static int	is_valid_lvl(const char *str)
 {
 	int	idx;
@@ -58,7 +58,6 @@ static int	get_level(const char *str)
 }
 
 // goal : to increase the level of the shell
-// update the shell level (each time the shell is opened)
 void	increment_shell_level(t_env *env)
 {
 	char	*shlvl_str;

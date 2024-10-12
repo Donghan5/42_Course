@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoll.c                                         :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:11:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/30 21:12:46 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:51:50 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// converting the type of long int
-long int	ft_atoll(char *str, int *err)
+/*
+	Converting string into long int, with error track
+*/
+long int	ft_atol(char *str, int *err)
 {
 	int							sign;
 	int							i;

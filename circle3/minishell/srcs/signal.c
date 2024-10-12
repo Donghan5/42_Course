@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/12 15:52:27 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:58:21 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ void	handle_signal(int signo)
 		help_sigint(pid);
 }
 
-// signal handler for SIGQUIT
-// to avoid the signal nums by using the signal macro
 void	sigquit_handler(int sig)
 {
 	(void)sig;
 }
 
-// to alert the signal nums by using the signal macro
+// to alert the signal nums by using the signal macor
 void	set_signal(void)
 {
 	t_sigaction	sa_quit;
@@ -69,6 +67,7 @@ void	set_signal(void)
 		perror("sigaction");
 		return ;
 	}
+	memset(&term, 0, sizeof(term));
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~ECHOCTL;
 	term.c_cc[VQUIT] = _POSIX_VDISABLE;

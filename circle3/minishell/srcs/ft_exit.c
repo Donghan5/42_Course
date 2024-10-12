@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/11 23:16:40 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/10/12 22:54:01 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// exit action with exit_code num
-// if theres not number in exit_code --> exit with stderr
-// show the exit_code input(this is alphabetic)
+/*
+	Exit with numeric arguments.
+	If argument is not numeric it prints error and exits anyway.
+*/
 static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 {
 	int	exit_code;
 	int	err;
 
 	err = 0;
-	exit_code = ft_atoll(cmd->args[1], &err);
+	exit_code = ft_atol(cmd->args[1], &err);
 	if (err == 1)
 	{
+		printf("exit\n");
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
@@ -33,20 +35,17 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 		free_doub_array(env->environ);
 		exit(env->sts);
 	}
-	else
-	{
-		env->sts = exit_code;
-		rl_clear_history();
-		free_glob_pipe(&cmd);
-		free_doub_array(env->environ);
-		printf("exit\n");
-		exit(env->sts);
-	}
+	env->sts = exit_code;
+	rl_clear_history();
+	free_glob_pipe(&cmd);
+	free_doub_array(env->environ);
+	printf("exit\n");
+	exit(env->sts);
 }
 
-// avoid to exit error form
 static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 {
+	printf("exit\n");
 	ft_putendl_fd("minishell: exit: too many arguments", 2);
 	env->sts = 1;
 	rl_clear_history();

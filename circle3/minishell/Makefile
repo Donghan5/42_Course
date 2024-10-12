@@ -7,17 +7,17 @@ SRC = main.c srcs/ft_whitespace.c srcs/builtins.c srcs/header.c \
 	srcs/run_global_pipeline.c srcs/tokenizer.c srcs/pre_parsing.c srcs/env/env_tool.c \
 	srcs/access_checks.c srcs/parsing_fill_args.c srcs/operator_checks.c srcs/is_lex_error.c \
 	srcs/run_processes.c srcs/calc_tokens.c srcs/create_new_token.c srcs/builtin/env.c \
-	srcs/ft_atoll.c
+	srcs/ft_atol.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -g3 -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 DEPS = $(SRC:.c=.d)
 
 NAME = minishell
 
-LIBFT = Libft/libft.a
+libft = libft/libft.a
 
 CC = cc
 
@@ -25,26 +25,26 @@ all: $(NAME)
 
 bonus: $(NAME)
 
-$(LIBFT):
-	$(MAKE) -C Libft bonus
+$(libft):
+	$(MAKE) -C libft bonus
 
-$(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(OBJ) -Iincludes -lreadline -L./Libft -lft -o $(NAME)
+$(NAME): $(libft) $(OBJ)
+	$(CC) $(OBJ) -Iincludes -lreadline -L./libft -lft -o $(NAME)
 
 %.o: %.c
-	$(CC) -c -MMD -MP -Iincludes -I./Libft $(CFLAGS) $< -o $@
+	$(CC) -c -MMD -MP -Iincludes -I./libft $(CFLAGS) $< -o $@
 
 -include $(DEPS)
 
 clean:
-	$(MAKE) -C Libft clean
+	$(MAKE) -C libft clean
 	rm -f $(OBJ) $(DEPS)
 
 fclean: clean
-	$(MAKE) -C Libft fclean
+	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
 re: fclean all
-	$(MAKE) -C Libft re
+	$(MAKE) -C libft re
 
 .PHONY: all bonus clean fclean re

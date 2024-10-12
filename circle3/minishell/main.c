@@ -6,13 +6,15 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/11 22:52:03 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:54:20 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// this to handle eof(user input ctrl D)
+/*
+	Shell function for getting line from readline, works with Ctrl-D
+*/
 char	*get_line(t_env *env)
 {
 	char	*prompt;
@@ -80,6 +82,9 @@ void	parse_env(t_env *env, char **envs)
 	env->environ[i] = NULL;
 }
 
+/*
+	Non-interactive mode execution
+*/
 void	read_from_stdin(t_env *env)
 {
 	char	*line;
@@ -107,11 +112,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	parse_env(&env, envp);
 	increment_shell_level(&env);
-	// header();
+	header();
 	using_history();
 	set_signal();
-	// if (!isatty(STDIN_FILENO))
-	// 	read_from_stdin(&env);
+	if (!isatty(STDIN_FILENO))
+		read_from_stdin(&env);
 	while (1)
 	{
 		line = get_line(&env);

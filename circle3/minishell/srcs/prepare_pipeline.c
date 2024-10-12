@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/12 16:34:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/12 18:04:28 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	ft_here_sig(int signal)
-{
-	if (signal == SIGINT)
-		exit(1);
-}
 
 void	ft_heredoc(char *stop_word, int fd)
 {
@@ -25,7 +19,6 @@ void	ft_heredoc(char *stop_word, int fd)
 	line = readline("> ");
 	while (1)
 	{
-		signal(SIGINT, ft_here_sig);
 		if (!line)
 		{
 			printf("minishell: warning: here-document \

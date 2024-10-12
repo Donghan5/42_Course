@@ -3,16 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:23:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/01 16:21:12 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:50:29 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	close_fds(t_glob_pipe *glob_pipe)
+/*
+	Closes pipe fds from the previous and/or next commands.
+*/
+int	close_prev_pipes(t_glob_pipe *cmd, int previous_only)
+{
+	t_glob_pipe	*current;
+
+	current = cmd;
+	while (current->previous)
+		current = current->previous;
+	while (current)
+	{
+		if (current->op == PIPE)
+		{
+			if (current != cmd && current != cmd->previous)
+			{
+				close(current->pipe_fds[0]);
+				close(current->pipe_fds[1]);
+			}
+			else if (previous_only)
+				return (1);
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
+/*
+	Closes all file fds from the command given.
+	Accepts arguments to call 	close_prev_pipes(glob_pipe, pipes_prev_only)
+*/
+void	close_fds(t_glob_pipe *glob_pipe, int close_pipes, int pipes_prev_only)
 {
 	int	i;
 
@@ -22,6 +53,8 @@ void	close_fds(t_glob_pipe *glob_pipe)
 		close(glob_pipe->files_to_close[i]);
 		i++;
 	}
+	if (close_pipes)
+		close_prev_pipes(glob_pipe, pipes_prev_only);
 }
 
 void	compound_error_exit(t_glob_pipe *cmds, t_env *env,

@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/30 21:19:06 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:08:28 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	copy_quoted(char **splitted, char const **s, int *quoted, int *i_j)
 		(*s)++;
 	}
 	if (**s != *quoted)
-		return (handle_errors_tokens(splitted, NULL, "quote is not closed\n"));
+		return (handle_errors_tokens(splitted, \
+			NULL, "minishell: quote is not closed\n"));
 	else
 	{
 		splitted[i_j[0]][i_j[1]++] = *(*s);
@@ -98,7 +99,7 @@ char	**tokenizer(char const *s)
 		return (NULL);
 	tokens = calc_tokens(s);
 	if (tokens == -1)
-		return (smart_print_err("quote is not closed\n"), NULL);
+		return (smart_print_err("minishell: quote is not closed\n"), NULL);
 	splitted = malloc(sizeof(char *) * (tokens + 1));
 	if (!splitted)
 		return (NULL);

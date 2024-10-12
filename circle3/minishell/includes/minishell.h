@@ -6,14 +6,16 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/12 16:09:02 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/13 00:37:22 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// header files
+/*
+	Header files
+*/
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -31,10 +33,14 @@
 # include <dirent.h>
 # include <sys/stat.h>
 
-// custom header files
-# include "../Libft/libft.h"
+/*
+	Custom header files
+*/
+# include "../libft/libft.h"
 
-// defines redirections and directions
+/*
+	Operator types
+*/
 enum e_operator
 {
 	PIPE = 1,
@@ -85,7 +91,9 @@ enum e_operator
 // define numbers tool
 # define NOT_FOUND -1
 
-// struct of global pipe lines
+/*
+	Global pipeline represents list of commands to be run consecutively
+*/
 typedef struct s_glob_pipe
 {
 	int					redir_io[2];
@@ -101,18 +109,9 @@ typedef struct s_glob_pipe
 	int					pid;
 }				t_glob_pipe;
 
-typedef struct s_free_exit
-{
-	t_glob_pipe	*glob_pipe;
-	char		**doub;
-	char		**doub_two;
-	char		string;
-	char		string_two;
-	char		error_message;
-	int			is_exit;
-}				t_free_exit;
-
-// name key=value
+/*
+	Name=value list, used to work with environment
+*/
 typedef struct s_name_value
 {
 	char				*name;
@@ -121,7 +120,9 @@ typedef struct s_name_value
 
 }				t_name_value;
 
-// struct of the global environment
+/*
+	Global environment structure, carries env variables and last exit status
+*/
 typedef struct s_env
 {
 	char			**environ;
@@ -129,7 +130,9 @@ typedef struct s_env
 	int				sts;
 }				t_env;
 
-//typedef standard structs
+/*
+	Typedef for standard structures
+*/
 typedef struct sigaction	t_sigaction;
 typedef struct termios		t_termios;
 
@@ -186,14 +189,15 @@ void			builtin_run(t_env *env, t_glob_pipe *cmd);
 
 // execute.c
 void			search_path_and_run(t_glob_pipe *glob_pipe, t_env *env);
-void			close_fds(t_glob_pipe *glob_pipe);
+void			close_fds(t_glob_pipe *glob_pipe, int close_pipes,
+					int pipes_prev_only);
 
 // fill.c
 int				fill_operator(t_glob_pipe *glob_pipe, char *word);
 int				fill_operator_token(t_glob_pipe *glob_pipe, char **token);
 
-// ft_atoll.c
-long int		ft_atoll(char *str, int *err);
+// ft_atol.c
+long int		ft_atol(char *str, int *err);
 
 // ft_exit.c
 void			normal_exit_check(t_glob_pipe *cmd, t_env *env);

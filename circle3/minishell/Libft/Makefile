@@ -3,21 +3,16 @@ OBJ = $(SRC:.c=.o)
 SRC_BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 NAME = libft.a
-# CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -g3
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rv $(NAME) $(OBJ)
+	ar rs $(NAME) $(OBJ)
 	ranlib $(NAME)
 
-so:
-	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC) $(SRC_BONUS)
-	gcc -nostartfiles -shared -o libft.so $(OBJ) $(OBJ_BONUS)
-
 bonus: $(OBJ) $(OBJ_BONUS)
-	ar rv $(NAME) $(OBJ) $(OBJ_BONUS)
+	ar rs $(NAME) $(OBJ) $(OBJ_BONUS)
 	ranlib $(NAME)
 
 %.o: %.c

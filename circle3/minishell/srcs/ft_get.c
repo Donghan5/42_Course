@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/11 22:35:01 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/09/29 15:45:45 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// to get the value for the name
 char	*get_value_for_name(t_name_value *arr, char *name)
 {
 	int	i;
@@ -31,7 +30,6 @@ char	*get_value_for_name(t_name_value *arr, char *name)
 	return (NULL);
 }
 
-// to get the username
 char	*get_username(void)
 {
 	char	*username;
@@ -66,12 +64,12 @@ char	*replace_home_tilde(char *cwd)
 	return (cwd);
 }
 
-// to get the hostname and concern . and \n
+// to get hostname in the /usr/hostname
 char	*get_hostname(void)
 {
 	int		fd;
 	char	*hostname;
-	char	*current;
+	char	*newline_pos;
 
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd < 0)
@@ -80,21 +78,13 @@ char	*get_hostname(void)
 	close(fd);
 	if (hostname)
 	{
-		current = hostname;
-		while (*current)
-		{
-			if (*current == '\n' || *current == '.')
-			{
-				*current = '\0';
-				break ;
-			}
-			current++;
-		}
+		newline_pos = ft_strchr(hostname, '.');
+		if (newline_pos)
+			*newline_pos = '\0';
 	}
 	return (hostname);
 }
 
-// to get the prompt interface showing the username, hostname, cwd
 char	*get_prompt(void)
 {
 	char	*prompt;
