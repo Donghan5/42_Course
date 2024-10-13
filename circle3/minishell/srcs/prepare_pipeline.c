@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/13 22:02:23 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/10/13 23:26:38 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	This function is used to handle the SIGINT signal
+	when the heredoc is being read.
+*/
 void	ft_heredoc(char *stop_word, int fd)
 {
 	char	*line;
@@ -40,6 +44,9 @@ void	ft_heredoc(char *stop_word, int fd)
 	signal(SIGINT, SIG_DFL);
 }
 
+/*
+	To prepare heredoc
+*/
 int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd)
 {
 	*fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -55,6 +62,9 @@ int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd)
 	return (1);
 }
 
+/*
+	To setup redirections
+*/
 int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 {
 	int	fd;
