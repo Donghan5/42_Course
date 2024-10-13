@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/12 18:04:28 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/13 20:53:07 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_heredoc(char *stop_word, int fd)
 {
 	char	*line;
 
+	signal(SIG_INT, sigint_heredoc);
 	line = readline("> ");
 	while (1)
 	{
@@ -34,6 +35,7 @@ delimited by end-of-file (wanted `%s')\n", stop_word);
 	}
 	if (line)
 		free (line);
+	signal(SIGINT, SIG_DFL);
 }
 
 int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd)

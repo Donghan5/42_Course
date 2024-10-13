@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/13 00:37:22 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/13 19:30:05 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ int				single_quote_cnt(char *str, int *size);
 // signal.c
 void			handle_signal(int signo);
 void			set_signal(void);
+void			sigint_heredoc(int sig);
 
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);
