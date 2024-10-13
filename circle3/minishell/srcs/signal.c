@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/13 19:29:10 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/13 22:01:43 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,9 @@ void	set_signal(void)
 // to help signal of the heredoc
 void	sigint_heredoc(int sig)
 {
+	t_env	*env;
+
 	(void)sig;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	exit(1);
+	env->sts = 130;
 }

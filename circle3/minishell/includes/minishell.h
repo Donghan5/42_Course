@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/13 19:30:05 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/13 22:31:49 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ enum e_operator
 # define UPDATE_ERROR "Update fail"
 # define UNSET_NOT_IDENTIFY "unset: not a valid identifier"
 # define FORK_ERROR "fork error"
+# define HDOC_ERR "minishell: warning: here-document delimited by end-of-file"
 
 // define for shlvl.c files
 # define NON_VALID 1
@@ -136,7 +137,7 @@ typedef struct s_env
 typedef struct sigaction	t_sigaction;
 typedef struct termios		t_termios;
 
-// access_checks.c
+// access_check.c
 int				can_access(char *path);
 int				does_exist(char *path);
 int				is_directory(char *path);

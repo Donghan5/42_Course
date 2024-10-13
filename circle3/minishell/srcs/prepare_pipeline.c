@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/13 20:53:07 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/13 22:02:23 by kimdonghan       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 void	ft_heredoc(char *stop_word, int fd)
 {
 	char	*line;
+	t_env	*env;
 
-	signal(SIG_INT, sigint_heredoc);
+	signal(SIGINT, sigint_heredoc);
 	line = readline("> ");
 	while (1)
 	{
+		if (env->sts == 130)
+			break ;
 		if (!line)
 		{
-			printf("minishell: warning: here-document \
-delimited by end-of-file (wanted `%s')\n", stop_word);
+			printf("%s (wanted `%s')\n", HDOC_ERR, stop_word);
 			break ;
 		}
 		if (!ft_strncmp(stop_word, line, ft_strlen(stop_word) + 1))
