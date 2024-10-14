@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 15:39:51 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/13 00:36:08 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:54:34 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ void	ft_env(t_env *env)
 	}
 }
 
-// to check the env
-// print the error message for the unexpected option and arguments
+/*
+	Print the error message for the unexpected option and arguments
+*/
 void	check_env(t_env *env, char **cmds)
 {
 	if (cmds[1] != NULL)

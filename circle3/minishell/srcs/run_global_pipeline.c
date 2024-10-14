@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/12 22:49:43 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:40:29 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,5 @@ void	run_global_pipeline(t_glob_pipe **cmds_start, t_env *env)
 	prev_pipe = -1;
 	temp_cmd = *cmds_start;
 	pipeline_cycle(temp_cmd, &prev_pipe, env);
-	temp_cmd = *cmds_start;
 	wait_background_processes();
 }

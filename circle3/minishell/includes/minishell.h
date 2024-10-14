@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/13 22:31:49 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/10/14 17:01:13 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ enum e_operator
 // define numbers tool
 # define NOT_FOUND -1
 
+extern volatile int	g_signal_received;
+
 /*
 	Global pipeline represents list of commands to be run consecutively
 */
@@ -118,7 +120,6 @@ typedef struct s_name_value
 	char				*name;
 	char				*value;
 	struct s_name_value	*next;
-
 }				t_name_value;
 
 /*
@@ -129,6 +130,7 @@ typedef struct s_env
 	char			**environ;
 	t_name_value	*environ_name_value;
 	int				sts;
+	int				is_interactive;
 }				t_env;
 
 /*
@@ -137,7 +139,10 @@ typedef struct s_env
 typedef struct sigaction	t_sigaction;
 typedef struct termios		t_termios;
 
-// access_check.c
+// heredoc.c
+int				setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env);
+
+// access_checks.c
 int				can_access(char *path);
 int				does_exist(char *path);
 int				is_directory(char *path);
@@ -242,7 +247,6 @@ int				single_quote_cnt(char *str, int *size);
 // signal.c
 void			handle_signal(int signo);
 void			set_signal(void);
-void			sigint_heredoc(int sig);
 
 // env_utils.c
 int				size_env_value(char *str, int size, char **envp);

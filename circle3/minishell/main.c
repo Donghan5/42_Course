@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/12 22:54:20 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:58:55 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	parse_env(t_env *env, char **envs)
 	env->sts = 0;
 	env->environ = NULL;
 	env->environ_name_value = NULL;
+	env->is_interactive = 1;
 	while (envs && envs[i])
 		i++;
 	env->environ = malloc((i + 1) * sizeof(char *));
@@ -85,22 +86,33 @@ void	parse_env(t_env *env, char **envs)
 /*
 	Non-interactive mode execution
 */
-void	read_from_stdin(t_env *env)
+void	read_from_files(t_env *env, int argc, char **argv)
 {
 	char	*line;
+	int		fd;
 
-	line = get_next_line(0);
-	env->sts = 0;
+	fd = 0;
+	if (argc > 1)
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			return (print_file_err(argv[1]),
+				free_doub_array(env->environ), exit(127));
+	}
+	line = get_next_line(fd);
 	while (line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (*line)
 			parse_and_run(&line, env);
-		line = get_next_line(0);
+		else
+			free(line);
+		line = get_next_line(fd);
 	}
-	free_doub_array(env->environ);
-	exit(env->sts);
+	if (fd != 0)
+		close (fd);
+	return (free_doub_array(env->environ), exit(env->sts));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -108,15 +120,16 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_env	env;
 
-	(void)argc;
-	(void)argv;
 	parse_env(&env, envp);
 	increment_shell_level(&env);
 	header();
 	using_history();
 	set_signal();
-	if (!isatty(STDIN_FILENO))
-		read_from_stdin(&env);
+	if (!isatty(STDIN_FILENO) || argc > 1)
+	{
+		env.is_interactive = 0;
+		read_from_files(&env, argc, argv);
+	}
 	while (1)
 	{
 		line = get_line(&env);
@@ -128,6 +141,5 @@ int	main(int argc, char **argv, char **envp)
 		parse_and_run(&line, &env);
 	}
 	rl_clear_history();
-	free_doub_array(env.environ);
-	return (0);
+	return (free_doub_array(env.environ), 1);
 }

@@ -3,69 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/13 23:26:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:13:37 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-	This function is used to handle the SIGINT signal
-	when the heredoc is being read.
-*/
-void	ft_heredoc(char *stop_word, int fd)
-{
-	char	*line;
-	t_env	*env;
-
-	signal(SIGINT, sigint_heredoc);
-	line = readline("> ");
-	while (1)
-	{
-		if (env->sts == 130)
-			break ;
-		if (!line)
-		{
-			printf("%s (wanted `%s')\n", HDOC_ERR, stop_word);
-			break ;
-		}
-		if (!ft_strncmp(stop_word, line, ft_strlen(stop_word) + 1))
-			break ;
-		ft_putstr_fd(line, fd);
-		ft_putstr_fd("\n", fd);
-		free(line);
-		line = readline("> ");
-	}
-	if (line)
-		free (line);
-	signal(SIGINT, SIG_DFL);
-}
-
-/*
-	To prepare heredoc
-*/
-int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd)
-{
-	*fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (*fd < 0)
-		return (print_file_err(".heredoc"));
-	ft_heredoc(next->name, *fd);
-	close(*fd);
-	*fd = open(".heredoc", O_RDONLY);
-	if (*fd < 0)
-		return (print_file_err(".heredoc"));
-	unlink(".heredoc");
-	current->redir_io[0] = *fd;
-	return (1);
-}
-
-/*
-	To setup redirections
-*/
-int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
+int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next, t_env *env)
 {
 	int	fd;
 
@@ -85,7 +32,7 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 		fd = open(next->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		current->redir_io[1] = fd;
 	}
-	else if ((next->op == HERE_DOC) && !setup_heredoc(current, next, &fd))
+	else if ((next->op == HERE_DOC) && !setup_heredoc(current, next, &fd, env))
 		return (0);
 	if (fd == -1)
 		return (print_file_err(next->name));
@@ -96,18 +43,18 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next)
 
 int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 {
-	while ((current->op == REDIRECT_EXPECTED
-			|| current->op == REDIR_PIPE)
+	while ((current->op == REDIRECT_EXPECTED || current->op == REDIR_PIPE)
 		&& (*next) && ((*next)->op == REDIRECT_IN
 			|| (*next)->op == REDIRECT_OUT
 			|| (*next)->op == APPEND_OUT
 			|| (*next)->op == HERE_DOC))
 	{
 		if ((!current->is_exec_ignore || (*next)->op == HERE_DOC)
-			&& !setup_redirect(current, (*next)))
+			&& !setup_redirect(current, (*next), env))
 		{
 			current->is_exec_ignore = 1;
-			env->sts = 1;
+			if ((*next)->op != HERE_DOC)
+				env->sts = 1;
 		}
 		(*next)->is_exec_ignore = 1;
 		(*next) = (*next)->next;

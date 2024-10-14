@@ -3,32 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kimdonghan <kimdonghan@student.42.fr>      +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/13 22:01:43 by kimdonghan       ###   ########.fr       */
+/*   Updated: 2024/10/14 17:31:57 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// this part to SIGINT part
-static void	help_sigint(pid_t pid)
-{
-	if (pid == -1)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		ft_putstr_fd("^C\n", STDOUT);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else
-		ft_putstr_fd("\n", STDOUT);
-}
-
-// SIGINT is the ctrl c and SIGQUIT is ctrl '\'
+/*
+	SIGINT is the ctrl c and SIGQUIT is ctrl '\'
+*/
 void	handle_signal(int signo)
 {
 	pid_t	pid;
@@ -36,15 +22,32 @@ void	handle_signal(int signo)
 
 	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
-		help_sigint(pid);
+	{
+		if (pid == -1)
+		{
+			rl_on_new_line();
+			rl_redisplay();
+			ft_putstr_fd("^C\n", STDOUT);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+		else
+			ft_putstr_fd("\n", STDOUT);
+	}
 }
 
+/*
+	to treat SIGQUIT action (do nothing)
+*/
 void	sigquit_handler(int sig)
 {
 	(void)sig;
 }
 
-// to alert the signal nums by using the signal macor
+/*
+	to alert the signal nums by using the signal macro
+*/
 void	set_signal(void)
 {
 	t_sigaction	sa_quit;
@@ -72,14 +75,4 @@ void	set_signal(void)
 	term.c_lflag &= ~ECHOCTL;
 	term.c_cc[VQUIT] = _POSIX_VDISABLE;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
-
-// to help signal of the heredoc
-void	sigint_heredoc(int sig)
-{
-	t_env	*env;
-
-	(void)sig;
-	write(1, "\n", 1);
-	env->sts = 130;
 }
