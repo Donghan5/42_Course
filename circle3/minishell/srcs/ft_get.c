@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 09:34:37 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:58:23 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*get_hostname(void)
 
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd < 0)
-		exit_error("open");
+		ft_strdup("hostname");
 	hostname = get_next_line(fd);
 	close(fd);
 	if (hostname)
@@ -107,7 +107,7 @@ char	*get_prompt(void)
 	cwd = replace_home_tilde(cwd);
 	hostname = get_hostname();
 	if (!hostname)
-		prompt = triple_strjoin(username, "@", "default_hostname");
+		prompt = triple_strjoin(username, "@", "hostname");
 	else
 	{
 		prompt = triple_strjoin(username, "@", hostname);
