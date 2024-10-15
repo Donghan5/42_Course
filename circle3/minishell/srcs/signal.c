@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/14 17:31:57 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:33:09 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	sigquit_handler(int sig)
 
 /*
 	to alert the signal nums by using the signal macro
+	@line 76 = to turn off (like ^C)
 */
 void	set_signal(void)
 {

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/15 09:24:18 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:13:31 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ enum e_operator
 // define numbers tool
 # define NOT_FOUND -1
 
+// global variable to use with heredoc (to detect)
 extern volatile int	g_signal_received;
 
 /*
