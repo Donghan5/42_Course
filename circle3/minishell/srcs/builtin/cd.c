@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:23:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 16:23:30 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:01:38 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	go_to_home(t_env *env)
 	if (chdir(getenv("HOME")) != 0)
 	{
 		env->sts = 1;
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		ft_putstr_fd("minishell: cd: HOME is not set\n", 2);
 	}
 }
 
@@ -31,20 +31,19 @@ static void	go_to_tilde(t_glob_pipe *cmd, t_env *env)
 	if (chdir(path) != 0)
 	{
 		env->sts = 1;
-		perror("minishell: cd");
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(cmd->args[1]);
 	}
 	free(path);
 }
 
 /*
-	update the oldpwd
+	Update oldpwd env variable
 */
-static void	update_oldpwd(t_env *env)
+static void	update_oldpwd(char *oldpwd, t_env *env)
 {
-	char	*oldpwd;
 	char	*full_oldpwd;
 
-	oldpwd = getenv("PWD");
 	full_oldpwd = ft_strjoin("OLDPWD=", oldpwd);
 	if (!full_oldpwd)
 		return ;
@@ -53,7 +52,7 @@ static void	update_oldpwd(t_env *env)
 }
 
 /*
-	update the pwd
+	Update pwd env variable
 */
 static void	update_pwd(t_env *env)
 {
@@ -74,6 +73,7 @@ void	cd_check(t_glob_pipe *cmd, t_env *env)
 	char	*oldpwd;
 
 	env->sts = 0;
+	oldpwd = getcwd(NULL, 0);
 	if (cmd->args[1] == NULL)
 		go_to_home(env);
 	else if (cmd->args[1][0] == '~' && getenv("HOME"))
@@ -85,12 +85,14 @@ void	cd_check(t_glob_pipe *cmd, t_env *env)
 	}
 	else
 	{
-		update_oldpwd(env);
 		if (chdir(cmd->args[1]) != 0)
 		{
 			env->sts = 1;
-			perror("minishell: cd");
+			ft_putstr_fd("minishell: cd: ", 2);
+			perror(cmd->args[1]);
 		}
-		update_pwd(env);
 	}
+	if (!env->sts)
+		return (update_oldpwd(oldpwd, env), update_pwd(env), free(oldpwd));
+	free(oldpwd);
 }

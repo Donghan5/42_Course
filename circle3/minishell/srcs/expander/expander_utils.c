@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:16:31 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:19:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,12 @@ int	single_quote_copy_cnt(char *src, char **dest)
 	return (src_idx);
 }
 
-// to do role of the expanded_str in double quote
-// action like echo "Hello $USER" -> "Hello donghank(username)"
-// have to think where we put this things
-// in using input must be line(prompt), envp must be env.environ
+/*
+	to do role of the expanded_str in double quote
+	action like echo "Hello $USER" -> "Hello donghank(username)"
+	have to think where we put this things
+	in using input must be line(prompt), envp must be env.environ
+*/
 void	copy_strings(char *input, char *dest, t_env *env)
 {
 	int		idx;
