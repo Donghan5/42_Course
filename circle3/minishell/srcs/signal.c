@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 13:33:09 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:49:21 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-	SIGINT is the ctrl c and SIGQUIT is ctrl '\'
-*/
+// SIGINT is the ctrl c and SIGQUIT is ctrl '\'
 void	handle_signal(int signo)
 {
 	pid_t	pid;
@@ -23,7 +21,7 @@ void	handle_signal(int signo)
 	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		if (pid == -1)
+		if (pid == -1 || pid > 0)
 		{
 			rl_on_new_line();
 			rl_redisplay();
@@ -33,22 +31,16 @@ void	handle_signal(int signo)
 			rl_redisplay();
 		}
 		else
-			ft_putstr_fd("\n", STDOUT);
+			ft_putstr_fd("^C\n", STDOUT);
 	}
 }
 
-/*
-	to treat SIGQUIT action (do nothing)
-*/
 void	sigquit_handler(int sig)
 {
 	(void)sig;
 }
 
-/*
-	to alert the signal nums by using the signal macro
-	@line 76 = to turn off (like ^C)
-*/
+// to alert the signal nums by using the signal macor
 void	set_signal(void)
 {
 	t_sigaction	sa_quit;

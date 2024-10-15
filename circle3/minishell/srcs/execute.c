@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:23:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/12 22:50:29 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:56:51 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	close_prev_pipes(t_glob_pipe *cmd, int previous_only)
 		{
 			if (current != cmd && current != cmd->previous)
 			{
-				close(current->pipe_fds[0]);
-				close(current->pipe_fds[1]);
+				smart_close(current->pipe_fds[0]);
+				smart_close(current->pipe_fds[1]);
 			}
 			else if (previous_only)
 				return (1);
@@ -50,7 +50,7 @@ void	close_fds(t_glob_pipe *glob_pipe, int close_pipes, int pipes_prev_only)
 	i = 0;
 	while (i < glob_pipe->close_count)
 	{
-		close(glob_pipe->files_to_close[i]);
+		smart_close(glob_pipe->files_to_close[i]);
 		i++;
 	}
 	if (close_pipes)

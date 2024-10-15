@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/15 16:10:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:58:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ enum e_operator
 // define numbers tool
 # define NOT_FOUND -1
 
-// global variable to use with heredoc (to detect)
 extern volatile int	g_signal_received;
 
 /*
@@ -137,11 +136,14 @@ typedef struct s_env
 /*
 	Typedef for standard structures
 */
-typedef struct sigaction	t_sigaction;
-typedef struct termios		t_termios;
+typedef struct sigaction \
+					t_sigaction;
+typedef struct termios \
+					t_termios;
 
 // heredoc.c
-int				setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env);
+int				setup_heredoc(t_glob_pipe *current,
+					t_glob_pipe *next, int *fd, t_env *env);
 
 // access_checks.c
 int				can_access(char *path);
@@ -169,6 +171,7 @@ void			builtin_no_process(t_glob_pipe *tmp, t_env *env);
 void			process_no_exec_pipe(t_glob_pipe *temp_cmd, int *prev_pipe);
 
 // run_global_pipeline.c
+void			smart_close(int fd);
 void			run_global_pipeline(t_glob_pipe **cmds_start, t_env *env);
 
 // free.c

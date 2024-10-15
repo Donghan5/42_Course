@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:24:38 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 16:58:23 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:56:51 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ char	*get_hostname(void)
 
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd < 0)
-		ft_strdup("hostname");
+		return (0);
 	hostname = get_next_line(fd);
-	close(fd);
+	smart_close(fd);
 	if (hostname)
 	{
 		current = hostname;

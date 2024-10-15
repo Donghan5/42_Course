@@ -6,11 +6,20 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/14 16:40:29 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:57:54 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+	Closing only real fds
+*/
+void	smart_close(int fd)
+{
+	if (fd != -1 && fd > 2)
+		close (fd);
+}
 
 /*
 	Wait for all background processes, no status update
@@ -65,6 +74,7 @@ void	run_global_pipeline(t_glob_pipe **cmds_start, t_env *env)
 
 	prev_pipe = -1;
 	temp_cmd = *cmds_start;
+	env->sts = 0;
 	pipeline_cycle(temp_cmd, &prev_pipe, env);
 	wait_background_processes();
 }

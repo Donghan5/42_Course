@@ -3,21 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/14 17:32:48 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:56:51 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// using gloval variable to track the status of the heredoc
 volatile int	g_signal_received;
 
-/*
-	handler SIGINT in case of the heredoc
-*/
 static void	heredoc_sigint_handler(int signo)
 {
 	ft_putstr_fd("^C", STDOUT);
@@ -25,9 +21,6 @@ static void	heredoc_sigint_handler(int signo)
 	rl_done = 1;
 }
 
-/*
-	make the event when SIGINT
-*/
 static int	event_hook(void)
 {
 	if (g_signal_received)
@@ -38,11 +31,6 @@ static int	event_hook(void)
 	return (0);
 }
 
-/*
-	heredoc func, when ctrl c input, exit the mode with the ctrl c
-	when ctrl d, exit like bash (exit process and run the command)
-	@param stop_word = limiter of the heredoc
-*/
 int	ft_heredoc(char *stop_word, int fd)
 {
 	char	*line;
@@ -63,38 +51,38 @@ int	ft_heredoc(char *stop_word, int fd)
 		free(line);
 	if (!line && !g_signal_received)
 		printf("%s (wanted `%s')\n", HDOC_ERR, stop_word);
+	rl_event_hook = NULL;
+	rl_done = 0;
 	if (g_signal_received == SIGINT)
 		return (0);
 	return (1);
 }
 
-/*
-	prepare all the action of heredoc
-*/
 int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
 {
 	int			heredoc_status;
 	t_sigaction	sa;
-	t_sigaction	old_sa;
 
-	*fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	*fd = open("/tmp/sh-thd-86500896238475834",
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
-		return (print_file_err(".heredoc"));
+		return (print_file_err("/tmp/sh-thd-86500896238475834"));
 	sa.sa_handler = heredoc_sigint_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, &old_sa);
+	sigaction(SIGINT, &sa, NULL);
 	rl_event_hook = event_hook;
 	heredoc_status = ft_heredoc(next->name, *fd);
-	sigaction(SIGINT, &old_sa, NULL);
-	close(*fd);
+	smart_close(*fd);
+	set_signal();
 	g_signal_received = 0;
 	if (!heredoc_status)
-		return (env->sts = 130, 0);
-	*fd = open(".heredoc", O_RDONLY);
-	if (*fd < 0)
-		return (env->sts = 1, print_file_err(".heredoc"));
-	unlink(".heredoc");
+		return (unlink("/tmp/sh-thd-86500896238475834"), env->sts = 130, 0);
+	*fd = open("/tmp/sh-thd-86500896238475834", O_RDONLY);
+	if ((*fd) < 0)
+		return (unlink("/tmp/sh-thd-86500896238475834"), env->sts = 1,
+			print_file_err("/tmp/sh-thd-86500896238475834"));
 	current->redir_io[0] = *fd;
+	unlink("/tmp/sh-thd-86500896238475834");
 	return (1);
 }

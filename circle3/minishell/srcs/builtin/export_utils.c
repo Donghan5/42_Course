@@ -6,15 +6,13 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:47:42 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 13:26:31 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:49:21 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-	add the declare -x in front of the paths
-*/
+// add the declare -x in front of the paths
 int	print_export(t_env *env)
 {
 	char			**env_arr;
@@ -41,9 +39,7 @@ int	print_export(t_env *env)
 	return (1);
 }
 
-/*
-	calculate the size of the list
-*/
+// to calculate the size of array
 int	env_list_size(t_name_value *env_node)
 {
 	t_name_value	*begin_node;
@@ -59,9 +55,7 @@ int	env_list_size(t_name_value *env_node)
 	return (count);
 }
 
-/*
-	convert environ path to array
-*/
+// convert environ path to array
 char	**env_lst_to_array(t_name_value *env)
 {
 	char	**env_arr;
@@ -85,9 +79,7 @@ char	**env_lst_to_array(t_name_value *env)
 	return (env_arr);
 }
 
-/*
-	to calculate which is bigger (base on ascii)
-*/
+// to calculate which is bigger (base on ascii)
 static int	array_cmp(char *s1, char *s2)
 {
 	int	i;
@@ -98,10 +90,7 @@ static int	array_cmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-/*
-	sorting the array by ascending order (by using array_cmp)
-	Use to print env or export(not options)
-*/
+// sorting the array by ascending order (by using array_cmp)
 void	sort_env_array(char **env_arr)
 {
 	int		i;

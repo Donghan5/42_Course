@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:33:39 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/30 21:19:41 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:33:47 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	is_tokens_error(char **current, char **next_token, int i)
 	if (!ft_strncmp(current[0], "|", 2) && !ft_strncmp(next_token[0], "<", 2))
 		return (0);
 	if (is_redirect(current) && is_operator_token(next_token))
-		return (1);
-	if (is_redirect(current) && (next_token[0][0] == '$'))
 		return (1);
 	return (0);
 }
