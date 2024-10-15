@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:16:24 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:16:24 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_glob_pipe	*new_glob_pipe(t_glob_pipe	*prev)
 	new_elem = malloc(sizeof (t_glob_pipe));
 	if (!new_elem)
 		return (NULL);
+	new_elem->pipe_fds[0] = -1;
+	new_elem->pipe_fds[1] = -1;
 	new_elem->args = NULL;
 	new_elem->name = NULL;
 	new_elem->previous = NULL;

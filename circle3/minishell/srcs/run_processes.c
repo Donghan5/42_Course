@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_processes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:47:56 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/12 23:08:09 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:17:36 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	builtin_no_process(t_glob_pipe *tmp, t_env *env)
 void	parent_process(t_glob_pipe *tmp, int *prev_pipe, t_env *env, int pid)
 {
 	if (*prev_pipe != -1)
-		close(*prev_pipe);
+		close(*prev_pipe), *prev_pipe = -1;
 	if (tmp->op == PIPE)
 	{
 		close(tmp->pipe_fds[1]);
@@ -71,8 +71,10 @@ void	parent_process(t_glob_pipe *tmp, int *prev_pipe, t_env *env, int pid)
 	close_fds(tmp, 1, 1);
 	if (tmp->previous)
 	{
-		close(tmp->previous->pipe_fds[0]);
-		close(tmp->previous->pipe_fds[1]);
+		if (tmp->previous->pipe_fds[0] != -1)
+			close(tmp->previous->pipe_fds[0]);
+		if (tmp->previous->pipe_fds[1] != -1)
+			close(tmp->previous->pipe_fds[1]);
 	}
 	if (tmp->op != PIPE)
 	{
