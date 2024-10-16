@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/15 17:57:54 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:31:04 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 void	smart_close(int fd)
 {
 	if (fd != -1 && fd > 2)
-		close (fd);
+		close(fd);
 }
 
 /*
@@ -42,8 +42,8 @@ void	pipeline_cycle(t_glob_pipe *t, int *prev, t_env *e)
 
 	while (t)
 	{
-		process_no_exec_pipe(t, prev);
-		if (!t->is_exec_ignore && t->name)
+		no_execs(t, e, prev);
+		if (!t->is_exec_ignore)
 		{
 			built = builtin_check(t);
 			pid = -1;
@@ -74,7 +74,6 @@ void	run_global_pipeline(t_glob_pipe **cmds_start, t_env *env)
 
 	prev_pipe = -1;
 	temp_cmd = *cmds_start;
-	env->sts = 0;
 	pipeline_cycle(temp_cmd, &prev_pipe, env);
 	wait_background_processes();
 }

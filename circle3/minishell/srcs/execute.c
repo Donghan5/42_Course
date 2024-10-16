@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:23:04 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 17:56:51 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:23:57 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	search_path_and_run(t_glob_pipe *cmds, t_env *env)
 	int		is_found;
 
 	is_found = 0;
+	if (!*cmds->name)
+		compound_error_exit(cmds, env, 127, ": command not found\n");
 	path = getenv_value("PATH", env->environ);
 	splitted = ft_split(path, ':');
 	path_search(splitted, cmds, env, &is_found);

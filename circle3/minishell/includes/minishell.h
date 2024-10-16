@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/15 17:58:12 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:27:53 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,8 @@ void			child_process(int *prev_pipe, t_glob_pipe *tmp,
 void			parent_process(t_glob_pipe *tmp, int *prev_pipe,
 					t_env *env, int pid);
 void			builtin_no_process(t_glob_pipe *tmp, t_env *env);
-void			process_no_exec_pipe(t_glob_pipe *temp_cmd, int *prev_pipe);
+void			no_execs(t_glob_pipe *temp_cmd,
+					t_env *env, int *prev_pipe);
 
 // run_global_pipeline.c
 void			smart_close(int fd);

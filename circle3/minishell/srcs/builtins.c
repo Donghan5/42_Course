@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:27:36 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/14 16:53:50 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:17:19 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	builtin_check(t_glob_pipe *cmd)
 {
+	if (!cmd->name)
+		return (NOT_RUN);
 	if ((!ft_strncmp(cmd->name, "exit", 5)) \
 		|| (!ft_strncmp(cmd->name, "pwd", 4)) \
 		|| (!ft_strncmp(cmd->name, "cd", 3)) \

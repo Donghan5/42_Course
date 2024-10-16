@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:23:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 17:01:38 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:33:59 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	update_pwd(t_env *env)
 	pwd = getcwd(NULL, 0);
 	full_pwd = ft_strjoin("PWD=", pwd);
 	if (!full_pwd)
-		return ;
+		return (free(pwd));
 	update_environ(env, full_pwd);
 	free(pwd);
 	free(full_pwd);

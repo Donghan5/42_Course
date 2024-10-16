@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:47:56 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/15 17:56:51 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:49:47 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 /*
 	Handling pipes in case when failed command is connected to pipes
 */
-void	process_no_exec_pipe(t_glob_pipe *temp_cmd, int *prev_pipe)
+void	no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe)
 {
+	if (!temp_cmd->is_exec_ignore && !temp_cmd->name)
+		env->sts = 0;
 	if (temp_cmd->is_exec_ignore && (temp_cmd->op == NO_EXEC_PIPE))
 	{
 		if (*prev_pipe != -1)
@@ -99,13 +101,13 @@ void	child_process(int *prev_pipe, t_glob_pipe *tmp, int builtin, t_env *env)
 	if (tmp->redir_io[1] != STDOUT_FILENO)
 		dup2(tmp->redir_io[1], STDOUT_FILENO);
 	close_fds(tmp, 1, 0);
+	if (!tmp->name)
+		return (env->sts = 0, free_doub_array(env->environ), exit(0));
 	if (builtin)
 	{
 		builtin_run(env, tmp);
-		handle_errors(&tmp, env->environ, NULL);
-		exit(env->sts);
+		return (handle_errors(&tmp, env->environ, NULL), exit(env->sts));
 	}
 	search_path_and_run(tmp, env);
-	env->sts = 1;
-	return (free_doub_array(env->environ), exit(1));
+	return (env->sts = 1, free_doub_array(env->environ), exit(1));
 }
