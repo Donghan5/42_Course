@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:16:39 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:41:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// to treat expander " or ' or $
-// tmp_expanded = expanded string which contain command
-// expanded = expanded string without command
-// should be connect with the parse part
+/*
+	to treat expander " or ' or $
+	tmp_expanded = expanded string which contain command
+	expanded = expanded string without command
+	should be connect with the parse part
+	@params: cmd(read from readline), env
+*/
 char	*expander(char *cmd, t_env *env)
 {
 	int		cmd_len;

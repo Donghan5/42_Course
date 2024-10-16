@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/16 00:04:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:52:36 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ static int	event_hook(void)
 	return (0);
 }
 
-// consider about to reduce the lines of code
+/*
+	Here document function
+	@params: stop_word(limiter heredoc), fd, env
+*/
 int	ft_heredoc(char *stop_word, int fd, t_env *env)
 {
 	char	*line;
@@ -48,8 +51,7 @@ int	ft_heredoc(char *stop_word, int fd, t_env *env)
 		expanded_line = expander(line, env);
 		if (!expanded_line)
 			return (free(line), 0);
-		ft_putstr_fd(expanded_line, fd);
-		ft_putstr_fd("\n", fd);
+		ft_putendl_fd(expanded_line, fd);
 		free(line);
 		free(expanded_line);
 	}
@@ -62,6 +64,10 @@ int	ft_heredoc(char *stop_word, int fd, t_env *env)
 	return (rl_event_hook = NULL, rl_done = 0, 1);
 }
 
+/*
+	Here document setup function
+	@params: current, next, fd, env
+*/
 int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
 {
 	int			heredoc_status;
