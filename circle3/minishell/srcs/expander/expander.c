@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:36:45 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/16 13:41:19 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:53:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,4 @@ char	*expander(char *cmd, t_env *env)
 	copy_strings(cmd, expanded, env);
 	return (expanded);
 }
+

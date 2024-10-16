@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_fill_args.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:28:36 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/09/30 21:19:18 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:21:12 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	copy_args_to_gpipe(char ***tokens, t_glob_pipe *tmp, int n, int start_index)
 			i_tokens++;
 			redirects_amount++;
 		}
-		else if (tokens[start_index + i_tokens][0][0])
+		else if (tokens[start_index + i_tokens][0][0]
+			|| tokens[start_index + i_tokens][1][0])
 		{
 			tmp->args[i_args++] = ft_strdup(tokens[start_index + i_tokens][0]);
 			if (!tmp->args[i_args - 1])
