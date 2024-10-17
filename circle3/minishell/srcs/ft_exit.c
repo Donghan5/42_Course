@@ -6,12 +6,16 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:16:59 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/17 14:46:07 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/17 23:15:08 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	Exit with alpha arguments.
+	If argument is not numeric it prints error and exits anyway.
+*/
 static void	exit_with_alpha(t_glob_pipe *cmd, t_env *env)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
@@ -23,6 +27,7 @@ static void	exit_with_alpha(t_glob_pipe *cmd, t_env *env)
 	free_doub_array(env->environ);
 	exit(env->sts);
 }
+
 /*
 	Exit with numeric arguments.
 	If argument is not numeric it prints error and exits anyway.
@@ -49,6 +54,10 @@ static void	exit_with_num(t_glob_pipe *cmd, t_env *env)
 	exit(env->sts);
 }
 
+/*
+	Exit with too many arguments.
+	But not exit, just print the error message
+*/
 static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 {
 	if (env->is_interactive)
@@ -57,6 +66,10 @@ static void	exit_many_args(t_glob_pipe *cmd, t_env *env)
 	env->sts = 1;
 }
 
+/*
+	exit function treat all cases
+	work with interative mode
+*/
 void	normal_exit_check(t_glob_pipe *cmd, t_env *env)
 {
 	if (cmd->args[1] && cmd->args[2])
