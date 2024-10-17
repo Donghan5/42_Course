@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/16 19:27:08 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:43:53 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,10 @@ long int		ft_atol(char *str, int *err);
 
 // ft_exit.c
 void			normal_exit_check(t_glob_pipe *cmd, t_env *env);
+
+// exit_utils.c
 void			exit_error(char *perror_message);
-int				str_is_alnum(char *str);
+int				is_numeric(char *str);
 
 // is_lex_error.c
 int				is_lex_error(char ***tokens);
