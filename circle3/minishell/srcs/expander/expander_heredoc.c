@@ -32,7 +32,7 @@ static int	calculate_expanded_len(char *cmd, t_env *env)
 }
 
 // to copy environ include double quote and dollar sign
-int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
+static int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 {
 	int		src_idx;
 	char	*key;
@@ -60,7 +60,7 @@ int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 	return (src_idx);
 }
 
-void	copy_strings_hdoc(char *input, char *dest, t_env *env)
+static void	copy_strings_hdoc(char *input, char *dest, t_env *env)
 {
 	int		idx;
 	char	*dest_end;
