@@ -7,11 +7,11 @@ SRC = main.c srcs/ft_whitespace.c srcs/builtins.c srcs/header.c \
 	srcs/run_global_pipeline.c srcs/tokenizer.c srcs/pre_parsing.c srcs/env/env_tool.c \
 	srcs/access_checks.c srcs/parsing_fill_args.c srcs/operator_checks.c srcs/is_lex_error.c \
 	srcs/run_processes.c srcs/calc_tokens.c srcs/create_new_token.c srcs/builtin/env.c \
-	srcs/ft_atol.c srcs/heredoc.c
+	srcs/ft_atol.c srcs/heredoc.c srcs/expander/expander_heredoc.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 #-Wall -Wextra -Werror
 
 DEPS = $(SRC:.c=.d)
 

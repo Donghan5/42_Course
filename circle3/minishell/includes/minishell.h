@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/16 18:27:53 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/16 19:27:08 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,5 +319,8 @@ int				update_environ(t_env *env, char *key_value);
 // env.c
 void			ft_env(t_env *env);
 void			check_env(t_env *env, char **cmds);
+
+// expander_heredoc.c
+char			*expander_heredoc(char *cmd, t_env *env);
 
 #endif

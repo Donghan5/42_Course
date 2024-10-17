@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/15 18:08:06 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:19:47 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ static int	event_hook(void)
 	return (0);
 }
 
-int	ft_heredoc(char *stop_word, int fd)
+int	ft_heredoc(char *stop_word, int fd, t_env *env)
 {
 	char	*line;
+	char	*expanded_line;
 
 	while (1)
 	{
@@ -43,19 +44,20 @@ int	ft_heredoc(char *stop_word, int fd)
 			break ;
 		if (!ft_strncmp(stop_word, line, ft_strlen(stop_word) + 1))
 			break ;
-		ft_putstr_fd(line, fd);
-		ft_putstr_fd("\n", fd);
+		expanded_line = expander_heredoc(line, env);
+		if (!expanded_line)
+			return (0);
+		ft_putendl_fd(expanded_line, fd);
 		free(line);
+		free(expanded_line);
 	}
 	if (line)
 		free(line);
 	if (!line && !g_signal_received)
 		printf("%s (wanted `%s')\n", HDOC_ERR, stop_word);
-	rl_event_hook = NULL;
-	rl_done = 0;
 	if (g_signal_received == SIGINT)
 		return (0);
-	return (1);
+	return (rl_event_hook = NULL, rl_done = 0, 1);
 }
 
 int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
@@ -72,7 +74,7 @@ int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	rl_event_hook = event_hook;
-	heredoc_status = ft_heredoc(next->name, *fd);
+	heredoc_status = ft_heredoc(next->name, *fd, env);
 	smart_close(*fd);
 	set_signal();
 	g_signal_received = 0;
