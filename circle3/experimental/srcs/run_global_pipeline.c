@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/17 23:13:59 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 02:23:56 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void pipeline_cycle2(t_glob_pipe *t, int *prev, t_env *e)
 			{
 				t = t->next;
 			}
-			
+
 			continue ;
 		}
 
@@ -155,7 +155,7 @@ void pipeline_cycle2(t_glob_pipe *t, int *prev, t_env *e)
 				int current_priority = t->priority;
 				while (subshell_cmd && subshell_cmd->priority >= current_priority)
 				{
-					pipeline_cycle(subshell_cmd, &subshell_prev, e);
+					pipeline_cycle2(subshell_cmd, &subshell_prev, e);
 					while (subshell_cmd->next && subshell_cmd->next->op == PIPE)
 						subshell_cmd = subshell_cmd->next;
 					subshell_cmd = subshell_cmd->next;
@@ -253,6 +253,6 @@ void	run_global_pipeline(t_glob_pipe **cmds_start, t_env *env)
 
 	prev_pipe = -1;
 	temp_cmd = *cmds_start;
-	pipeline_cycle(temp_cmd, &prev_pipe, env);
+	pipeline_cycle2(temp_cmd, &prev_pipe, env);
 	wait_background_processes();
 }
