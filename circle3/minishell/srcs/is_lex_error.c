@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:33:39 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 19:33:09 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:25:08 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,64 +27,21 @@ int	compound_error(char **current, char **next, t_glob_pipe **glob_pipe)
 	return (0);
 }
 
-int	is_balance(char **current, char **next_token, int reset)
+int	is_tokens_error(char **current, char **next_token, int i)
 {
-	static int	balance;
-
-	if (reset)
-	{
-		balance = 0;
-		return (1);
-	}
-	if (is_paren(current) == PAREN_OPEN)
-		balance++;
-	if (is_paren(current) == PAREN_CLOSE)
-		balance--;
-	if (!next_token && balance != 0)
-	{
-		balance = 0;
+	if (!current)
 		return (0);
-	}
-	return (1);
-}
-
-int	is_duo_error(char **current, char **next)
-{
-	int	paren;
-	int	paren_n;
-
-	paren = is_paren(current);
-	paren_n = is_paren(next);
-	if (fill_operator_token(NULL, current) == PIPE && is_redirect(next))
-		return (0);
-	if (((is_operator_token(current) && !paren)
-			&& (is_operator_token(next) && !paren_n))
-		|| (paren == PAREN_OPEN && paren_n == PAREN_CLOSE))
+	if ((i == 0) && !ft_strncmp(current[0], "|", 2))
 		return (1);
-	if ((paren == PAREN_CLOSE && !(is_operator_token(next)
-				&& !is_redirect(next)))
-		|| (paren_n == PAREN_OPEN && !(is_operator_token(current)
-				&& !is_redirect(next))))
+	if (is_operator_token(current) && (!next_token))
+		return (1);
+	if (!next_token)
+		return (0);
+	if (fill_operator_token(NULL, current) == PIPE && is_redirect(next_token))
+		return (0);
+	if (is_operator_token(current) && is_operator_token(next_token))
 		return (1);
 	return (0);
-}
-
-int	is_tokens_error(char **current, char **next, int i)
-{
-	int	paren;
-
-	if (!is_balance(current, next, 0))
-		return (1);
-	paren = is_paren(current);
-	if ((i == 0) && is_operator_token(current)
-		&& !(is_redirect(current) || (paren == PAREN_OPEN)))
-		return (1);
-	if ((is_operator_token(current) && !(paren == PAREN_CLOSE))
-		&& (!next || (!*next[0] && !next[1][0])))
-		return (1);
-	if (!next)
-		return (0);
-	return (is_duo_error(current, next));
 }
 
 int	is_lex_error(char ***tokens)
@@ -92,7 +49,6 @@ int	is_lex_error(char ***tokens)
 	int	i;
 
 	i = 0;
-	is_balance(NULL, NULL, 1);
 	if (!tokens)
 		return (1);
 	while (tokens[i])

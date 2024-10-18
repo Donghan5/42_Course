@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 22:28:00 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:13:22 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 /*
 	Header files
@@ -52,7 +52,9 @@ enum e_operator
 	HERE_DOC,
 	REDIRECT_EXPECTED,
 	REDIR_PIPE,
-	NO_EXEC_PIPE
+	NO_EXEC_PIPE,
+	PAREN_OPEN,
+	PAREN_CLOSE
 };
 
 // defines run or not
@@ -110,6 +112,7 @@ typedef struct s_glob_pipe
 	struct s_glob_pipe	*next;
 	struct s_glob_pipe	*previous;
 	int					pid;
+	int					priority;
 }				t_glob_pipe;
 
 /*
@@ -141,6 +144,10 @@ typedef struct sigaction \
 typedef struct termios \
 					t_termios;
 
+// run_managers.c
+t_glob_pipe		*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority);
+void			children_manager(int pid, t_env *env, int wait, int reset);
+
 // expander_heredoc.c
 char			*expander_heredoc(char *cmd, t_env *env);
 
@@ -171,8 +178,7 @@ void			child_process(int *prev_pipe, t_glob_pipe *tmp,
 void			parent_process(t_glob_pipe *tmp, int *prev_pipe,
 					t_env *env, int pid);
 void			builtin_no_process(t_glob_pipe *tmp, t_env *env);
-void			no_execs(t_glob_pipe *temp_cmd,
-					t_env *env, int *prev_pipe);
+int				no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe);
 
 // run_global_pipeline.c
 void			smart_close(int fd);
@@ -228,6 +234,7 @@ int				is_lex_error(char ***tokens);
 int				is_operator_token(char **token);
 int				is_redirect(char **token);
 int				is_operator(char *token);
+int				is_paren(char **token);
 
 // parsing_fill_args.c
 int				fill_args(char ***toks, t_glob_pipe **tmp, int n, int start_i);

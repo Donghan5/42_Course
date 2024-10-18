@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_fill_args.c                                :+:      :+:    :+:   */
+/*   parsing_fill_args_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:28:36 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 21:49:36 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:11:00 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes_bonus/minishell_bonus.h"
 
 int	calc_valid_args(char ***token, int n, int start_index)
 {
@@ -27,39 +27,41 @@ int	calc_valid_args(char ***token, int n, int start_index)
 			args_counter++;
 		i++;
 	}
+	if (is_paren(token[start_index + i - 1]))
+		args_counter--;
 	return (args_counter);
 }
 
 /*
 	Returns redirects_amount
 */
-int	copy_args_to_gpipe(char ***tokens, t_glob_pipe *tmp, int n, int start_index)
+int	copy_args_to_gpipe(char ***tokens, t_glob_pipe *tmp, int n, int start_i)
 {
-	int	i_tokens;
+	int	i_tks;
 	int	i_args;
 	int	redirects_amount;
 
 	i_args = 0;
-	i_tokens = 0;
+	i_tks = 0;
 	redirects_amount = 0;
-	while (i_tokens < n)
+	while (i_tks < n)
 	{
-		if (is_redirect(tokens[start_index + i_tokens]))
+		if (is_paren(tokens[start_i + i_tks]))
+			break ;
+		if (is_redirect(tokens[start_i + i_tks]))
 		{
-			i_tokens++;
+			i_tks++;
 			redirects_amount++;
 		}
-		else if (tokens[start_index + i_tokens][0][0]
-			|| tokens[start_index + i_tokens][1][0])
+		else if (tokens[start_i + i_tks][0][0] || tokens[start_i + i_tks][1][0])
 		{
-			tmp->args[i_args++] = ft_strdup(tokens[start_index + i_tokens][0]);
+			tmp->args[i_args++] = ft_strdup(tokens[start_i + i_tks][0]);
 			if (!tmp->args[i_args - 1])
 				return (free_doub_array(tmp->args), tmp->args = NULL, -1);
 		}
-		i_tokens++;
+		i_tks++;
 	}
-	tmp->args[i_args] = NULL;
-	return (redirects_amount);
+	return (tmp->args[i_args] = NULL, redirects_amount);
 }
 
 /* returns amount of redirects found */

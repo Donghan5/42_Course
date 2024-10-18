@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_heredoc.c                                 :+:      :+:    :+:   */
+/*   expander_heredoc_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:15:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/18 22:14:00 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:11:35 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes_bonus/minishell_bonus.h"
 
 static int	env_cnt_heredoc(char *str, int *size, t_env *env)
 {
