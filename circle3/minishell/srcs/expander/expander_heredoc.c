@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:15:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/18 13:31:05 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/18 21:45:32 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 	Count the size of the key in the environment variable
 	@param str (to count with $sign)
 */
-static int	env_cnt_heredoc(char *str, int *size, t_env *env)
+static int	env_cnt_heredoc(char *str, t_env *env)
 {
 	int		idx;
-	char	*status;
 	int		len;
 
 	if (str[1] == '\0' || str[1] == '\"')
@@ -44,7 +43,7 @@ static int	calculate_expanded_len(char *cmd, t_env *env)
 	while (cmd[idx])
 	{
 		if (cmd[idx] == '$')
-			size += env_cnt_heredoc(&cmd[idx], &size, env);
+			size += env_cnt_heredoc(&cmd[idx], env);
 		else if (cmd[idx] != '\'' || cmd[idx] != '\"')
 			size++;
 		idx++;
@@ -74,7 +73,7 @@ static int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 		free(status);
 		return (1);
 	}
-	if (src[1] == '\0' || ft_iswhitespace((int)src[1]))
+	if (src[1] == '\0' || ft_iswhitespace((int)src[1]) || src[1] == '\"' || src[1] == '\'')
 		return (**dest = '$', *dest += 1, 0);
 	src_idx = getenv_key(src, &key);
 	env_val = getenv_value(key, env->environ);

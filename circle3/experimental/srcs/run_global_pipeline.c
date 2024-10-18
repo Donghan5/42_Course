@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/17 23:13:59 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:21:43 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,87 +37,87 @@ void	wait_background_processes(void)
 */
 void pipeline_cycle(t_glob_pipe *t, int *prev, t_env *e)
 {
-    int built;
-    pid_t pid;
-    pid_t *child_pids = NULL;
-    int child_count = 0;
-    int skip_next = 0;
+	int built;
+	pid_t pid;
+	pid_t *child_pids = NULL;
+	int child_count = 0;
+	int skip_next = 0;
 
-    while (t)
-    {
-        if (skip_next)
-        {
-            skip_next = 0;
-            if (t->priority > 0)
-            {
-                int current_priority = t->priority;
-                while (t && t->priority >= current_priority)
-                    t = t->next;
-                continue;
-            }
-            while (t && t->op == PIPE)
-                t = t->next;
-            if (t)
-                t = t->next;
-            continue;
-        }
+	while (t)
+	{
+		if (skip_next)
+		{
+			skip_next = 0;
+			if (t->priority > 0)
+			{
+				int current_priority = t->priority;
+				while (t && t->priority >= current_priority)
+					t = t->next;
+				continue;
+			}
+			while (t && t->op == PIPE)
+				t = t->next;
+			if (t)
+				t = t->next;
+			continue;
+		}
 
-        no_execs(t, e, prev);
-        if (!t->is_exec_ignore)
-        {
-            built = builtin_check(t);
-            pid = -1;
-            if (t->op == PIPE || *prev != -1 || !built)
-            {
-                pid = fork();
-                if (pid == -1)
-                {
-                    close_fds(t, 1, 0);
-                    perror("fork");
-                    break;
-                }
-                else if (pid > 0)
-                {
-                    child_count++;
-                    child_pids = realloc(child_pids, child_count * sizeof(pid_t));
-                    child_pids[child_count - 1] = pid;
-                }
-            }
+		no_execs(t, e, prev);
+		if (!t->is_exec_ignore)
+		{
+			built = builtin_check(t);
+			pid = -1;
+			if (t->op == PIPE || *prev != -1 || !built)
+			{
+				pid = fork();
+				if (pid == -1)
+				{
+					close_fds(t, 1, 0);
+					perror("fork");
+					break;
+				}
+				else if (pid > 0)
+				{
+					child_count++;
+					child_pids = realloc(child_pids, child_count * sizeof(pid_t));
+					child_pids[child_count - 1] = pid;
+				}
+			}
 
-            if (pid == 0)
-                child_process(prev, t, built, e);
-            else if (pid > 0)
-                parent_process(t, prev, e, pid);
-            else
-                builtin_no_process(t, e);
-        }
+			if (pid == 0)
+				child_process(prev, t, built, e);
+			else if (pid > 0)
+				parent_process(t, prev, e, pid);
+			else
+				builtin_no_process(t, e);
+		}
 
-        if (t->op != PIPE || !t->next)
-        {
-            for (int i = 0; i < child_count; i++)
-            {
-                int status;
-                waitpid(child_pids[i], &status, 0);
-                if (i == child_count - 1)
-                {
-                    if (WIFEXITED(status))
-                        e->sts = WEXITSTATUS(status);
-                    else
-                        e->sts = 1;
-                }
-            }
-            free(child_pids);
-            child_pids = NULL;
-            child_count = 0;
-            if ((t->op == AND && e->sts != 0) || (t->op == OR && e->sts == 0))
-                skip_next = 1;
-        }
+		if (t->op != PIPE || !t->next)
+		{
+			for (int i = 0; i < child_count; i++)
+			{
+				int status;
+				waitpid(child_pids[i], &status, WNOHANG);
+				if (i == child_count - 1)
+				{
+					if (WIFEXITED(status))
+						e->sts = WEXITSTATUS(status);
+					else
+						e->sts = 1;
+				}
+			}
+			free(child_pids);
+			child_pids = NULL;
+			child_count = 0;
+			if ((t->op == AND && e->sts != 0) || (t->op == OR && e->sts == 0))
+				skip_next = 1;
+		}
 
-        t = t->next;
-    }
+		t = t->next;
+	}
 
-    if (child_pids)
-        free(child_pids);
+	if (child_pids)
+		free(child_pids);
 }
 
 
@@ -141,7 +141,7 @@ void pipeline_cycle2(t_glob_pipe *t, int *prev, t_env *e)
 			{
 				t = t->next;
 			}
-			
+
 			continue ;
 		}
 
@@ -165,7 +165,7 @@ void pipeline_cycle2(t_glob_pipe *t, int *prev, t_env *e)
 			else if (subshell_pid > 0)
 			{
 				int status = 0;
-				waitpid(subshell_pid, &status, 0);
+				waitpid(subshell_pid, &status, WNOHANG);
 				if (WIFEXITED(status))
 					e->sts = WEXITSTATUS(status);
 				else
