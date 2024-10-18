@@ -6,12 +6,16 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:15:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/17 14:15:17 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/18 13:31:05 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	Count the size of the key in the environment variable
+	@param str (to count with $sign)
+*/
 static int	env_cnt_heredoc(char *str, int *size, t_env *env)
 {
 	int		idx;
@@ -25,6 +29,11 @@ static int	env_cnt_heredoc(char *str, int *size, t_env *env)
 	return (len);
 }
 
+/*
+	Count the size of the key in the environment variable
+	@param cmd, env
+	@return int sizeof expanded string
+*/
 static int	calculate_expanded_len(char *cmd, t_env *env)
 {
 	int		idx;
@@ -43,7 +52,11 @@ static int	calculate_expanded_len(char *cmd, t_env *env)
 	return (size);
 }
 
-// to copy environ include double quote and dollar sign
+/*
+	count the size of the key in the environment variable
+	@param src, dest, env
+	@return int (size of the key)
+*/
 static int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 {
 	int		src_idx;
@@ -72,6 +85,10 @@ static int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 	return (src_idx);
 }
 
+/*
+	copy strings with environ with single quote and double quote
+	@param input, dest, env
+*/
 static void	copy_strings_hdoc(char *input, char *dest, t_env *env)
 {
 	int		idx;
@@ -88,9 +105,11 @@ static void	copy_strings_hdoc(char *input, char *dest, t_env *env)
 	}
 	*dest_end = '\0';
 }
+
 /*
 	expander in heredoc mode
 	@param cmd, env
+	@return char * expanded char
 */
 char	*expander_heredoc(char *cmd, t_env *env)
 {
