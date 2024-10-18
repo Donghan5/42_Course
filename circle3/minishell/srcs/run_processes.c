@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:47:56 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/16 20:49:47 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:28:34 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 	Handling pipes in case when failed command is connected to pipes
 */
-void	no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe)
+int	no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe)
 {
 	if (!temp_cmd->is_exec_ignore && !temp_cmd->name)
 		env->sts = 0;
@@ -26,6 +26,7 @@ void	no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe)
 		smart_close(temp_cmd->pipe_fds[1]);
 		*prev_pipe = temp_cmd->pipe_fds[0];
 	}
+	return (0);
 }
 
 /*
@@ -61,6 +62,7 @@ void	builtin_no_process(t_glob_pipe *tmp, t_env *env)
 
 void	parent_process(t_glob_pipe *tmp, int *prev_pipe, t_env *env, int pid)
 {
+	children_manager(pid, env, 0, 0);
 	if (*prev_pipe != -1)
 		smart_close(*prev_pipe);
 	if (tmp->op == PIPE)
@@ -75,11 +77,6 @@ void	parent_process(t_glob_pipe *tmp, int *prev_pipe, t_env *env, int pid)
 	{
 		smart_close(tmp->previous->pipe_fds[0]);
 		smart_close(tmp->previous->pipe_fds[1]);
-	}
-	if (tmp->op != PIPE)
-	{
-		waitpid(pid, &env->sts, 0);
-		env->sts = WEXITSTATUS(env->sts);
 	}
 }
 

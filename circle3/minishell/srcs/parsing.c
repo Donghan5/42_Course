@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/15 17:40:22 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:09:36 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_glob_pipe	*new_glob_pipe(t_glob_pipe	*prev)
 	new_elem->pipe_fds[1] = -1;
 	new_elem->redir_io[0] = -1;
 	new_elem->redir_io[1] = -1;
+	new_elem->priority = 0;
 	if (prev)
 	{
 		prev->next = new_elem;
@@ -63,31 +64,60 @@ int	create_redirs(char ***tokens, int n, int index, t_glob_pipe **temp)
 	return (1);
 }
 
-int	fill_token_to_gpipe(t_glob_pipe **tmp, char ***tokens, int tokens_n, int *i)
+int	fill_token_to_gpipe(t_glob_pipe **tmp, char ***toks, int toks_n, int *i)
 {
 	int	redirs;
 
-	if (tokens[*i] && ((is_operator_token(tokens[*i])
-				&& !is_redirect(tokens[*i])) || !tokens[*i + 1]))
+	if (toks[*i] && ((is_operator_token(toks[*i]) && !is_redirect(toks[*i])
+				&& !is_paren(toks[*i])) || !toks[*i + 1]))
 	{
-		fill_operator_token(*tmp, tokens[*i]);
-		if (!tokens[*i + 1])
-			redirs = fill_args(tokens, tmp, tokens_n, *i + 1 - tokens_n);
+		fill_operator_token(*tmp, toks[*i]);
+		if (!toks[*i + 1])
+			redirs = fill_args(toks, tmp, toks_n, *i + 1 - toks_n);
 		else
-			redirs = fill_args(tokens, tmp, tokens_n, *i - tokens_n);
+			redirs = fill_args(toks, tmp, toks_n, *i - toks_n);
 		if (!(*tmp)->args)
 			return (0);
 		if (redirs
-			&& !create_redirs(tokens, tokens_n,
-				*i + !tokens[*i + 1] - tokens_n, tmp))
+			&& !create_redirs(toks, toks_n,
+				*i + !toks[*i + 1] - toks_n, tmp))
 			return (0);
-		if (tokens[*i + 1])
+		if (toks[*i + 1])
 		{
 			*tmp = new_glob_pipe(*tmp);
 			if (!(*tmp))
 				return (0);
 		}
 		(*i) = *i + 1;
+	}
+	return (1);
+}
+
+int	priority_manager(char ***tokens, int *i, t_glob_pipe *t, int reset)
+{
+	static int	priority;
+
+	if (reset)
+		priority = 0;
+	if (!reset && t)
+	{
+		if (is_paren(tokens[*i]) == PAREN_OPEN)
+			priority++;
+		if (!t->priority)
+			t->priority = priority;
+		if (is_paren(tokens[*i]) == PAREN_CLOSE)
+			priority--;
+		if (!tokens[*i + 1])
+			return (0);
+		(*i)++;
+	}
+	while (!t && !reset && is_paren(tokens[*i]))
+	{
+		if (is_paren(tokens[*i]) == PAREN_OPEN)
+			priority++;
+		if (is_paren(tokens[*i]) == PAREN_CLOSE)
+			priority--;
+		(*i)++;
 	}
 	return (1);
 }
@@ -103,16 +133,17 @@ int	parse(t_glob_pipe **glob_pipe, char ***tokens)
 	if (!(*glob_pipe))
 		return (handle_errors(NULL, NULL, "malloc"));
 	temp_glob = *glob_pipe;
+	priority_manager(NULL, NULL, NULL, 1);
 	while (tokens[i])
 	{
 		tokens_n = 0;
-		while (tokens[i]
-			&& !(is_operator_token(tokens[i]) && !is_redirect(tokens[i])))
+		priority_manager(tokens, &i, NULL, 0);
+		while (tokens[i] && !(is_operator_token(tokens[i])
+				&& !is_redirect(tokens[i]) && !is_paren(tokens[i])))
 		{
 			tokens_n++;
-			if (!tokens[i + 1])
+			if (!priority_manager(tokens, &i, temp_glob, 0))
 				break ;
-			i++;
 		}
 		if (!fill_token_to_gpipe(&temp_glob, tokens, tokens_n, &i))
 			return (handle_errors(glob_pipe, NULL, "malloc"));

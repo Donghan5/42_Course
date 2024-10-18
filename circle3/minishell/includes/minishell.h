@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/17 14:43:53 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:49:41 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ enum e_operator
 	HERE_DOC,
 	REDIRECT_EXPECTED,
 	REDIR_PIPE,
-	NO_EXEC_PIPE
+	NO_EXEC_PIPE,
+	PAREN_OPEN,
+	PAREN_CLOSE
 };
 
 // defines run or not
@@ -110,6 +112,7 @@ typedef struct s_glob_pipe
 	struct s_glob_pipe	*next;
 	struct s_glob_pipe	*previous;
 	int					pid;
+	int					priority;
 }				t_glob_pipe;
 
 /*
@@ -141,6 +144,13 @@ typedef struct sigaction \
 typedef struct termios \
 					t_termios;
 
+// run_managers.c
+t_glob_pipe		*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority);
+void			children_manager(int pid, t_env *env, int wait, int reset);
+
+// expander_heredoc.c
+char			*expander_heredoc(char *cmd, t_env *env);
+
 // heredoc.c
 int				setup_heredoc(t_glob_pipe *current,
 					t_glob_pipe *next, int *fd, t_env *env);
@@ -168,8 +178,7 @@ void			child_process(int *prev_pipe, t_glob_pipe *tmp,
 void			parent_process(t_glob_pipe *tmp, int *prev_pipe,
 					t_env *env, int pid);
 void			builtin_no_process(t_glob_pipe *tmp, t_env *env);
-void			no_execs(t_glob_pipe *temp_cmd,
-					t_env *env, int *prev_pipe);
+int				no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe);
 
 // run_global_pipeline.c
 void			smart_close(int fd);
@@ -210,12 +219,13 @@ int				fill_operator_token(t_glob_pipe *glob_pipe, char **token);
 // ft_atol.c
 long int		ft_atol(char *str, int *err);
 
+// exit_utils.c
+int				is_numeric(char *str);
+void			exit_error(char *perror_message);
+
 // ft_exit.c
 void			normal_exit_check(t_glob_pipe *cmd, t_env *env);
-
-// exit_utils.c
-void			exit_error(char *perror_message);
-int				is_numeric(char *str);
+int				str_is_alnum(char *str);
 
 // is_lex_error.c
 int				is_lex_error(char ***tokens);
@@ -224,6 +234,7 @@ int				is_lex_error(char ***tokens);
 int				is_operator_token(char **token);
 int				is_redirect(char **token);
 int				is_operator(char *token);
+int				is_paren(char **token);
 
 // parsing_fill_args.c
 int				fill_args(char ***toks, t_glob_pipe **tmp, int n, int start_i);
@@ -321,8 +332,5 @@ int				update_environ(t_env *env, char *key_value);
 // env.c
 void			ft_env(t_env *env);
 void			check_env(t_env *env, char **cmds);
-
-// expander_heredoc.c
-char			*expander_heredoc(char *cmd, t_env *env);
 
 #endif

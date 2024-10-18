@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 13:49:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:52:08 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,16 +120,18 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_env	env;
 
+	(void)argc;
+	(void)argv;
 	parse_env(&env, envp);
 	increment_shell_level(&env);
-	header();
+	// header();
 	using_history();
 	set_signal();
-	if (!isatty(STDIN_FILENO) || argc > 1)
-	{
-		env.is_interactive = 0;
-		read_from_files(&env, argc, argv);
-	}
+	// if (!isatty(STDIN_FILENO) || argc > 1)
+	// {
+	// 	env.is_interactive = 0;
+	// 	read_from_files(&env, argc, argv);
+	// }
 	while (1)
 	{
 		line = get_line(&env);

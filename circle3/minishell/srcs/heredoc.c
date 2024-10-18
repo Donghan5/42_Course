@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/17 10:19:47 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:45:20 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_heredoc(char *stop_word, int fd, t_env *env)
 			break ;
 		expanded_line = expander_heredoc(line, env);
 		if (!expanded_line)
-			return (0);
+			return (free(line), 0);
 		ft_putendl_fd(expanded_line, fd);
 		free(line);
 		free(expanded_line);
