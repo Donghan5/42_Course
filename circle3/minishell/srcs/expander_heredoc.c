@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:15:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/18 23:00:51 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/19 12:09:21 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static int	env_cnt_heredoc(char *str, int *size, t_env *env)
 
 	(void)status;
 	(void)size;
-	if (str[1] == '\0' || str[1] == '\"')
-		return (1);
 	idx = size_env_key(str);
 	len = size_env_value(str, idx, env->environ);
 	return (len);

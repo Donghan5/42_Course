@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_managers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 20:27:18 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/19 12:30:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	children_manager(int pid, t_env *env, int wait, int reset)
 	if (!reset && !wait)
 	{
 		child_count++;
-		child_pids = realloc(child_pids, child_count * sizeof(pid_t));
+		child_pids = ft_realloc(child_pids, child_count * sizeof(pid_t));
 		child_pids[child_count - 1] = pid;
 		return ;
 	}

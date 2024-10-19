@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_managers_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 22:10:32 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/19 12:31:01 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	children_manager(int pid, t_env *env, int wait, int reset)
 	if (!reset && !wait)
 	{
 		child_count++;
-		child_pids = realloc(child_pids, child_count * sizeof(pid_t));
+		child_pids = ft_realloc(child_pids, child_count * sizeof(pid_t));
 		child_pids[child_count - 1] = pid;
 		return ;
 	}
@@ -53,7 +53,7 @@ void	children_manager(int pid, t_env *env, int wait, int reset)
 		mode == 2 - reset
 		set_priority > -1 - update internal priority.
 		mode == 0 and set_priority < 0 - updating skipping mode
-	
+
 	Skipping:
 		Checking skip_next and returning t_glob_pipe t command
 		after skipping commands which should not be run.
