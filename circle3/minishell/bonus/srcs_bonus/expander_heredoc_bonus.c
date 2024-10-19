@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_heredoc_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:15:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/18 22:11:35 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 23:00:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 		free(status);
 		return (1);
 	}
-	if (src[1] == '\0' || ft_iswhitespace((int)src[1]))
+	if (src[1] == '\0' || ft_iswhitespace((int)src[1]) \
+	|| src[1] == '\"' || src[1] == '\'')
 		return (**dest = '$', *dest += 1, 0);
 	src_idx = getenv_key(src, &key);
 	env_val = getenv_value(key, env->environ);
