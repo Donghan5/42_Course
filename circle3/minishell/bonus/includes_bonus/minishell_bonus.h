@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/19 12:32:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:18:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,5 +334,5 @@ void			ft_env(t_env *env);
 void			check_env(t_env *env, char **cmds);
 
 // ft_realloc.c
-void			*ft_realloc(void *ptr, size_t size);
+void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 #endif

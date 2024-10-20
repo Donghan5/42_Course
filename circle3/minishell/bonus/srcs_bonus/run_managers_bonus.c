@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/19 12:31:01 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:28:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 		Waiting and updating status of all tracked children,
 	Wait == 0:
 		Adding given pid to the tracking list.
+	@param old: size of the old tracking list.
 */
 void	children_manager(int pid, t_env *env, int wait, int reset)
 {
@@ -25,13 +26,14 @@ void	children_manager(int pid, t_env *env, int wait, int reset)
 	static int		child_count;
 	int				i;
 	int				status;
+	size_t			old;
 
+	old = sizeof(pid_t) * child_count;
 	if (!reset && !wait)
 	{
 		child_count++;
-		child_pids = ft_realloc(child_pids, child_count * sizeof(pid_t));
-		child_pids[child_count - 1] = pid;
-		return ;
+		child_pids = ft_realloc(child_pids, old, child_count * sizeof(pid_t));
+		return (child_pids[child_count - 1] = pid, (void)0);
 	}
 	i = 0;
 	while (!reset && i < child_count)
