@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:19:31 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/19 12:33:29 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:54:13 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,5 @@ void	*ft_realloc(void *ptr, size_t size)
 	free(ptr);
 	return (new_ptr);
 }
+
+// @error --> case of cat | ls --> invalid read size 1
