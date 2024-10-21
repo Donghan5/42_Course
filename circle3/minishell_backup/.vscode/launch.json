@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/donghank/42/circle3/minishell_backup",
-      "program": "/home/donghank/42/circle3/minishell_backup/build/Debug/outDebug",
+      "cwd": "/home/donghank/42/circle3/minishell",
+      "program": "/home/donghank/42/circle3/minishell/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

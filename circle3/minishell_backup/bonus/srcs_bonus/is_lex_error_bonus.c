@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:33:39 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:18:22 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:11:13 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,10 @@ int	is_duo_error(char **current, char **next)
 			&& (is_operator_token(next) && !paren_n))
 		|| (paren == PAREN_OPEN && paren_n == PAREN_CLOSE))
 		return (1);
-	if (is_redirect(current) && paren_n)
-		return (1);
-	if (!is_operator_token(current) && paren_n == PAREN_OPEN)
-		return (1);
-	if ((paren == PAREN_OPEN && (is_operator_token(next)
-				&& !is_redirect(next) && !paren_n))
-		|| (paren_n == PAREN_CLOSE && (is_operator_token(current)
-				&& !is_redirect(current)) && !paren))
+	if ((paren == PAREN_CLOSE && !(is_operator_token(next)
+				&& !is_redirect(next)))
+		|| (paren_n == PAREN_OPEN && !(is_operator_token(current)
+				&& !is_redirect(next))))
 		return (1);
 	return (0);
 }

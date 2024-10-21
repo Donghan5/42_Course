@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 22:27:12 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:19:48 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	parse_and_run(char **line, t_env *env)
 	free_triple_tokens(tokens);
 	if (prepare_pipeline(glob_pipe, env))
 		run_global_pipeline(&glob_pipe, env);
-	else
+	else if (!env->sts)
 		env->sts = 1;
 	free_glob_pipe(&glob_pipe);
 }

@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:33:39 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 19:34:32 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:25:08 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ int	is_tokens_error(char **current, char **next_token, int i)
 {
 	if (!current)
 		return (0);
-	if ((i == 0) && is_operator_token(current) && !is_redirect(current))
+	if ((i == 0) && !ft_strncmp(current[0], "|", 2))
 		return (1);
-	if (is_operator_token(current)
-		&& (!next_token || (!*next_token[0] && !next_token[1][0])))
+	if (is_operator_token(current) && (!next_token))
 		return (1);
 	if (!next_token)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:52:46 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:18:00 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:10:46 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,14 @@
 int	is_literal(char	*str)
 {
 	int	i;
-	int	quote;
 
 	i = 0;
-	quote = 0;
-	if (!str || !*str)
+	if (!str || !*str || !is_quote(*str))
 		return (0);
 	while (str[i] != '\0')
-	{
-		if (!quote && is_quote(str[i]))
-			quote = str[i];
-		else if (quote && is_quote(str[i]) == quote)
-			return (1);
 		i++;
-	}
+	if ((i > 1) && (is_quote(str[i - 1])))
+		return (1);
 	return (0);
 }
 

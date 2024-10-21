@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/21 21:00:10 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/18 21:50:11 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next, t_env *env)
 int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 {
 	while ((current->op == REDIRECT_EXPECTED || current->op == REDIR_PIPE)
-		&& (*next) && ((*next)->op == REDIRECT_IN || (*next)->op == REDIRECT_OUT
-			|| (*next)->op == APPEND_OUT || (*next)->op == HERE_DOC))
+		&& (*next) && ((*next)->op == REDIRECT_IN
+			|| (*next)->op == REDIRECT_OUT
+			|| (*next)->op == APPEND_OUT
+			|| (*next)->op == HERE_DOC))
 	{
 		if ((!current->is_exec_ignore || (*next)->op == HERE_DOC)
 			&& !setup_redirect(current, (*next), env))
@@ -53,8 +55,6 @@ int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 			current->is_exec_ignore = 1;
 			if ((*next)->op != HERE_DOC)
 				env->sts = 1;
-			else
-				return (0);
 		}
 		(*next)->is_exec_ignore = 1;
 		(*next) = (*next)->next;

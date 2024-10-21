@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:23:25 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:18:19 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,6 @@ typedef struct sigaction \
 					t_sigaction;
 typedef struct termios \
 					t_termios;
-
-// ft_realloc.c
-void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // run_managers.c
 t_glob_pipe		*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority);
@@ -336,4 +333,6 @@ int				update_environ(t_env *env, char *key_value);
 void			ft_env(t_env *env);
 void			check_env(t_env *env, char **cmds);
 
+// ft_realloc.c
+void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 #endif
