@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/18 22:10:38 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:41:59 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ int	setup_redirect(t_glob_pipe *current, t_glob_pipe *next, t_env *env)
 int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 {
 	while ((current->op == REDIRECT_EXPECTED || current->op == REDIR_PIPE)
-		&& (*next) && ((*next)->op == REDIRECT_IN
-			|| (*next)->op == REDIRECT_OUT
-			|| (*next)->op == APPEND_OUT
-			|| (*next)->op == HERE_DOC))
+		&& (*next) && ((*next)->op == REDIRECT_IN || (*next)->op == REDIRECT_OUT
+			|| (*next)->op == APPEND_OUT || (*next)->op == HERE_DOC))
 	{
 		if ((!current->is_exec_ignore || (*next)->op == HERE_DOC)
 			&& !setup_redirect(current, (*next), env))
@@ -55,6 +53,8 @@ int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 			current->is_exec_ignore = 1;
 			if ((*next)->op != HERE_DOC)
 				env->sts = 1;
+			else
+				return (0);
 		}
 		(*next)->is_exec_ignore = 1;
 		(*next) = (*next)->next;
@@ -70,28 +70,16 @@ int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 	return (1);
 }
 
-void	print_pipeline(t_glob_pipe *glob_pipe, int backwards)
+void	close_fds_pipeline(t_glob_pipe *glob_pipe)
 {
-	while (glob_pipe && !backwards)
+	while (glob_pipe)
 	{
-		printf("Name: %s\n", glob_pipe->name);
-		printf("Operation: %d\n", glob_pipe->op);
-		printf("Args: ");
-		printf("STD: %d %d\n", glob_pipe->redir_io[0], glob_pipe->redir_io[1]);
-		printf("Pipes: %d %d\n", glob_pipe->pipe_fds[0], glob_pipe->pipe_fds[1]);
-		printf("Priority: %d\n", glob_pipe->priority);
-		print_arr(glob_pipe->args);
-		printf("\n");
+		smart_close(glob_pipe->pipe_fds[0]);
+		smart_close(glob_pipe->pipe_fds[1]);
+		smart_close(glob_pipe->redir_io[0]);
+		smart_close(glob_pipe->redir_io[1]);
+		close_fds(glob_pipe, 0, 0);
 		glob_pipe = glob_pipe->next;
-	}
-	while (glob_pipe && backwards)
-	{
-		printf("Name: %s\n", glob_pipe->name);
-		printf("Operation: %d\n", glob_pipe->op);
-		printf("Args: ");
-		print_arr(glob_pipe->args);
-		printf("\n");
-		glob_pipe = glob_pipe->previous;
 	}
 }
 
@@ -108,7 +96,10 @@ int	prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env)
 		current->is_exec_ignore = 0;
 		next = current->next;
 		if (!setup_operator(current, &next, env))
+		{
+			close_fds_pipeline(glob_pipe);
 			return (0);
+		}
 		current = next;
 	}
 	return (1);

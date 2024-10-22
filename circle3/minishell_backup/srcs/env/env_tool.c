@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:03:12 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:40:48 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,15 @@ int	update_environ(t_env *env, char *key_value)
 	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
 	if (!new_env)
 		return (FAIL);
-	ft_memcpy(new_env, env->environ, sizeof(char *) * size_env);
+	// ft_memcpy(new_env, env->environ, sizeof(char *) * size_env);
+	var_i = 0;
+	while (env->environ[var_i])
+	{
+		new_env[var_i] = ft_strdup(env->environ[var_i]);
+		if (!new_env[var_i])
+			return (free_doub_array(new_env), FAIL);
+		var_i++;
+	}
 	new_env[size_env] = ft_strdup(key_value);
 	if (!new_env[size_env])
 		return (free_doub_array(new_env), FAIL);
