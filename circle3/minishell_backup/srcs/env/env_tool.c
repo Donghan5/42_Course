@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/22 18:40:48 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:11:29 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ char	*ft_getenv(const char *name, t_env *env)
 	return (NULL);
 }
 
-// update the shlvl value, replace old one to new one
-// so environ allocate in stack mem area
+/*
+	update the shlvl value, replace old one to new one
+	so environ allocate in stack mem area
+*/
 int	update_environ(t_env *env, char *key_value)
 {
 	char	**new_env;

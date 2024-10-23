@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/22 12:49:00 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:59:43 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,11 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = get_line(&env);
+		if (g_signal_received)
+		{
+			env.sts = g_signal_received;
+			g_signal_received = 0;
+		}
 		if (!*line)
 		{
 			free(line);
