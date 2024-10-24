@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:26:34 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:25:44 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ char	*get_line(t_env *env)
 	}
 	if (*line)
 		add_history(line);
+	if (g_signal_received == SIGINT)
+		env->sts = 130;
+	if (g_signal_received == SIGQUIT)
+		env->sts = 131;
+	if (g_signal_received)
+		g_signal_received = 0;
 	return (line);
 }
 
