@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:19:48 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:23:35 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ char	*get_line(t_env *env)
 	}
 	if (*line)
 		add_history(line);
+	if (g_signal_received == SIGINT)
+		env->sts = 130;
+	if (g_signal_received == SIGQUIT)
+		env->sts = 131;
+	if (g_signal_received)
+		g_signal_received = 0;
 	return (line);
 }
 
