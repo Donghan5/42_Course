@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 20:45:20 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/24 00:20:12 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ volatile int	g_signal_received;
 
 static void	heredoc_sigint_handler(int signo)
 {
-	ft_putstr_fd("^C", STDOUT);
+	ft_putstr_fd("^C\n", STDOUT);
 	g_signal_received = signo;
 	rl_done = 1;
 }
@@ -56,7 +56,7 @@ int	ft_heredoc(char *stop_word, int fd, t_env *env)
 	if (!line && !g_signal_received)
 		printf("%s (wanted `%s')\n", HDOC_ERR, stop_word);
 	if (g_signal_received == SIGINT)
-		return (0);
+		return (rl_done = 0, rl_event_hook = NULL, g_signal_received = 0, 0);
 	return (rl_event_hook = NULL, rl_done = 0, 1);
 }
 

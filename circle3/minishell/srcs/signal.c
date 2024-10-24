@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/14 17:49:21 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:11:30 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	handle_signal(int signo)
 			rl_on_new_line();
 			rl_redisplay();
 			ft_putstr_fd("^C\n", STDOUT);
+			g_signal_received = 130;
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
@@ -37,7 +38,20 @@ void	handle_signal(int signo)
 
 void	sigquit_handler(int sig)
 {
-	(void)sig;
+	pid_t	pid;
+
+	if (sig == SIGQUIT)
+	{
+		if (pid == -1)
+		{
+			rl_on_new_line();
+			rl_redisplay();
+			ft_putstr_fd("  \b\b", STDOUT);
+			g_signal_received = 131;
+		}
+		else
+			ft_putstr_fd("Quit (core dumped)\n", STDOUT);
+	}
 }
 
 // to alert the signal nums by using the signal macor
