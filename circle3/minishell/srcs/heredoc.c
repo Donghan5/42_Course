@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/24 16:34:00 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:00:12 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ volatile int	g_signal_received;
 
 static void	heredoc_sigint_handler(int signo)
 {
-	ft_putstr_fd("^C", STDOUT);
 	g_signal_received = signo;
 	rl_done = 1;
 }
@@ -56,8 +55,8 @@ int	ft_heredoc(char *stop_word, int fd, t_env *env)
 	if (!line && (g_signal_received != SIGINT))
 		printf("%s (wanted `%s')\n", HDOC_ERR, stop_word);
 	if (g_signal_received == SIGINT)
-		return (rl_event_hook = NULL, rl_done = 0, 0);
-	return (rl_event_hook = NULL, rl_done = 0, 1);
+		return (rl_event_hook = NULL, rl_done = 1, 0);
+	return (rl_event_hook = NULL, rl_done = 1, 1);
 }
 
 int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
