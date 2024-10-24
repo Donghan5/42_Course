@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:04:13 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/23 14:24:55 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:02:18 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ static void	help_sigint(pid_t pid)
 {
 	if (pid == -1)
 	{
-		rl_on_new_line();
 		rl_redisplay();
-		ft_putstr_fd("^C\n", STDOUT);
 		rl_on_new_line();
+		ft_putstr_fd("^C\n", STDOUT);
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}

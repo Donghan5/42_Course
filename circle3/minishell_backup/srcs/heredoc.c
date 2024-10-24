@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/24 00:20:12 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:58:32 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ volatile int	g_signal_received;
 
 static void	heredoc_sigint_handler(int signo)
 {
-	ft_putstr_fd("^C\n", STDOUT);
 	g_signal_received = signo;
 	rl_done = 1;
 }
@@ -76,15 +75,16 @@ int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
 	rl_event_hook = event_hook;
 	heredoc_status = ft_heredoc(next->name, *fd, env);
 	smart_close(*fd);
-	set_signal();
 	g_signal_received = 0;
+	rl_done = 0;
 	if (!heredoc_status)
-		return (unlink("/tmp/sh-thd-86500896238475834"), env->sts = 130, 0);
+		return (unlink("/tmp/sh-thd-86500896238475834"), env->sts = 130, printf("This\n"),0);
 	*fd = open("/tmp/sh-thd-86500896238475834", O_RDONLY);
 	if ((*fd) < 0)
 		return (unlink("/tmp/sh-thd-86500896238475834"), env->sts = 1,
 			print_file_err("/tmp/sh-thd-86500896238475834"));
 	current->redir_io[0] = *fd;
 	unlink("/tmp/sh-thd-86500896238475834");
+	set_signal();
 	return (1);
 }
