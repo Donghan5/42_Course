@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:23:25 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:16:04 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ enum e_operator
 
 // define numbers tool
 # define NOT_FOUND -1
+
+// define heredoc filename
+# define HDOC_FILE "/tmp/sh-thd-86500896238475834"
 
 extern volatile int	g_signal_received;
 

@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:33:12 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/25 01:20:21 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:16:45 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,20 @@ int	setup_heredoc(t_glob_pipe *current, t_glob_pipe *next, int *fd, t_env *env)
 {
 	int	heredoc_status;
 
-	*fd = open("/tmp/sh-thd-86500896238475834",
-			O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	*fd = open(HDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
-		return (print_file_err("/tmp/sh-thd-86500896238475834"));
+		return (print_file_err(HDOC_FILE));
 	signal(SIGINT, heredoc_sigint_handler);
 	rl_event_hook = event_hook;
 	heredoc_status = ft_heredoc(next->name, *fd, env);
 	smart_close(*fd);
 	set_signal();
 	if (g_signal_received == SIGINT)
-		return (unlink("/tmp/sh-thd-86500896238475834"), 0);
-	*fd = open("/tmp/sh-thd-86500896238475834", O_RDONLY);
+		return (unlink(HDOC_FILE), 0);
+	*fd = open(HDOC_FILE, O_RDONLY);
 	if ((*fd) < 0)
-		return (unlink("/tmp/sh-thd-86500896238475834"), env->sts = 1,
-			print_file_err("/tmp/sh-thd-86500896238475834"));
+		return (unlink(HDOC_FILE), env->sts = 1, print_file_err(HDOC_FILE));
 	current->redir_io[0] = *fd;
-	unlink("/tmp/sh-thd-86500896238475834");
+	unlink(HDOC_FILE);
 	return (1);
 }

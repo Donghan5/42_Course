@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/22 12:27:22 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:13:12 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ enum e_operator
 
 // define numbers tool
 # define NOT_FOUND -1
+
+// define heredoc filename
+# define HDOC_FILE "/tmp/sh-thd-86500896238475834"
 
 extern volatile int	g_signal_received;
 
