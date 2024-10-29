@@ -1,52 +1,66 @@
+# 🛤 Donghan's Journey of the Common Course in 42
 
-🛤 Donghan's 42 Common Core Journey
-Welcome to my journey through the common core at 42 Paris! Below is a roadmap of my projects and exams, showcasing my progress, achievements, and the skills I've honed along the way.
+Welcome to my journey through the **common core at 42 Paris**! Below is an overview of the projects and exams I have completed, showcasing my progress and achievements.
 
-<span style="color:#FF6347">Circle 0</span>
-📚 libft — Score: 120/100
-Created my own C library
-Note: Extra points due to precise file naming.
+---
 
-<span style="color:#FF7F50">Circle 1</span>
-🖨️ ft_printf — Score: 100/100
-Recreated the printf function in C, implementing format specifiers for various data types.
+## Circle 0
+### 📚 **libft** — Score: 120/100
+- **Description**: Created my own C library.
+- _Note_: Extra points earned due to precise file naming.
 
-📜 get_next_line — Score: 125/100
-Built a function to read files line by line using static variables for state retention.
+---
 
-🖥️ born_to_beroot — Score: 100/100
-Gained hands-on experience with virtual machines and system administration basics.
+## Circle 1
+### 🖨️ **ft_printf** — Score: 100/100
+- **Description**: Recreated the `printf` function in C with various format specifiers.
 
-<span style="color:#FFA07A">Circle 2</span>
-🔄 push_swap — Score: 86/100
-Developed an efficient sorting algorithm focusing on minimizing operation counts.
+### 📜 **get_next_line** — Score: 125/100
+- **Description**: Built a function to read files line by line using static variables.
 
-📡 minitalk — Score: 125/100
-Explored inter-process communication via signals.
+### 🖥️ **born_to_beroot** — Score: 100/100
+- **Description**: Gained hands-on experience with virtual machines and basic system administration.
 
-🎮 so_long — Score: 100/100
-Created a simple 2D game using the mlx graphics library.
+---
 
-🔗 pipex — Status: Not yet evaluated
-Experimented with pipelines, building a command-line utility to simulate shell piping.
+## Circle 2
+### 🔄 **push_swap** — Score: 86/100
+- **Description**: Developed a sorting algorithm, focusing on optimizing operation counts.
 
-EXAM_RANK_02 — Score: 100/100
-<span style="color:#20B2AA">Circle 3</span>
-🧠 philosophers — Score: 100/100
-Delved into threading with mutexes and semaphores, building a concurrency problem solution.
+### 📡 **minitalk** — Score: 125/100
+- **Description**: Learned inter-process communication using signals.
 
-🐚 minishell — Score: 116/100
-Built a custom shell in collaboration with pzinurov, implementing a functional shell interpreter.
+### 🎮 **so_long** — Score: 100/100
+- **Description**: Created a simple 2D game using the `mlx` graphics library.
 
-EXAM_RANK_03 — Score: 100/100
-<span style="color:#4682B4">Circle 4</span>
-🌐 NetPractice — In Progress
-Learning the fundamentals of networking and understanding IP addressing and routing.
+### 🔗 **pipex** — Status: Not yet evaluated
+- **Description**: Built a command-line utility to simulate shell piping.
 
-💻 CPP Modules — In Progress
-Gaining foundational knowledge in C++ and object-oriented programming.
+### **EXAM_RANK_02** — Score: 100/100
 
-This README captures my technical growth and the milestones I've reached. Each project brought new challenges,
-expanding my problem-solving abilities and deepening my understanding of software development.
+---
 
-Explore my GitHub for more detailed insights! ✨
+## Circle 3
+### 🧠 **philosophers** — Score: 100/100
+- **Description**: Gained understanding of concurrency, implementing threading with mutexes and semaphores.
+
+### 🐚 **minishell** — Score: 116/100
+- **Description**: Built a custom shell in collaboration with **pzinurov**, implementing a functional shell interpreter.
+
+### **EXAM_RANK_03** — Score: 100/100
+
+---
+
+## Circle 4
+### 🌐 **NetPractice** — _In Progress_
+- **Description**: Learning networking fundamentals, including IP addressing and routing.
+
+### 💻 **CPP Modules** — _In Progress_
+- **Description**: Building foundational knowledge in C++ and object-oriented programming.
+
+---
+
+This README captures my technical growth and the milestones (Following 42)
+I’ve achieved throughout my journey. Each project has brought new challenges,
+enhancing my problem-solving skills and deepening my understanding of software development.
+
