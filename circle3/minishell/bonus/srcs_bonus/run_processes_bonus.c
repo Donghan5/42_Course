@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:47:56 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 22:10:30 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:46:09 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 int	no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe)
 {
-	if (!temp_cmd->is_exec_ignore && !temp_cmd->name)
+	if (!temp_cmd->name)
 		env->sts = 0;
 	if (temp_cmd->is_exec_ignore && (temp_cmd->op == NO_EXEC_PIPE))
 	{
@@ -26,6 +26,8 @@ int	no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe)
 		smart_close(temp_cmd->pipe_fds[1]);
 		*prev_pipe = temp_cmd->pipe_fds[0];
 	}
+	if (temp_cmd->is_exec_ignore)
+		close_fds(temp_cmd, 0, 0);
 	return (0);
 }
 

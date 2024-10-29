@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/25 13:13:12 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:39:26 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,6 @@ enum e_operator
 // define numbers tool
 # define NOT_FOUND -1
 
-// define heredoc filename
-# define HDOC_FILE "/tmp/sh-thd-86500896238475834"
-
 extern volatile int	g_signal_received;
 
 /*
@@ -179,7 +176,8 @@ void			no_execs(t_glob_pipe *temp_cmd,
 
 // run_global_pipeline.c
 void			smart_close(int fd);
-void			run_global_pipeline(t_glob_pipe **cmds_start, t_env *env);
+void			run_global_pipeline(t_glob_pipe **cmds_start,
+					t_env *env, int non_int_fd);
 
 // free.c
 int				print_file_err(char *filename);
@@ -328,5 +326,8 @@ int				update_environ(t_env *env, char *key_value);
 // env.c
 void			ft_env(t_env *env);
 void			check_env(t_env *env, char **cmds);
+
+// ft_realloc.c
+void			*ft_realloc(void *ptr, size_t size);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_heredoc_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:15:16 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/25 13:24:04 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:42:02 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,6 @@ static int	env_copy_cnt_hdoc(char *src, char **dest, t_env *env)
 	return (src_idx);
 }
 
-/*
-	to copy strings include double quote and dollar sign (expander)
-	@param input, dest and env
-*/
 static void	copy_strings_hdoc(char *input, char *dest, t_env *env)
 {
 	int		idx;
@@ -98,8 +94,7 @@ static void	copy_strings_hdoc(char *input, char *dest, t_env *env)
 
 /*
 	expander in heredoc mode
-	@param cmd, env, cmd_len, expanded, idx, size and env_val
-	@return expanded (expanded string)
+	@param cmd, env
 */
 char	*expander_heredoc(char *cmd, t_env *env)
 {

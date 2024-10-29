@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:21:35 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/21 21:00:10 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:31:29 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,19 @@ int	setup_operator(t_glob_pipe *current, t_glob_pipe **next, t_env *env)
 	return (1);
 }
 
+void	close_fds_pipeline(t_glob_pipe *glob_pipe)
+{
+	while (glob_pipe)
+	{
+		smart_close(glob_pipe->pipe_fds[0]);
+		smart_close(glob_pipe->pipe_fds[1]);
+		smart_close(glob_pipe->redir_io[0]);
+		smart_close(glob_pipe->redir_io[1]);
+		close_fds(glob_pipe, 0, 0);
+		glob_pipe = glob_pipe->next;
+	}
+}
+
 int	prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env)
 {
 	t_glob_pipe	*current;
@@ -83,7 +96,12 @@ int	prepare_pipeline(t_glob_pipe *glob_pipe, t_env *env)
 		current->is_exec_ignore = 0;
 		next = current->next;
 		if (!setup_operator(current, &next, env))
+		{
+			close_fds_pipeline(glob_pipe);
 			return (0);
+		}
+		if (!current->op && !current->name)
+			current->is_exec_ignore = 1;
 		current = next;
 	}
 	return (1);

@@ -6,11 +6,39 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:28:36 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 22:11:00 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:16:09 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes_bonus/minishell_bonus.h"
+
+t_glob_pipe	*new_glob_pipe(t_glob_pipe	*prev)
+{
+	t_glob_pipe	*new_elem;
+
+	new_elem = malloc(sizeof (t_glob_pipe));
+	if (!new_elem)
+		return (NULL);
+	new_elem->args = NULL;
+	new_elem->name = NULL;
+	new_elem->previous = NULL;
+	new_elem->next = NULL;
+	new_elem->close_count = 0;
+	new_elem->is_exec_ignore = 0;
+	new_elem->op = 0;
+	new_elem->pipe_fds[0] = -1;
+	new_elem->pipe_fds[1] = -1;
+	new_elem->redir_io[0] = -1;
+	new_elem->redir_io[1] = -1;
+	new_elem->priority = 0;
+	new_elem->paren_id = 0;
+	if (prev)
+	{
+		prev->next = new_elem;
+		new_elem->previous = prev;
+	}
+	return (new_elem);
+}
 
 int	calc_valid_args(char ***token, int n, int start_index)
 {

@@ -6,7 +6,7 @@
 /*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:31:22 by donghank          #+#    #+#             */
-/*   Updated: 2024/09/30 21:03:12 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:53:57 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,38 @@ char	*ft_getenv(const char *name, t_env *env)
 	return (NULL);
 }
 
-// update the shlvl value, replace old one to new one
-// so environ allocate in stack mem area
-int	update_environ(t_env *env, char *key_value)
+char	**copy_envs(t_env *env, char *key_value)
 {
 	char	**new_env;
 	int		size_env;
+	int		i;
+
+	size_env = size_environ(env);
+	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
+	if (!new_env)
+		return (NULL);
+	i = 0;
+	while (env->environ[i])
+	{
+		new_env[i] = ft_strdup(env->environ[i]);
+		if (!new_env[i])
+			return (free_doub_array(new_env), NULL);
+		i++;
+	}
+	new_env[size_env] = ft_strdup(key_value);
+	if (!new_env[size_env])
+		return (free_doub_array(new_env), NULL);
+	new_env[size_env + 1] = NULL;
+	return (new_env);
+}
+
+/*
+	update the shlvl value, replace old one to new one
+	so environ allocate in stack mem area
+*/
+int	update_environ(t_env *env, char *key_value)
+{
+	char	**new_env;
 	int		var_i;
 	char	*key;
 
@@ -75,15 +101,9 @@ int	update_environ(t_env *env, char *key_value)
 	if (var_i != NOT_FOUND)
 		return (free(env->environ[var_i]), \
 		env->environ[var_i] = ft_strdup(key_value), SUCCESS);
-	size_env = size_environ(env);
-	new_env = (char **)malloc(sizeof(char *) * (size_env + 2));
+	new_env = copy_envs(env, key_value);
 	if (!new_env)
 		return (FAIL);
-	ft_memcpy(new_env, env->environ, sizeof(char *) * size_env);
-	new_env[size_env] = ft_strdup(key_value);
-	if (!new_env[size_env])
-		return (free_doub_array(new_env), FAIL);
-	new_env[size_env + 1] = NULL;
 	if (env->environ)
 		free_doub_array(env->environ);
 	return (env->environ = new_env, SUCCESS);

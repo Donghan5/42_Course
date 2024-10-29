@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/24 18:41:39 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:38:20 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_line(t_env *env)
 	return (line);
 }
 
-void	parse_and_run(char **line, t_env *env)
+void	parse_and_run(char **line, t_env *env, int non_int_fd)
 {
 	char		***tokens;
 	t_glob_pipe	*glob_pipe;
@@ -58,7 +58,7 @@ void	parse_and_run(char **line, t_env *env)
 	}
 	free_triple_tokens(tokens);
 	if (prepare_pipeline(glob_pipe, env))
-		run_global_pipeline(&glob_pipe, env);
+		run_global_pipeline(&glob_pipe, env, non_int_fd);
 	else if (!env->sts)
 		env->sts = 1;
 	free_glob_pipe(&glob_pipe);
@@ -111,7 +111,7 @@ void	read_from_files(t_env *env, int argc, char **argv)
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (*line)
-			parse_and_run(&line, env);
+			parse_and_run(&line, env, fd);
 		else
 			free(line);
 		line = get_next_line(fd);
@@ -144,7 +144,7 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		parse_and_run(&line, &env);
+		parse_and_run(&line, &env, -1);
 	}
 	rl_clear_history();
 	return (free_doub_array(env.environ), 1);

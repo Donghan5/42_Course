@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:55:15 by donghank          #+#    #+#             */
-/*   Updated: 2024/10/25 13:24:38 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:12:17 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ static int	get_level(const char *str)
 	return (sign * num);
 }
 
-/*
-	goal : to increase the level of the shell
-*/
+// goal : to increase the level of the shell
 void	increment_shell_level(t_env *env)
 {
 	char	*shlvl_str;

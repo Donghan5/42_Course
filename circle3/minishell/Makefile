@@ -32,7 +32,7 @@ SRC_BONUS = bonus/main_bonus.c bonus/srcs_bonus/ft_whitespace_bonus.c bonus/srcs
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
-CFLAGS = -g3 #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 DEPS = $(SRC:.c=.d)
 DEPS_BONUS = $(SRC_BONUS:.c=.d)
