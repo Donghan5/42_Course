@@ -64,7 +64,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### **EXAM_RANK_04** - _In Progress_
 ---
 
-This README captures my technical growth and the milestones (Following 42)
+This README captures my technical growth and the milestones (Following 42 Common course)
 I’ve achieved throughout my journey. Each project has brought new challenges,
 enhancing my problem-solving skills and deepening my understanding of software development.
 
