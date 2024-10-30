@@ -58,6 +58,10 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 💻 **CPP Modules** — _In Progress_
 - **Description**: Building foundational knowledge in C++ and object-oriented programming.
 
+### 🪙 **MiniRT** - _In Progress_
+- **Description**: Learning 3D design by using with mlx library and ray-casting
+
+### **EXAM_RANK_04** - _In Progress_
 ---
 
 This README captures my technical growth and the milestones (Following 42)
