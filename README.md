@@ -55,7 +55,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🌐 **NetPractice** — _In Progress_
 - **Description**: Learning networking fundamentals, including IP addressing and routing.
 
-### 💻 **CPP Modules** — _In Progress_
+### 💻 **CPP Modules(CPP00 ~ CPP04)** — _In Progress_
 - **Description**: Building foundational knowledge in C++ and object-oriented programming.
 
 ### 🪙 **MiniRT** - _In Progress_
