@@ -18,7 +18,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 📜 **get_next_line** — Score: 125/100
 - **Description**: Built a function to read files line by line using static variables.
 
-### 🖥️ **born_to_beroot** — Score: 100/100
+### 🖥️ **BornToBeRoot** — Score: 100/100
 - **Description**: Gained hands-on experience with virtual machines and basic system administration.
 
 ---
@@ -64,7 +64,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **CPP04**: The polymorphism
 
 ### 🪙 **MiniRT** - _In Progress_
-- **Description**: Learning 3D design by using with mlx library and ray-casting
+- **Description**: Learning 3D design by using with mlx library and ray tracing
 
 ### **EXAM_RANK_04** - _In Progress_
 ---
