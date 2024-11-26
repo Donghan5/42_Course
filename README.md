@@ -4,6 +4,12 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 
 ---
 
+## Piscine
+### C Piscine (00 - 07)
+- **Description**: C Piscine (the selection of 42) / 2 exercise with basic of the shell
+
+---
+
 ## Circle 0
 ### 📚 **libft** — Score: 120/100
 - **Description**: Created my own C library.
