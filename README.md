@@ -10,10 +10,14 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 
 ---
 
+## C_Piscine_Reloaded
+### ex00 - ex27 - Score: 100/100
+- **Description**: Before start of libft which is common course, we review all element of piscine
+---
+
 ## Circle 0
-### 📚 **libft** — Score: 120/100
-- **Description**: Created my own C library.
-- _Note_: Extra points earned due to precise file naming.
+### 📚 **libft** — Score: 120/100 (reason of file naming)
+- **Description**: Created my own C libray. Implement some function in <stdlib.h>
 
 ---
 
