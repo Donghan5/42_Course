@@ -70,7 +70,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **CPP00**: Start the basic of C++ **(Passed with 100/100)**
 - **CPP01**: Memory allocate with new **(Passed with 100/100)**.
 - **CPP02**: Treatement fixed value in C++ **(Passed with 100/100)** --> note: for the bsp I will add verification case area == 0
-- **CPP03**: The inheritance of C++
+- **CPP03**: The inheritance of C++ **(Passed with 100/100)**
 - **CPP04**: The polymorphism
 
 ### 🪙 **MiniRT** - _In Progress_
