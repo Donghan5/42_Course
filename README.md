@@ -65,13 +65,13 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🌐 **NetPractice** — _In Progress_
 - **Description**: Learning networking fundamentals, including IP addressing and routing.
 
-### 💻 **CPP Modules(CPP00 ~ CPP04)** — _In Progress_
+### 💻 **CPP Modules(CPP00 ~ CPP04)** — FINISH
 - **Description**: Building foundational knowledge in C++ and object-oriented programming.
 - **CPP00**: Start the basic of C++ **(Passed with 100/100)**
 - **CPP01**: Memory allocate with new **(Passed with 100/100)**.
 - **CPP02**: Treatement fixed value in C++ **(Passed with 100/100)** --> note: for the bsp I will add verification case area == 0
 - **CPP03**: The inheritance of C++ **(Passed with 100/100)**
-- **CPP04**: The polymorphism
+- **CPP04**: The polymorphism **(Passed with 96/100)** --> note: virtual pure was just one, it resolved
 
 ### 🪙 **MiniRT** - _In Progress_
 - **Description**: Learning 3D design by using with mlx library and ray tracing
