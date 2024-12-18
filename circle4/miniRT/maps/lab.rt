@@ -1,0 +1,134 @@
+# # Basic setup
+# A 0.2 255,255,255
+
+# # Camera
+# C 0,40,-100 0,-0.2,1 90
+
+# # Main lab lighting - fluorescent style
+# l 0,80,0 0.8 255,255,250      # Central light
+# # l -50,80,0 0.8 255,255,250    # Left light
+# # l 50,80,0 0.8 255,255,250     # Right light
+# # l 0,80,50 0.8 255,255,250     # Back light
+# # l 0,80,-50 0.8 255,255,250    # Front light
+
+# # Lab structure
+# pl 0,-10,0 0,1,0 240,240,240  # White floor
+# pl 0,100,0 0,-1,0 245,245,245 # White ceiling
+# pl 80,0,0 -1,0,0 245,245,245  # Right wall
+# pl -80,0,0 1,0,0 245,245,245  # Left wall
+# pl 0,0,80 0,0,-1 245,245,245  # Back wall
+# pl 0,0,-80 0,0,1 245,245,245  # Front wall
+
+# # Main workbenches (long metal tables)
+# # Central bench
+# cy 0,-5,0 1,0,0 3 160 192,192,192      # Table frame
+# pl 0,0,0 0,1,0 160,160,160             # Table top
+
+# # Side workbenches
+# cy -50,-5,0 1,0,0 3 120 192,192,192    # Left bench frame
+# pl -50,0,0 0,1,0 120,120,120           # Left bench top
+# cy 50,-5,0 1,0,0 3 120 192,192,192     # Right bench frame
+# pl 50,0,0 0,1,0 120,120,120            # Right bench top
+
+# # Equipment racks (metal shelving)
+# # Left wall rack
+# cy -75,-5,0 1,0,0 2 40 150,150,150     # Bottom shelf
+# cy -75,25,0 1,0,0 2 40 150,150,150     # Middle shelf
+# cy -75,55,0 1,0,0 2 40 150,150,150     # Top shelf
+
+# # Right wall rack
+# cy 75,-5,0 1,0,0 2 40 150,150,150      # Bottom shelf
+# cy 75,25,0 1,0,0 2 40 150,150,150      # Middle shelf
+# cy 75,55,0 1,0,0 2 40 150,150,150      # Top shelf
+
+# # Lab equipment on central bench
+# # Microscope
+# cy 0,5,0 0,1,0 5 10 100,100,100        # Base
+# cy 0,15,0 0,1,0 2 10 120,120,120       # Arm
+# sp 0,20,0 3 150,150,150                # Head
+
+# # Test tube racks
+# cy -20,5,0 0,1,0 8 5 180,180,180       # Rack base
+# # Test tubes
+# cy -25,10,0 0,1,0 1 10 200,200,255     # Tube 1
+# cy -20,10,0 0,1,0 1 10 200,200,255     # Tube 2
+# cy -15,10,0 0,1,0 1 10 200,200,255     # Tube 3
+
+# # Centrifuge
+# cy 20,5,0 0,1,0 10 8 150,150,150       # Base
+# cy 20,13,0 0,1,0 8 4 170,170,170       # Top
+
+# # Lab equipment on side benches
+# # Left bench - analytical instruments
+# cy -50,5,-10 0,1,0 12 15 160,160,160   # Spectrometer
+# cy -50,5,10 0,1,0 10 12 170,170,170    # pH meter
+
+# # Right bench - preparation area
+# cy 50,5,-10 0,1,0 15 8 180,180,180     # Hot plate
+# cy 50,5,10 0,1,0 12 10 170,170,170     # Magnetic stirrer
+
+# # Storage cabinets under benches
+# cy 0,-8,20 1,0,0 8 140 200,200,200     # Central cabinet
+# cy -50,-8,20 1,0,0 8 100 200,200,200   # Left cabinet
+# cy 50,-8,20 1,0,0 8 100 200,200,200    # Right cabinet
+
+# # Glassware on shelves
+# sp -75,25,-15 3 230,230,255            # Beaker
+# sp -75,25,0 4 230,230,255              # Flask
+# sp -75,25,15 3 230,230,255             # Graduated cylinder
+
+# # Safety equipment
+# cy -70,50,70 0,1,0 5 20 255,50,50      # Fire extinguisher
+# sp 70,30,70 8 200,200,200              # Eye wash station
+
+# # Sink
+# cy 60,-5,60 0,1,0 10 15 190,190,190    # Sink basin
+# cy 60,10,60 0,1,0 2 10 200,200,200     # Faucet
+
+# Ambient lighting
+A  0.2                                255,255,255
+
+# Camera positioned in a corner of the room
+C  -15,8,-25     0.5,0,1             70
+
+# Room lighting
+l  0,18,0        0.7                 255,255,255    # Main ceiling light
+l  -10,18,-10    0.6                 255,240,220    # Secondary light
+l  10,18,-10     0.6                 255,240,220    # Third light
+
+# Room structure - using planes for walls, floor, ceiling
+pl 0,-2,0        0,1,0               240,240,240    # Floor
+pl 0,20,0        0,-1,0              250,250,250    # Ceiling
+pl -20,0,0       1,0,0               220,225,235    # Left wall
+pl 20,0,0        -1,0,0              220,225,235    # Right wall
+pl 0,0,30        0,0,-1              220,225,235    # Back wall
+
+# Lab bench
+cy -8,0,0        0,1,0        0.4  5   40,40,40     # Left front leg
+cy 8,0,0         0,1,0        0.4  5   40,40,40     # Right front leg
+cy -8,0,8        0,1,0        0.4  5   40,40,40     # Left back leg
+cy 8,0,8         0,1,0        0.4  5   40,40,40     # Right back leg
+cy 0,5,4         1,0,0        0.1  16  180,140,90   # Bench top width
+cy 0,5,4         0,0,1        0.1  8   180,140,90   # Bench top length
+
+# Scientific Equipment
+sp 5,7,0         1.5                 200,230,255    # Large glass sphere
+cy 3,5,2         0,1,0        2    6   220,220,255   # Large cylinder beaker
+co -4,5,3        0,1,0        3    5   230,230,255   # Conical flask
+
+# Test tube rack with tubes
+cy -7,5,0        0,1,0        0.2  3   200,200,200   # Tube 1
+cy -6,5,0        0,1,0        0.2  3   200,200,200   # Tube 2
+cy -5,5,0        0,1,0        0.2  3   200,200,200   # Tube 3
+
+# Microscope
+cy 6,5,-2        0,1,0        1    2   50,50,55      # Base
+cy 6,7,-2        0.3,1,0      0.5  3   50,50,55      # Arm
+sp 6,8,-3        0.3                50,50,55         # Eyepiece
+
+# Storage cabinet
+cy 15,0,10       0,1,0        3   15   120,80,40     # Cabinet body
+sp 16,7,10       0.3                200,200,200      # Handle
+
+# Safety equipment
+sp -18,8,-10     1                  255,0,0         # Fire extinguisher

@@ -1,0 +1,309 @@
+# Ambient light - mystical glow
+A 0.15 140,160,200
+
+# Camera starting position with wide view
+C 0,100,-400 0,-0.1,1 90
+
+# ENHANCED LIGHTING SYSTEM
+
+# Primary Light Sources
+l 0,2000,0 1.0 255,245,220      # Main celestial light (warm)
+l 0,1500,-1000 0.8 180,200,255  # Moon reflection (cool)
+
+# Atmospheric Lights
+l -800,400,-800 0.5 230,180,255   # Purple haze
+l 800,400,800 0.5 255,200,180     # Warm glow
+l -800,400,800 0.5 180,230,255    # Cool shimmer
+l 800,400,-800 0.5 255,220,180    # Golden haze
+
+# Ground Level Magical Lights
+l 0,50,0 0.4 190,255,220        # Central green glow
+l 500,30,500 0.3 255,190,220    # Pink corner
+l -500,30,-500 0.3 190,220,255  # Blue corner
+l 500,30,-500 0.3 255,220,190   # Warm corner
+l -500,30,500 0.3 220,190,255   # Purple corner
+
+# Crystal Formation Lights
+l -1000,300,-1000 0.4 160,200,255  # Crystal canyon glow
+l 1000,300,1000 0.4 255,180,160    # Mountain aura
+l 0,900,0 0.6 180,255,180          # World tree crown light
+
+# Mysterious Distance Lights
+l 2000,200,2000 0.3 255,150,150    # Far red glow
+l -2000,200,-2000 0.3 150,150,255  # Far blue glow
+l 2000,200,-2000 0.3 255,200,150   # Far orange glow
+l -2000,200,2000 0.3 150,255,200   # Far green glow
+
+
+# Base World - More interesting ground
+pl 0,-10,0 0,1,0 118,94,153          # Deeper base color
+
+# NEW CONTENT BELOW
+
+# DISTANT HORIZON ELEMENTS
+
+# Far Mountains (2000-3000 units out)
+co 2500,-100,2500 0,1,0 600 1200 180,210,255   # Massive peak
+co 2800,-150,2200 0,1,0 500 1000 170,200,255   # Sister peak
+co 2200,-150,2800 0,1,0 500 1000 190,220,255   # Third peak
+co -2500,-100,-2500 0,1,0 600 1200 190,180,255 # Northern range
+co -2800,-150,-2200 0,1,0 500 1000 180,170,255 # Continuing range
+
+# Distant Crystal Forests (1800-2500 units out)
+cy 2000,0,1800 0,1,0 40 400 255,160,230    # Pink crystal
+cy 2200,0,2000 0,1,0 35 350 160,255,230    # Mint crystal
+cy 1800,0,2200 0,1,0 45 450 230,160,255    # Purple crystal
+cy -2000,0,-1800 0,1,0 40 400 255,220,160  # Orange crystal
+cy -1800,0,-2000 0,1,0 35 350 160,230,255  # Blue crystal
+
+# GROUND COVERAGE AND DETAIL
+
+# Colorful Crystal Fields (scattered across ground)
+# Blue field
+sp 150,-5,150 8 130,200,255
+sp 180,-5,180 6 140,210,255
+sp 120,-5,120 7 120,190,255
+# Pink field
+sp -150,-5,-150 8 255,180,220
+sp -180,-5,-180 6 255,170,210
+sp -120,-5,-120 7 255,190,230
+# Green field
+sp 150,-5,-150 8 180,255,180
+sp 180,-5,-180 6 170,255,170
+sp 120,-5,-120 7 190,255,190
+
+# Ground Vegetation (dense coverage)
+# Golden grass patches
+cy 300,-9,300 0,1,0 1 15 255,220,130
+cy 310,-9,310 0,1,0 1 12 255,210,120
+cy 320,-9,320 0,1,0 1 18 255,230,140
+# Blue flower fields
+cy -300,-9,-300 0,1,0 1 10 130,160,255
+cy -310,-9,-310 0,1,0 1 8 140,170,255
+cy -320,-9,-320 0,1,0 1 12 120,150,255
+# Purple vegetation
+cy 300,-9,-300 0,1,0 1 20 220,130,255
+cy 310,-9,-310 0,1,0 1 15 210,120,255
+cy 320,-9,-320 0,1,0 1 25 230,140,255
+
+# Colorful Rock Formations
+# Ruby cluster
+sp 400,-8,400 15 255,100,100
+sp 420,-8,420 12 255,90,90
+sp 380,-8,380 10 255,110,110
+# Sapphire cluster
+sp -400,-8,-400 15 100,100,255
+sp -420,-8,-420 12 90,90,255
+sp -380,-8,-380 10 110,110,255
+# Emerald cluster
+sp 400,-8,-400 15 100,255,100
+sp 420,-8,-420 12 90,255,90
+sp 380,-8,-380 10 110,255,110
+
+# ADDITIONAL ATMOSPHERIC ELEMENTS
+
+# Floating Color Orbs (scattered throughout)
+sp 500,200,500 30 255,160,160     # Pink orb
+sp -500,250,-500 25 160,255,160   # Green orb
+sp 500,300,-500 20 160,160,255    # Blue orb
+sp -500,350,500 15 255,255,160    # Yellow orb
+
+# Iridescent Bridges
+cy -1000,50,1000 1,0,-1 5 2800 255,180,255  # Diagonal bridge 1
+cy 1000,50,1000 -1,0,-1 5 2800 180,255,255  # Diagonal bridge 2
+cy 0,70,0 1,0,0 5 3000 255,255,180          # Horizontal bridge
+cy 0,90,0 0,0,1 5 3000 180,255,220          # Vertical bridge
+
+# Ground-Level Light Show
+sp 100,-5,100 5 255,220,220       # Rose glow
+sp -100,-5,-100 5 220,255,220     # Mint glow
+sp 100,-5,-100 5 220,220,255      # Sky glow
+sp -100,-5,100 5 255,255,220      # Gold glow
+
+# Distant Nebula Effects
+sp 2000,500,2000 200 255,180,220  # Pink nebula
+sp -2000,600,-2000 180 180,220,255  # Blue nebula
+sp 2000,700,-2000 160 220,255,180  # Green nebula
+sp -2000,800,2000 140 255,220,180  # Orange nebula
+
+# Far Realm Portals
+sp 2500,200,0 100 255,130,255     # Magenta portal
+sp 0,200,2500 100 130,255,255     # Cyan portal
+sp -2500,200,0 100 255,255,130    # Yellow portal
+sp 0,200,-2500 100 180,130,255    # Purple portal
+
+# CELESTIAL BODIES
+
+# Giant Moon
+sp -1000,2000,-1000 400 240,240,250  # Main moon body
+sp -900,2100,-900 100 230,230,240    # Crater 1
+sp -1100,1900,-1100 120 220,220,230  # Crater 2
+sp -1000,2000,-800 80 235,235,245    # Crater 3
+
+# Secondary Moons
+sp 1500,1800,1500 200 255,240,220    # Orange moon
+sp -1500,1600,1500 150 220,240,255   # Blue moon
+sp 1500,1700,-1500 180 240,220,255   # Purple moon
+
+# Cloud Layers
+# sp 0,1500,0 600 255,255,255          # Central cloud
+sp 1000,1400,1000 400 250,250,250    # Cloud formation 1
+sp -1000,1600,-1000 450 245,245,245  # Cloud formation 2
+sp 800,1550,-800 350 252,252,252     # Cloud formation 3
+sp -800,1450,800 380 248,248,248     # Cloud formation 4
+
+# ULTRA-DISTANT MOUNTAIN RANGES (4000-5000 units out)
+
+# Northern Range
+co 4000,-200,4000 0,1,0 800 2000 150,180,255  # Central peak
+co 4500,-250,3500 0,1,0 700 1800 140,170,255  # Left peak
+co 3500,-250,4500 0,1,0 700 1800 160,190,255  # Right peak
+
+# Southern Range
+co -4000,-200,-4000 0,1,0 800 2000 160,170,240  # Central peak
+co -4500,-250,-3500 0,1,0 700 1800 150,160,235  # Left peak
+co -3500,-250,-4500 0,1,0 700 1800 170,180,245  # Right peak
+
+# Eastern Range (Pink-tinted mountains)
+co 4000,-200,-4000 0,1,0 800 2000 180,160,180  # Central peak
+co 4500,-250,-3500 0,1,0 700 1800 170,150,170  # Side peak 1
+co 3500,-250,-4500 0,1,0 700 1800 190,170,190  # Side peak 2
+
+# Western Range (Golden-tinted mountains)
+co -4000,-200,4000 0,1,0 800 2000 190,180,160  # Central peak
+co -4500,-250,3500 0,1,0 700 1800 180,170,150  # Side peak 1
+co -3500,-250,4500 0,1,0 700 1800 200,190,170  # Side peak 2
+
+# Mountain Mist Effects
+sp 4000,1000,4000 400 200,220,255    # Northern mist
+sp -4000,1000,-4000 400 190,210,250  # Southern mist
+sp 4000,1000,-4000 400 220,200,220   # Eastern mist
+sp -4000,1000,4000 400 220,210,190   # Western mist
+
+# COLOSSAL LANDMARKS - Visible from everywhere
+
+# The World Tree (Enormous central landmark)
+cy 0,0,0 0,1,0 100 1000 150,120,90      # Main trunk
+cy 0,800,0 0.3,1,0 50 400 150,120,90    # Major branch 1
+cy 0,800,0 -0.3,1,0 50 400 150,120,90   # Major branch 2
+cy 0,800,0 0,1,0.3 50 400 150,120,90    # Major branch 3
+cy 0,800,0 0,1,-0.3 50 400 150,120,90   # Major branch 4
+# Tree crown
+sp 0,1000,0 300 60,180,60
+sp 200,900,200 150 60,170,60
+sp -200,900,-200 150 60,170,60
+sp 200,900,-200 150 60,170,60
+sp -200,900,200 150 60,170,60
+
+# Mountain Range - Colossal Scale
+# Central Peak
+co 1000,0,1000 0,1,0 400 800 240,240,255
+# Surrounding Peaks
+co 800,-100,1200 0,1,0 300 600 230,230,250
+co 1200,-100,800 0,1,0 300 600 230,230,250
+co 1200,-100,1200 0,1,0 350 700 235,235,252
+
+# Crystal Canyon (Massive geometric formations)
+cy -1000,0,-1000 0.2,1,-0.1 150 800 130,200,255
+cy -1200,0,-800 0.1,1,-0.2 120 700 120,190,255
+cy -800,0,-1200 0.3,1,0 100 600 110,180,255
+# Canyon Crystals
+co -1000,600,-1000 0,1,0 200 400 200,220,255
+co -1200,500,-800 0,1,0 150 300 190,210,255
+co -800,400,-1200 0,1,0 120 250 180,200,255
+
+# MEDIUM-SCALE STRUCTURES - Regional landmarks
+
+# Ancient Temple Complex
+# Central Pyramid
+co 500,0,500 0,1,0 200 300 255,220,150
+# Surrounding Temples
+cy 400,0,400 0,1,0 40 120 255,200,140
+cy 600,0,400 0,1,0 40 120 255,200,140
+cy 400,0,600 0,1,0 40 120 255,200,140
+cy 600,0,600 0,1,0 40 120 255,200,140
+
+# Floating Islands Chain
+sp -500,200,-500 100 100,255,100   # Main island
+sp -600,250,-400 80 90,245,90      # Secondary islands
+sp -400,180,-600 70 80,235,80
+sp -500,220,-300 60 85,240,85
+# Island Structures
+co -500,250,-500 0,1,0 40 100 120,255,120
+co -600,300,-400 0,1,0 30 80 110,245,110
+co -400,230,-600 0,1,0 25 60 100,235,100
+
+# SMALL-SCALE DETAILS - Local points of interest
+
+# Crystal Gardens
+sp 300,0,300 20 255,200,220    # Base crystals
+sp 320,20,320 15 245,190,210
+sp 280,15,280 12 235,180,200
+# Garden Features
+cy 300,0,300 0,1,0 5 40 255,180,200
+cy 320,0,320 0,1,0 4 30 255,170,190
+cy 280,0,280 0,1,0 3 20 255,160,180
+
+# Energy Pools
+sp -300,0,-300 25 150,150,255
+sp -320,-5,-320 20 140,140,245
+sp -280,-8,-280 15 130,130,235
+
+# DECORATIVE ELEMENTS - Environmental details
+
+# Floating Light Crystals (scattered everywhere)
+co 100,40,100 0,-1,0 5 15 255,200,200
+co -100,50,-100 0,-1,0 5 15 200,255,200
+co 100,60,-100 0,-1,0 5 15 200,200,255
+co -100,45,100 0,-1,0 5 15 255,255,200
+
+# Forest Patches
+# Dense cluster 1
+cy 400,-10,700 0,1,0 8 60 90,120,90
+cy 420,-10,720 0,1,0 7 50 85,115,85
+cy 380,-10,680 0,1,0 6 45 80,110,80
+sp 400,30,700 20 60,150,60
+sp 420,25,720 18 55,145,55
+sp 380,20,680 15 50,140,50
+
+# Dense cluster 2
+cy -700,-10,400 0,1,0 8 60 90,120,90
+cy -720,-10,420 0,1,0 7 50 85,115,85
+cy -680,-10,380 0,1,0 6 45 80,110,80
+sp -700,30,400 20 60,150,60
+sp -720,25,420 18 55,145,55
+sp -680,20,380 15 50,140,50
+
+# ATMOSPHERIC ELEMENTS
+
+# Cloud Formations
+sp 0,600,0 100 255,255,255
+sp 200,650,200 80 250,250,250
+sp -200,625,-200 90 245,245,245
+sp 150,575,-150 70 240,240,240
+
+# Distance Markers and Portals
+cy -1500,-10,-1500 0,1,0 20 200 100,100,120
+cy 1500,-10,-1500 0,1,0 20 200 100,100,120
+cy -1500,-10,1500 0,1,0 20 200 100,100,120
+cy 1500,-10,1500 0,1,0 20 200 100,100,120
+
+# Giant Portal Gates
+cy 0,0,1500 0,1,0 100 300 150,50,255
+sp 0,300,1500 150 100,50,255
+cy 1500,0,0 0,1,0 100 300 255,50,100
+sp 1500,300,0 150 255,50,100
+
+# Mystical Obelisks
+cy -800,0,800 0,1,0 30 400 180,180,220
+cy 800,0,-800 0,1,0 30 400 180,180,220
+cy -800,0,-800 0,1,0 30 400 180,180,220
+sp -800,400,800 40 200,200,240
+sp 800,400,-800 40 200,200,240
+sp -800,400,-800 40 200,200,240
+
+# Energy Fields
+cy -250,10,250 1,0,0 2 500 255,255,150
+cy 250,10,-250 0,0,1 2 500 150,255,255
+cy -250,10,-250 1,0,1 2 700 255,150,255
+cy 250,10,250 -1,0,1 2 700 150,255,150

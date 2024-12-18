@@ -1,0 +1,14 @@
+# Ambient light - cosmic glow
+A 0.45    120    ,    130 , 255
+
+# Camera starting position with wide view
+C 0,                50 ,-10 0,  -0.2   ,1          90
+
+# Main lighting
+# Central star
+L 0,0,0 0.9 255,220,180
+l 0,0,0 0.9 255,220,180
+
+cy 0,0,0 0,1,0 20 5.0 200,200 ,255
+cy 0,50,0 0,1,0 15 50 220,220, 255
+co 0,75,0 0,1,0 10 25 240, 240,255

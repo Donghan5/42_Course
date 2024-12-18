@@ -1,0 +1,117 @@
+# Basic setup
+A 0.2 255,255,255
+C 0,20,-200 0,0,1 90
+
+# Floor and ceiling
+pl 0,-10,0 0,1,0 150,150,150      # Floor
+pl 0,40,0 0,-1,0 100,100,100      # Ceiling
+
+# Main lighting
+l 0,30,-180 0.6 255,255,200       # Entrance light
+l 0,200,0 0.3 255,255,255         # Ambient top light
+
+# CORRIDOR LIGHTING SYSTEM
+# Entry corridor lights
+l 0,30,-150 0.5 255,245,220      # Entry hall main
+l -30,30,-150 0.4 255,245,220    # Entry left
+l 30,30,-150 0.4 255,245,220     # Entry right
+
+# Section one corridor lights
+l -45,30,-125 0.5 220,220,255    # Left corridor 1
+l 45,30,-125 0.5 220,255,220     # Right corridor 1
+l 0,30,-100 0.5 255,220,220      # Center section 1
+
+# Section two corridor lights
+l -60,30,-75 0.5 255,220,180     # Left corridor 2
+l 60,30,-75 0.5 180,220,255      # Right corridor 2
+l 0,30,-50 0.5 220,255,220       # Center section 2
+
+# Section three corridor lights
+l -45,30,-25 0.5 220,220,255     # Left corridor 3
+l 45,30,-25 0.5 255,220,220      # Right corridor 3
+l 0,30,0 0.5 255,255,220         # Central chamber
+
+# Section four corridor lights
+l -60,30,25 0.5 255,180,220      # Left corridor 4
+l 60,30,25 0.5 180,255,220       # Right corridor 4
+l 0,30,50 0.5 220,220,255        # Center section 4
+
+# Section five corridor lights
+l -45,30,75 0.5 220,255,220      # Left corridor 5
+l 45,30,75 0.5 255,220,180       # Right corridor 5
+l 0,30,100 0.5 220,220,255       # Center section 5
+
+# Dead end lighting (dimmer, creating atmosphere)
+l -90,30,150 0.3 255,180,180     # Dead end 1 light
+l 90,30,150 0.3 180,180,255      # Dead end 2 light
+l 0,30,180 0.3 180,255,180       # Dead end 3 light
+
+# Intersection lighting (brighter, marking decision points)
+l -30,30,-100 0.6 255,255,200    # Intersection 1
+l 30,30,-50 0.6 255,255,200      # Intersection 2
+l -30,30,0 0.6 255,255,200       # Intersection 3
+l 30,30,50 0.6 255,255,200       # Intersection 4
+
+# MAZE WALLS (creating actual corridors - each wall is 40 units high)
+# Main walls section one
+pl 0,0,-150 0,0,1 100,100,100      # Entry wall back
+pl -60,0,-150 1,0,0 100,100,100    # Left wall 1
+pl 60,0,-150 -1,0,0 100,100,100    # Right wall 1
+pl -60,0,-100 0,0,-1 100,100,100   # Cross wall 1
+pl 30,0,-100 0,0,-1 100,100,100    # Cross wall 2
+
+# Main walls section two
+pl -30,0,-50 1,0,0 100,100,100     # Left wall 2
+pl 90,0,-50 -1,0,0 100,100,100     # Right wall 2
+pl 0,0,0 0,0,-1 100,100,100        # Cross wall 3
+pl -90,0,0 0,0,-1 100,100,100      # Cross wall 4
+
+# Main walls section three
+pl -60,0,50 1,0,0 100,100,100      # Left wall 3
+pl 30,0,50 -1,0,0 100,100,100      # Right wall 3
+pl -30,0,100 0,0,-1 100,100,100    # Cross wall 5
+pl 60,0,100 0,0,-1 100,100,100     # Cross wall 6
+
+# Dead end corridors
+pl -90,0,150 1,0,0 100,100,100     # Dead end 1
+pl 90,0,150 -1,0,0 100,100,100     # Dead end 2
+pl 0,0,180 0,0,-1 100,100,100      # Dead end 3
+
+# HIDDEN ROOMS (accessible through specific paths)
+
+# Secret Beautiful Room (coordinates: 80,0,80)
+l 80,30,80 0.8 200,255,255         # Crystal room light
+sp 80,20,80 15 220,255,255         # Crystal formation
+sp 90,15,90 8 200,255,255          # Small crystal
+l 80,10,80 0.4 180,255,255         # Floor glow
+
+# Horror Chamber (coordinates: -80,0,-80)
+l -80,30,-80 0.3 255,50,50         # Red horror light
+sp -80,20,-80 10 100,20,20         # Blood sphere
+cy -90,0,-90 0,1,0 5 30 80,80,80   # Dark pillar
+l -80,10,-80 0.2 255,30,30         # Floor red glow
+
+# Path Lighting (helping with navigation)
+l -30,10,-120 0.3 255,255,200      # Path light 1
+l 60,10,-80 0.3 255,255,200        # Path light 2
+l -60,10,-20 0.3 255,255,200       # Path light 3
+l 30,10,20 0.3 255,255,200         # Path light 4
+l -30,10,80 0.3 255,255,200        # Path light 5
+l 60,10,120 0.3 255,255,200        # Path light 6
+
+# Dead End Markers (subtle warning lights)
+l -90,10,150 0.2 255,100,100       # Dead end light 1
+l 90,10,150 0.2 255,100,100        # Dead end light 2
+l 0,10,180 0.2 255,100,100         # Dead end light 3
+
+# Hidden Room Markers (very subtle hints)
+sp 75,5,75 2 200,255,255           # Crystal room hint
+sp -75,5,-75 2 255,50,50           # Horror room hint
+
+# Additional Atmosphere
+# Entrance area effects
+sp 0,30,-180 10 255,255,200        # Entry glow
+# Mysterious mist effects
+sp 0,20,0 20 255,255,255           # Central mist
+sp 50,20,50 15 255,255,255         # Corner mist 1
+sp -50,20,-50 15 255,255,255       # Corner mist 2
