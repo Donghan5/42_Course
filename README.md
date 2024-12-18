@@ -73,7 +73,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **CPP03**: The inheritance of C++ **(Passed with 100/100)**
 - **CPP04**: The polymorphism **(Passed with 96/100)** --> note: virtual pure was just one, it resolved
 
-### 🪙 **MiniRT** - _In Progress_
+### 🪙 **MiniRT** - Score: 120/100
 - **Description**: Learning 3D design by using with mlx library and ray tracing
 
 ### **EXAM_RANK_04** - _In Progress_
