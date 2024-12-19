@@ -16,10 +16,10 @@ int cd(char **argv, int i)
 {
 	// If the number of arguments is not 2, print error and exit
 	if (i != 2)
-		return err("error: cd: bad arguments\n"), 1;
+		return (err("error: cd: bad arguments\n"), 1);
 	// If changing the directory fails, print error and exit
 	if (chdir(argv[1]) == -1)
-		return err("error: cd: cannot change directory to "), err(argv[1]), err("\n"), 1;
+		return (err("error: cd: cannot change directory to "), err(argv[1]), err("\n"), 1);
 	return 0;
 }
 
@@ -29,7 +29,10 @@ int cd(char **argv, int i)
 void set_pipe(int has_pipe, int *fd, int end)
 {
 	if (has_pipe && (dup2(fd[end], end) == -1 || close(fd[0]) == -1 || close(fd[1]) == -1))
-		err("error: fatal\n"), exit(1);
+	{
+		err("error: fatal\n");
+		exit(1);
+	}
 }
 
 // Function to execute a command
@@ -42,15 +45,22 @@ int exec(char **argv, int i, char **envp)
 
 	// 1. the command is 'cd' and no pipe, execute it directly
 	if (!has_pipe && !strcmp(*argv, "cd"))
-		return cd(argv, i);
+		return (cd(argv, i));
 
 	// 2. create pipe
 	if (has_pipe && pipe(fd) == -1)
-		err("error: fatal\n"), exit(1);
+	{
+		err("error: fatal\n");
+		exit(1);
+	}
 
 	// 3. fork process and create child process
 	if ((pid = fork()) == -1)
-		err("error: fatal\n"), exit(1);
+	{
+		err("error: fatal\n");
+		exit(1);
+	}
+
 	// 4. child process
 	if (!pid)
 	{
@@ -64,7 +74,10 @@ int exec(char **argv, int i, char **envp)
 		// 8. Execute the command
 		execve(*argv, argv, envp);
 		// 9. If executing the command fails, print error and exit
-		err("error: cannot execute "), err(*argv), err("\n"), exit(1);
+		err("error: cannot execute ");
+		err(*argv);
+		err("\n");
+		exit(1);
 	}
 
 	// 10. Wait for the child process to finish (in parent process)
@@ -72,7 +85,7 @@ int exec(char **argv, int i, char **envp)
 	// 11. parent process if fail case --> return status fail
 	set_pipe(has_pipe, fd, 0);
 	// Return the exit status of the child process
-	return WIFEXITED(status) && WEXITSTATUS(status);
+	return (WIFEXITED(status) && WEXITSTATUS(status));
 }
 
 int main(int argc, char **argv, char **envp)
@@ -92,5 +105,5 @@ int main(int argc, char **argv, char **envp)
 		if (i)
 			status = exec(argv, i, envp);
 	}
-	return status;
+	return (status);
 }
