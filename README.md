@@ -62,7 +62,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ---
 
 ## Circle 4
-### 🌐 **NetPractice** — _In Progress_
+### 🌐 **NetPractice** — Score: 100/100
 - **Description**: Learning networking fundamentals, including IP addressing and routing.
 
 ### 💻 **CPP Modules(CPP00 ~ CPP04)** — FINISH
@@ -77,6 +77,25 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **Description**: Learning 3D design by using with mlx library and ray tracing ( collaboration with **pzinurov** )
 
 ### **EXAM_RANK_04** - _In Progress_
+---
+
+## Circle 5
+
+### 💻 **CPP Modules(CPP05 ~ CPP09)** — _In Progress_
+- **Description**: Building foundational knowledge in C++ and object-oriented programming.
+- **CPP05**:
+- **CPP06**: 
+- **CPP07**: 
+- **CPP08**: 
+- **CPP09**: 
+
+### 🪙 **ft_irc** - _In Progress_
+- **Description**: Learning 3D design by using with mlx library and ray tracing ( collaboration with **pzinurov** )
+
+### 🌐 **Inception** — _In Progress_
+- **Description**: Learning networking fundamentals, including IP addressing and routing.
+
+### **EXAM_RANK_05** - _In Progress_
 ---
 
 This README captures my technical growth and the milestones (Following 42 Common course)
