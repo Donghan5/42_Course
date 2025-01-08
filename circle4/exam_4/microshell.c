@@ -15,7 +15,7 @@ int cd(char **argv, int i)
 {
 	if (i != 2)
 		return (err("error: cd: bad arguments\n"), 1);
-	if (chdir(argv[1]) == -1)
+	if (chdir(argv[1]) < 0)
 	{
 		err("error: cd: cannot change directory to ");
 		err(argv[1]);
@@ -42,6 +42,7 @@ int exec(char **argv, int i, char **envp)
 {
 	int has_pipe, fd[2], pid, status;
 
+	// if pipe == 1 if not == 0
 	has_pipe = argv[i] && !strcmp(argv[i], "|");
 
 	if (!has_pipe && !strcmp(*argv, "cd"))
