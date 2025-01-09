@@ -76,24 +76,25 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🪙 **MiniRT** - Score: 120/100 (4 bonus)
 - **Description**: Learning 3D design by using with mlx library and ray tracing ( collaboration with **pzinurov** )
 
-### **EXAM_RANK_04** - _In Progress_
+### **EXAM_RANK_04** - Score: 100/100
 ---
 
 ## Circle 5
 
 ### 💻 **CPP Modules(CPP05 ~ CPP09)** — _In Progress_
 - **Description**: Building foundational knowledge in C++ and object-oriented programming.
-- **CPP05**:
-- **CPP06**: 
-- **CPP07**: 
-- **CPP08**: 
-- **CPP09**: 
+- **CPP05**: This module is designed to help you understand Try/Catch and Exceptions in CPP.
+- **CPP06**: This module is designed to help you understand the different casts in CPP.
+- **CPP07**: This module is designed to help you understand Templates in CPP.
+- **CPP08**: This module is designed to help you understand templated containers, iterators and algorithms in CPP.
+- **CPP09**: This module is designed to help you understand the containers in CPP.
 
-### 🪙 **ft_irc** - _In Progress_
-- **Description**: Learning 3D design by using with mlx library and ray tracing ( collaboration with **pzinurov** )
+### 🪙 **ft_irc/webserv** - _To do_
+- **Description**:
 
-### 🌐 **Inception** — _In Progress_
-- **Description**: Learning networking fundamentals, including IP addressing and routing.
+### 🐬 **Inception** — _To do_
+- **Description**: This project aims to broaden your knowledge of system administration by using Docker.
+                   You will virtualize several Docker images, creating them in your new personal virtual machine.
 
 ### **EXAM_RANK_05** - _In Progress_
 ---
