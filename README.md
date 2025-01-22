@@ -46,7 +46,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🔗 **pipex** — Status: Not yet evaluated
 - **Description**: Built a command-line utility to simulate shell piping.
 
-### **EXAM_RANK_02** — Score: 100/100
+### **EXAM_RANK_02** — Score: 100/100 (basic c algorithm)
 
 ---
 
@@ -57,7 +57,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🐚 **minishell** — Score: 116/100
 - **Description**: Built a custom shell in collaboration with **pzinurov**, implementing a functional shell interpreter.
 
-### **EXAM_RANK_03** — Score: 100/100
+### **EXAM_RANK_03** — Score: 100/100 (implement GNL or ft_printf)
 
 ---
 
@@ -76,7 +76,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🪙 **MiniRT** - Score: 120/100 (4 bonus)
 - **Description**: Learning 3D design by using with mlx library and ray tracing ( collaboration with **pzinurov** )
 
-### **EXAM_RANK_04** - Score: 100/100
+### **EXAM_RANK_04** - Score: 100/100 (Microshell)
 ---
 
 ## Circle 5
@@ -92,11 +92,20 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🪙 **ft_irc/webserv** - _To do_
 - **Description**:
 
-### 🐬 **Inception** — _To do_
+### 🐬 **Inception** — _In progress_
 - **Description**: This project aims to broaden your knowledge of system administration by using Docker.
                    You will virtualize several Docker images, creating them in your new personal virtual machine.
 
-### **EXAM_RANK_05** - _In Progress_
+### **EXAM_RANK_05** - _In Progress_ (Basic c++ algorithm with polymorphism)
+---
+
+## Circle 6
+
+### 💻 **ft_transcendence** - _To do_
+- **Description**: The last project of the common course 42.
+                   This project is centered around the design, development, and organization of a full-stack web application.
+
+### **EXAM_RANK_06** - _In Progress_
 ---
 
 This README captures my technical growth and the milestones (Following 42 Common course)
