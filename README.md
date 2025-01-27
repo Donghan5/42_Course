@@ -85,7 +85,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **Description**: Building foundational knowledge in C++ and object-oriented programming.
 - **CPP05**: This module is designed to help you understand Try/Catch and Exceptions in CPP. **(Passed with: 100/100)**
 - **CPP06**: This module is designed to help you understand the different casts in CPP. **(Passed with 100/100)**
-- **CPP07**: This module is designed to help you understand Templates in CPP.
+- **CPP07**: This module is designed to help you understand Templates in CPP. **(Passed with: 100/100)**
 - **CPP08**: This module is designed to help you understand templated containers, iterators and algorithms in CPP.
 - **CPP09**: This module is designed to help you understand the containers in CPP.
 
