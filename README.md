@@ -12,7 +12,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 
 ## C_Piscine_Reloaded
 ### ex00 - ex27 - Score: 100/100
-- **Description**: Before start of libft which is common course, we review all element of piscine
+- **Description**: Before of libft which is common course, we review all element of piscine
 ---
 
 ## Circle 0
@@ -74,22 +74,22 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **CPP04**: The polymorphism **(Passed with 96/100)** --> note: virtual pure was just one, it resolved
 
 ### 🪙 **MiniRT** - Score: 120/100 (4 bonus)
-- **Description**: Learning 3D design by using with mlx library and ray tracing ( collaboration with **pzinurov** )
+- **Description**: Learning 3D design by using with `mlx library` and ray tracing ( collaboration with **pzinurov** )
 
 ### **EXAM_RANK_04** - Score: 100/100 (Microshell)
 ---
 
 ## Circle 5
 
-### 💻 **CPP Modules(CPP05 ~ CPP09)** — _In Progress_
+### 💻 **CPP Modules(CPP05 ~ CPP09)** — FINISH
 - **Description**: Building foundational knowledge in C++ and object-oriented programming.
 - **CPP05**: This module is designed to help you understand Try/Catch and Exceptions in CPP. **(Passed with: 100/100)**
 - **CPP06**: This module is designed to help you understand the different casts in CPP. **(Passed with 100/100)**
 - **CPP07**: This module is designed to help you understand Templates in CPP. **(Passed with: 100/100)**
 - **CPP08**: This module is designed to help you understand templated containers, iterators and algorithms in CPP. **(Passed with: 100/100)**
-- **CPP09**: This module is designed to help you understand the containers in CPP.
+- **CPP09**: This module is designed to help you understand the containers in CPP. **(Passed with: 100/100)**
 
-### 🪙 **webserv** - _To do_
+### 🌐 **webserv** - _To do_
 - **Description**: This project is here to make you write your own HTTP server. You will be able to test it with a real browser. HTTP is one of the most used protocol on internet. Knowing its arcane will be useful, even if you won't be working on a website.
 
 ### 🐬 **Inception** — _In progress_
