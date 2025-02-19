@@ -92,7 +92,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 ### 🌐 **webserv** - _To do_
 - **Description**: This project is here to make you write your own HTTP server. You will be able to test it with a real browser. HTTP is one of the most used protocol on internet. Knowing its arcane will be useful, even if you won't be working on a website.
 
-### 🐬 **Inception** — Pass: 100/100 (note: need optimization, speed is to low)
+### 🐬 **Inception** — Pass: 100/100 (note: need optimization, speed is too low)
 - **Description**: This project aims to broaden your knowledge of system administration by using Docker.
                    You will virtualize several Docker images, creating them in your new personal virtual machine.
 
