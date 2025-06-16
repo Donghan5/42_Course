@@ -89,7 +89,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **CPP08**: This module is designed to help you understand templated containers, iterators and algorithms in CPP. **(Passed with: 100/100)**
 - **CPP09**: This module is designed to help you understand the containers in CPP. **(Passed with: 100/100)**
 
-### 🌐 **webserv** - _To do_
+### 🌐 **webserv** - Pass: 125/100 (Colaborate with pzinurov)
 - **Description**: This project is here to make you write your own HTTP server. You will be able to test it with a real browser. HTTP is one of the most used protocol on internet. Knowing its arcane will be useful, even if you won't be working on a website.
 
 ### 🐬 **Inception** — Pass: 100/100 (note: need optimization, speed is too low)
