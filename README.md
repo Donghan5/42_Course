@@ -96,12 +96,12 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **Description**: This project aims to broaden your knowledge of system administration by using Docker.
                    You will virtualize several Docker images, creating them in your new personal virtual machine.
 
-### **EXAM_RANK_05** - _In Progress_ (Basic c++ algorithm with polymorphism)
+### **EXAM_RANK_05** - Pass: 100/100 (Basic c++ algorithm with polymorphism)
 ---
 
 ## Circle 6
 
-### 💻 **ft_transcendence** - _To do_
+### 💻 **ft_transcendence** - _In progress_
 - **Description**: The last project of the common course 42.
                    This project is centered around the design, development, and organization of a full-stack web application.
 
