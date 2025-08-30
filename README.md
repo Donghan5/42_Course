@@ -105,7 +105,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 - **Description**: The last project of the common course 42.
                    This project is centered around the design, development, and organization of a full-stack web application.
 
-### **EXAM_RANK_06** - _In Progress_
+### **EXAM_RANK_06** - Pass: 100/100 (Implement mini server in C)
 ---
 
 This README captures my technical growth and the milestones (Following 42 Common course)
