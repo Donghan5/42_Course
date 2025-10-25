@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ft_transcendence - 3D PONG</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        anton: ['Anton', 'sans-serif'],
+                        teko: ['Teko', 'sans-serif'],
+                    },
+                    zIndex: {
+                        '1000': '1000',
+                        '2000': '2000',
+                    },
+                    colors: {
+                        'player1-pink': '#FF69B4',
+                        'player2-blue': '#4169E1',
+                        'comic': {
+                            'blue': '#3B82F6',
+                            'red': '#EF4444',
+                            'yellow': '#FCD34D',
+                            'green': '#10B981',
+                            'purple': '#8B5CF6'
+                        }
+                    },
+                    animation: {
+                        'pop': 'popIn 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) both',
+                        'float': 'float 3s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                        'comic-shake': 'comicShake 0.3s ease-in-out',
+                        'comic-bounce': 'comicBounce 0.5s ease-out',
+                        'spin': 'spin 1s linear infinite',
+                        /* --- Animations for PVP Waiting Screen --- */
+                        'fly-in-left': 'flyInLeft 1.5s ease-out infinite',
+                        'fly-in-right': 'flyInRight 1.5s ease-out infinite',
+                        'impact-pop': 'impactPop 1.5s ease-out infinite',
+                        'subtle-pulse': 'subtlePulse 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        popIn: {
+                            'from': { transform: 'scale(0.85) rotate(-4deg)', opacity: '0' },
+                            'to': { transform: 'scale(1) rotate(0deg)', opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        fadeIn: {
+                            'from': { opacity: '0' },
+                            'to': { opacity: '1' }
+                        },
+                        slideIn: {
+                            'from': { transform: 'translateY(-50px)', opacity: '0' },
+                            'to': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        comicShake: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(-2deg)' },
+                            '75%': { transform: 'rotate(2deg)' }
+                        },
+                        comicBounce: {
+                            '0%': { transform: 'translateY(-20px)', opacity: '0' },
+                            '50%': { transform: 'translateY(5px)', opacity: '1' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        spin: {
+                            'from': { transform: 'rotate(0deg)' },
+                            'to': { transform: 'rotate(360deg)' }
+                        },
+                        /* --- Keyframes for PVP Waiting Screen --- */
+                        flyInLeft: {
+                            '0%': { transform: 'translateX(-150%) rotate(-15deg)', opacity: '0' },
+                            '40%': { transform: 'translateX(0) rotate(5deg)', opacity: '1' },
+                            '50%': { transform: 'translateX(-10px) rotate(0deg)', opacity: '1' },
+                            '100%': { transform: 'translateX(-10px) rotate(0deg)', opacity: '1' }
+                        },
+                        flyInRight: {
+                            '0%': { transform: 'translateX(150%) rotate(15deg)', opacity: '0' },
+                            '40%': { transform: 'translateX(0) rotate(-5deg)', opacity: '1' },
+                            '50%': { transform: 'translateX(10px) rotate(0deg)', opacity: '1' },
+                            '100%': { transform: 'translateX(10px) rotate(0deg)', opacity: '1' }
+                        },
+                        /* MODIFIED: The animation now settles at an angle */
+                        impactPop: {
+                            '0%, 45%': { transform: 'scale(0) rotate(-45deg)', opacity: '0' },
+                            '50%': { transform: 'scale(1.3) rotate(5deg)', opacity: '1' },
+                            '65%, 100%': { transform: 'scale(1) rotate(-12deg)', opacity: '1' }
+                        },
+                        subtlePulse: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' }
+                        }
+                    },
+                    boxShadow: {
+                        'sharp': '5px 5px 0px #000',
+                        'sharp-lg': '8px 8px 0px #000',
+                        'comic': '4px 4px 0px #000',
+                        'comic-sm': '2px 2px 0px #000',
+                        'comic-lg': '6px 6px 0px #000'
+                    }
+                }
+            },
+            plugins: [
+                function({ addUtilities }) {
+                    const newUtilities = {
+                        '.text-outline-lg-black': {
+                            textShadow: '3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 3px 0 0 #000, -3px 0 0 #000, 0 3px 0 #000, 0 -3px 0 #000'
+                        },
+                        '.text-outline-lg-white': {
+                            textShadow: '3px 3px 0 #fff, -3px 3px 0 #fff, 3px -3px 0 #fff, -3px -3px 0 #fff, 3px 0 0 #fff, -3px 0 0 #fff, 0 3px 0 #fff, 0 -3px 0 #fff'
+                        },
+                        '.text-outline-md-black': {
+                            textShadow: '2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000'
+                        },
+                        '.text-outline-md-white': {
+                            textShadow: '2px 2px 0 #fff, -2px 2px 0 #fff, 2px -2px 0 #fff, -2px -2px 0 #fff, 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff'
+                        },
+                        '.text-outline-sm-black': {
+                            textShadow: '1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000'
+                        },
+                        '.text-outline-sm-white': {
+                            textShadow: '1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff'
+                        },
+                        '.text-shadow-game-title': {
+                            textShadow: '3px 3px 0 black, -1px -1px 0 black'
+                        },
+                        '.border-thick': {
+                            borderWidth: '4px',
+                            borderColor: '#000000'
+                        },
+                        '.hover-anarchy': {
+                            transition: 'all 0.2s ease'
+                        },
+                        '.hover-anarchy:hover': {
+                            transform: 'rotate(-1deg) scale(1.05)'
+                        },
+                        '.match-card': {
+                            transition: 'all 0.2s ease',
+                            borderWidth: '4px',
+                            borderColor: '#000000'
+                        },
+                        '.match-card:hover': {
+                            transform: 'translateY(-2px)',
+                            boxShadow: '6px 6px 0px #000'
+                        },
+                        '.player-card': {
+                            borderWidth: '4px',
+                            borderColor: '#000000'
+                        },
+                        '.bracket-container': {
+                            borderWidth: '4px',
+                            borderColor: '#000000'
+                        },
+                        '.countdown-controls-bottom': {
+                            animation: 'none !important',
+                            opacity: '1 !important',
+                            transform: 'translateX(-50%) !important',
+                            transition: 'none !important'
+                        },
+                        '.countdown-controls-bottom *': {
+                            animation: 'none !important'
+                        },
+                        '.bg-champion-gradient': {
+                            background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)'
+                        },
+                        '.bg-polka-dots': {
+                            'background-image': 'radial-gradient(circle, black 2px, transparent 2px)',
+                            'background-size': '20px 20px'
+                        },
+                        '.text-champion-header': {
+                            color: '#ffd700',
+                            'text-shadow': '-1px -1px 0 #ff00ff, 1px -1px 0 #ff00ff, -1px 1px 0 #ff00ff, 1px 1px 0 #ff00ff'
+                        },
+                        '.text-champion-name': {
+                            color: 'white',
+                            'text-shadow': '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, -3px 0 0 #ff00ff, 3px 0 0 #00ffff'
+                        }
+                    };
+                    addUtilities(newUtilities);
+                }
+            ]
+        }
+    </script>
+</head>
+<body class="font-anton text-black bg-pink-500">
+
+    <!-- Login Section -->
+    <main id="loginSection" class="flex items-center justify-center min-h-screen bg-pink-500 p-4">
+        <div class="w-full max-w-md animate-pop">
+            <!-- Game Title -->
+            <div class="text-center mb-8">
+                <h1 class="text-7xl md:text-8xl text-white text-outline-lg-black mb-4">PONG</h1> 
+                <p class="font-teko text-2xl md:text-3xl text-yellow-300 uppercase tracking-wider">The Classic Game With Attitude</p>
+            </div>
+
+            <!-- Main Auth Card -->
+            <div class="bg-white border-thick shadow-sharp overflow-hidden">
+                
+                <!-- Tab Navigation -->
+                <div class="flex border-b-4 border-black">
+                    <button class="auth-tab flex-1 py-4 px-6 text-xl font-teko uppercase font-bold transition-all duration-200 bg-gray-200 text-gray-600" 
+                            data-tab="login">
+                        Login
+                    </button>
+                    <button class="auth-tab flex-1 py-4 px-6 text-xl font-teko uppercase font-bold transition-all duration-200 bg-gray-200 text-gray-600" 
+                            data-tab="register">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form p-8">
+                    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 font-teko uppercase">Welcome Back!</h2>
+                    
+                    <form id="loginForm" class="space-y-6">
+                        <div class="form-group">
+                            <label for="loginInput" class="block text-sm font-bold text-gray-700 mb-2 font-teko text-lg uppercase tracking-wide">Nickname or Email</label>
+                            <input type="text" class="w-full p-3 border-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg transition-colors duration-200" id="loginInput" name="loginInput" required placeholder="Enter your credentials">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword" class="block text-sm font-bold text-gray-700 mb-2 font-teko text-lg uppercase tracking-wide">Password</label>
+                            <input type="password" class="w-full p-3 border-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg transition-colors duration-200" id="loginPassword" name="password" required placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="w-full bg-pink-500 text-white py-3 px-6 text-xl font-bold uppercase tracking-wider hover:bg-pink-600 transition-colors duration-200 border-thick shadow-sharp hover-anarchy font-teko">
+                            LET'S GO!
+                        </button>
+                        <div id="loginError" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 text-center font-teko text-lg uppercase"></div>
+                        <div id="loginSuccess" class="hidden mt-4 p-3 bg-green-100 border border-green-400 text-green-700 text-center font-teko text-lg uppercase"></div>
+                    </form>
+                </div>
+
+                <!-- Registration Form -->
+                <div id="register-form" class="auth-form p-8 hidden">
+                    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 font-teko uppercase">Join The Battle!</h2>
+                    
+                    <form id="registerForm" class="space-y-6">
+                        <div class="form-group">
+                            <label for="regNickname" class="block text-sm font-bold text-gray-700 mb-2 font-teko text-lg uppercase tracking-wide">Nickname</label>
+                            <input type="text" class="w-full p-3 border-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg transition-colors duration-200" id="regNickname" name="nickname" required placeholder="Choose your fighter name">
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail" class="block text-sm font-bold text-gray-700 mb-2 font-teko text-lg uppercase tracking-wide">Email</label>
+                            <input type="email" class="w-full p-3 border-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg transition-colors duration-200" id="regEmail" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword" class="block text-sm font-bold text-gray-700 mb-2 font-teko text-lg uppercase tracking-wide">Password</label>
+                            <input type="password" class="w-full p-3 border-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg transition-colors duration-200" id="regPassword" name="password" required placeholder="Minimum 8 characters">
+                        </div>
+                        <div class="form-group">
+                            <label for="regConfirmPassword" class="block text-sm font-bold text-gray-700 mb-2 font-teko text-lg uppercase tracking-wide">Confirm Password</label>
+                            <input type="password" class="w-full p-3 border-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg transition-colors duration-200" id="regConfirmPassword" name="confirmPassword" required placeholder="Type it again">
+                        </div>
+                        <button type="submit" class="w-full bg-yellow-300 text-black py-3 px-6 text-xl font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors duration-200 border-thick shadow-sharp hover-anarchy font-teko">
+                            CREATE ACCOUNT
+                        </button>
+                        <div id="registerError" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 text-center font-teko text-lg uppercase"></div>
+                        <div id="registerSuccess" class="hidden mt-4 p-3 bg-green-100 border border-green-400 text-green-700 text-center font-teko text-lg uppercase"></div>
+                    </form>
+                </div>
+
+                <!-- Divider -->
+                <div class="relative flex py-6 items-center mx-8">
+                    <div class="flex-grow border-t-2 border-gray-300"></div>
+                    <span class="flex-shrink mx-4 text-gray-500 font-teko text-lg uppercase">or</span>
+                    <div class="flex-grow border-t-2 border-gray-300"></div>
+                </div>
+
+                <!-- Google Login -->
+                <div class="px-8 pb-8">
+                    <button id="loginBtn" class="w-full bg-white text-gray-700 font-semibold py-3 px-6 border-2 border-gray-300 shadow-sm hover:shadow-md flex items-center justify-center transition-all duration-200 hover:bg-gray-50">
+                        <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- App Section -->
+    <div id="appSection" class="hidden bg-blue-400 min-h-screen flex flex-col">
+        <!-- Navigation -->
+        <nav class="bg-yellow-300 border-b-4 border-black shadow-lg">
+            <div class="max-w-7xl mx-auto px-8 py-2">
+                <div class="flex justify-between items-center">
+                    <div class="text-3xl text-pink-500 text-outline-md-black cursor-pointer hover:scale-105 transition-transform duration-200" id="pongLogo">PONG</div>
+                    <div class="relative">
+                        <button id="profileWidgetBtn" class="flex items-center space-x-3 hover:scale-105 transition-transform duration-200 p-2">
+                            <img id="widgetAvatar" src="/default-avatar.png" alt="User Avatar" class="w-12 h-12 rounded-full border-thick shadow-sharp">
+                            <span id="widgetNickname" class="font-teko text-3xl text-black uppercase">Player</span>
+                        </button>
+                        <div id="profileDropdown" class="hidden absolute right-0 mt-2 min-w-max bg-white border-thick shadow-sharp z-20 overflow-hidden">
+                            <button id="dropdownProfileBtn" class="block px-4 py-2 text-xl w-full uppercase hover:bg-pink-400 hover:text-white transition-colors duration-200">Profile</button>
+                            <button id="dropdownFriendsBtn" class="block px-4 py-2 text-xl w-full uppercase hover:bg-pink-400 hover:text-white transition-colors duration-200">Friends</button>
+                            <button id="dropdownLogoutBtn" class="block px-4 py-2 text-xl w-full uppercase text-red-600 hover:bg-black hover:text-white transition-colors duration-200">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="flex-1 py-8 px-4">
+            <!-- Hero Section -->
+            <section id="heroSection" class="py-12 bg-blue-400">
+                <div class="max-w-5xl mx-auto text-center px-4">
+                    <h2 class="text-5xl md:text-6xl text-white text-outline-lg-black font-bold uppercase mb-12 animate-pop tracking-wider">
+                        PICK YOUR BATTLE
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                        <button id="quickPlayBtn" class="animate-pop bg-pink-500 text-white p-6 border-4 border-black shadow-sharp hover:bg-pink-600 transition-colors duration-200 [animation-delay:0.1s]">
+                            <h3 class="text-2xl font-bold uppercase mb-2 text-outline-md-black">Quick Play</h3>
+                            <p class="font-teko text-lg uppercase tracking-wide text-outline-sm-black">Jump into the chaos</p>
+                        </button>
+                        <button id="pvpPlayBtn" class="animate-pop bg-yellow-300 text-white p-6 border-4 border-black shadow-sharp hover:bg-yellow-400 transition-colors duration-200 [animation-delay:0.2s]">
+                            <h3 class="text-2xl font-bold uppercase mb-2 text-outline-md-black">PVP (REMOTE)</h3>
+                            <p class="font-teko text-lg uppercase tracking-wide text-outline-sm-black">Fight for glory</p>
+                        </button>
+                        <button id="aiPlayBtn" class="animate-pop bg-black p-6 border-4 border-black shadow-sharp hover:bg-gray-800 transition-colors duration-200 [animation-delay:0.3s]">
+                            <h3 class="text-2xl font-bold uppercase mb-2 text-white">vs AI</h3>
+                            <p class="font-teko text-lg uppercase tracking-wide text-white">Smash the machine</p>
+                        </button>
+                        <button id="tournamentPlayBtn" class="animate-pop bg-red-600 text-white p-6 border-4 border-black shadow-sharp hover:bg-red-700 transition-colors duration-200 [animation-delay:0.4s]">
+                            <h3 class="text-2xl font-bold uppercase mb-2 text-outline-md-black">Tournament</h3>
+                            <p class="font-teko text-lg uppercase tracking-wide text-outline-sm-black">Prove your skills</p>
+                        </button>
+                    </div>
+                    <div class="bg-white border-4 border-black shadow-sharp p-8 animate-pop [animation-delay:0.5s]">
+                        <h3 class="text-3xl font-bold text-black uppercase mb-6">ACTIVE TOURNAMENTS</h3>
+                        <div id="homeTournamentsList" class="space-y-4">
+                            <p class="text-gray-500 font-teko text-lg italic">Loading tournaments...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profileSection" class="hidden max-w-4xl mx-auto animate-pop">
+                <button id="profileReturnBtn" class="mb-4 bg-black text-white px-6 py-2 text-lg uppercase border-thick shadow-sharp hover-anarchy">&lt; Back</button>
+                <div class="bg-yellow-300 p-6 border-thick shadow-sharp">
+                    <div id="profileContent" class="text-xl uppercase font-teko">
+                        <p>Loading profile...</p>
+                    </div>
+                    <div id="password-change-container" class="mt-6"></div>
+                </div>
+            </section>
+
+            <!-- Nickname Setup Section -->
+            <section id="nicknameSetupSection" class="hidden max-w-md mx-auto animate-pop">
+                <div class="bg-white border-thick shadow-sharp p-8 text-center">
+                    <h3 class="text-4xl uppercase mb-6 text-black font-teko">Set Your Nickname</h3>
+                    <form id="nicknameForm" class="space-y-4">
+                        <input type="text" id="nicknameInput" name="nickname" required class="w-full p-3 text-2xl text-center border-thick" placeholder="TYPE NAME HERE">
+                        <button type="submit" class="w-full bg-pink-500 text-white px-6 py-3 text-2xl uppercase border-thick shadow-sharp hover-anarchy font-teko">
+                            Save & Fight
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Friends Section -->
+            <section id="friendsSection" class="hidden max-w-4xl mx-auto animate-pop">
+                <button id="friendsReturnBtn" class="mb-4 bg-black text-white px-6 py-2 text-lg uppercase border-thick shadow-sharp hover-anarchy">&lt; Back</button>
+
+                <div class="bg-yellow-300 p-5 border-thick shadow-sharp text-black">
+                    <h3 class="text-4xl text-white text-outline-lg-black text-center mb-4">ADD FRIEND</h3>
+                    <form id="addFriendForm" class="flex items-center gap-2">
+                        <input type="text" id="friendNicknameInput" class="w-full p-3 text-2xl text-center border-thick" placeholder="Enter Nickname" required>
+                        <button type="submit" class="bg-pink-500 text-white px-6 py-3 text-2xl uppercase border-thick shadow-sharp hover-anarchy">ADD</button>
+                    </form>
+                    <p id="addFriendStatus" class="text-center mt-2 font-teko text-xl"></p>
+                </div>
+
+                <div class="bg-pink-500 p-5 border-thick shadow-sharp text-white">
+                    <div>
+                        <h3 class="text-4xl text-white text-outline-lg-black text-center mb-4">FRIEND REQUESTS</h3>
+                        <ul id="receivedRequestsList" class="space-y-2 font-teko text-2xl uppercase"></ul>
+                    </div>
+
+                    <hr class="border-black my-6 border-2">
+
+                    <div>
+                        <h3 class="text-4xl text-white text-outline-lg-black text-center mb-4">FRIENDS LIST</h3>
+                        <ul id="friendsList" class="space-y-2 font-teko text-2xl uppercase"></ul>
+                    </div>
+
+                    <hr class="border-black my-6 border-2">
+
+                    <div>
+                        <h3 class="text-4xl text-white text-outline-lg-black text-center mb-4">SENT REQUESTS</h3>
+                        <ul id="sentRequestsList" class="space-y-2 font-teko text-2xl uppercase"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Public Profile Section -->
+            <section id="publicProfileSection" class="hidden max-w-4xl mx-auto animate-pop">
+                <button id="publicProfileReturnBtn" class="mb-4 bg-black text-white px-6 py-2 text-lg uppercase border-thick shadow-sharp hover-anarchy">&lt; Back</button>
+                <div class="bg-yellow-300 p-6 border-thick shadow-sharp">
+                    <div id="publicProfileContent" class="text-xl uppercase font-teko"></div>
+                </div>
+            </section>
+
+            <!-- Waiting Section PVP -->
+            <section id="waitingSection" class="hidden max-w-md mx-auto animate-pop">
+                <div class="bg-white border-thick shadow-sharp p-8 text-center">
+                    <h3 class="text-4xl uppercase mb-4 text-black font-teko">Waiting for Opponent</h3>
+                    <p class="font-teko text-2xl uppercase text-gray-500 mb-8 animate-subtle-pulse">Searching...</p>
+                    
+                    <div class="relative w-64 h-32 mx-auto mb-8">
+                        <!-- Impact Effect with SVG Star -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <!-- MODIFIED: Star container is smaller -->
+                            <div class="w-36 h-36 animate-impact-pop transform-gpu">
+                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                    <path d="M 50,0 L 60,25 L 85,20 L 75,45 L 100,50 L 75,55 L 85,80 L 60,75 L 50,100 L 40,75 L 15,80 L 25,55 L 0,50 L 25,45 L 15,20 L 40,25 Z" 
+                                          fill="#FCD34D" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <!-- MODIFIED: Text is smaller to fit the new star size -->
+                            <span class="absolute text-5xl text-white font-anton text-outline-lg-black animate-impact-pop transform-gpu">VS</span>
+                        </div>
+
+                        <!-- Left Element (Player 1) -->
+                        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-16 h-16 bg-player1-pink border-thick shadow-comic -skew-x-12 animate-fly-in-left transform-gpu"></div>
+
+                        <!-- Right Element (Player 2) -->
+                        <div class="absolute top-1/2 right-0 -translate-y-1/2 w-16 h-16 bg-player2-blue border-thick shadow-comic skew-x-12 animate-fly-in-right transform-gpu"></div>
+                    </div>
+                    
+                    <button id="cancelMatchmakingBtn" class="w-full bg-red-600 text-white px-6 py-4 text-2xl uppercase border-thick shadow-sharp hover-anarchy">Cancel</button>
+                </div>
+            </section>
+
+            <!-- Tournament Section -->
+            <section id="tournamentSection" class="hidden max-w-6xl mx-auto animate-pop">
+                <!-- Tournament UI will be dynamically inserted here -->
+            </section>
+
+            <!-- Game Section -->
+            <section id="gameSection" class="hidden">
+                <div id="gameContainer" class="w-full h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black overflow-hidden shadow-2xl"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-black py-3 border-t-4 border-yellow-300">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-yellow-300 uppercase tracking-widest text-base font-teko">© 2025 FT_TRANSCENDENCE. NO RIGHTS RESERVED.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center animate-fade-in z-2000">
+        <div id="gameOverModalContent" class="border-thick shadow-sharp p-8 max-w-md w-full mx-4 text-center animate-slide-in">
+            <h3 id="gameOverTitle" class="text-6xl font-black mb-4">GAME OVER</h3>
+            <p id="winnerMessage" class="text-3xl uppercase mb-8 font-teko"></p>
+            <button id="gameOverReturnBtn" class="w-full bg-black text-white px-6 py-4 text-2xl uppercase border-thick shadow-sharp hover-anarchy">
+                Return to Menu
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Level Modal -->
+    <div id="aiStrategyModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center animate-fade-in">
+        <div class="bg-white border-thick shadow-sharp p-8 max-w-sm w-full mx-4 text-center animate-slide-in">
+            <h3 class="text-4xl uppercase mb-6 text-black font-teko">Select AI Strategy</h3>
+            <div class="space-y-4 text-2xl uppercase">
+                <button data-strategy="Defensive" class="ai-strategy-btn w-full py-3 bg-green-500 text-white border-thick shadow-sharp hover-anarchy transition-all duration-200">DEFENSIVE</button>
+                <button data-strategy="Aggressive" class="ai-strategy-btn w-full py-3 bg-yellow-400 text-black border-thick shadow-sharp hover-anarchy transition-all duration-200">AGGRESSIVE</button>
+                <button data-strategy="Trickshot" class="ai-strategy-btn w-full py-3 bg-red-600 text-white border-thick shadow-sharp hover-anarchy transition-all duration-200">TRICKSHOT</button>
+            </div>
+            <button id="cancelAiSelect" class="mt-8 text-black uppercase text-xl hover:text-pink-500 font-teko transition-colors duration-200">Cancel</button>
+        </div>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+</body>
+</html>

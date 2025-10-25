@@ -1,0 +1,19 @@
+#infra/elk/elasticsearch/config/elasticsearch.yml
+
+cluster.name: "pong-logs-cluster"
+network.host: 0.0.0.0
+http.port: 9200
+discovery.type: single-node
+
+# Disable memory locking (fixes Docker permission issues)
+bootstrap.memory_lock: false
+
+# Performance settings (reduced for compatibility)
+indices.memory.index_buffer_size: 5%
+indices.queries.cache.size: 5%
+
+# Disable security and ML for development
+xpack.security.enabled: false
+xpack.ml.enabled: false
+xpack.license.self_generated.type: basic
+index.number_of_replicas: 0

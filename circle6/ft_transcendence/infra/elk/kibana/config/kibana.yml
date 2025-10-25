@@ -1,0 +1,23 @@
+#infra/elk/kibana/config/kibana.yml
+
+server.name: pong-kibana
+server.host: 0.0.0.0
+server.port: 5601
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+
+xpack.license.self_generated.type: basic
+
+xpack.fleet.enabled: false
+xpack.reporting.roles.enabled: false
+xpack.observabilityAIAssistant.enabled: false
+
+# Logging
+logging.appenders:
+  default:
+    type: console
+    layout:
+      type: json
+
+logging.root:
+  level: warn
+  appenders: [default]

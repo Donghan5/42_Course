@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS chat_channels (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    description TEXT,
+    is_private BOOLEAN DEFAULT FALSE,
+    created_by INTEGER REFERENCES users(id),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

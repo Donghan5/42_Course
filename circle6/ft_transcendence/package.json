@@ -1,0 +1,36 @@
+{
+  "name": "transcendence",
+  "version": "1.0.0",
+  "private": true,
+  "description": "...",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Donghan5/study_ft_transcendence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Donghan5/study_ft_transcendence/issues"
+  },
+  "homepage": "https://github.com/Donghan5/study_ft_transcendence#readme",
+  "dependencies": {
+    "@fastify/websocket": "^11.2.0",
+    "babylonjs": "^8.14.0",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.0.0",
+    "@openzeppelin/contracts": "^5.3.0",
+    "hardhat": "^2.25.0",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "ft-transcendence-backend",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node dist/main.js",
+    "dev": "ts-node -r tsconfig-paths/register dist/main.ts",
+    "test": "npm run build && mocha 'dist/**/*.test.js'"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/cors": "^11.0.1",
+    "@fastify/multipart": "^9.0.3",
+    "@fastify/oauth2": "^8.1.2",
+    "@fastify/sensible": "^6.0.3",
+    "@fastify/static": "^8.2.0",
+    "@fastify/websocket": "^11.2.0",
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^11.10.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.4.0",
+    "fastify-sqlite": "^1.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "ws": "^8.18.3",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/chai": "^5.2.2",
+    "@types/dotenv": "^8.2.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mocha": "^10.0.10",
+    "@types/ws": "^8.18.1",
+    "chai": "^6.0.1",
+    "mocha": "^11.7.2",
+    "ts-mocha": "^11.1.0",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
