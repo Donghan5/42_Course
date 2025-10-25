@@ -101,7 +101,7 @@ Welcome to my journey through the **common core at 42 Paris**! Below is an overv
 
 ## Circle 6
 
-### 💻 **ft_transcendence** - _In progress_
+### 💻 **ft_transcendence** - 125/100
 - **Description**: The last project of the common course 42.
                    This project is centered around the design, development, and organization of a full-stack web application.
 
